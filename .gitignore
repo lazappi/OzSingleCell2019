@@ -1,2 +1,23 @@
-packrat/lib*/
+# Misc
+.DS_Store
+
+# History files
+.Rhistory
+.Rapp.history
+
+# RStudio files
 .Rproj.user
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# Packrat
+packrat/lib*/
+
+# Analysis
+analysis/figure
+analysis/*png
+analysis/*html
+analysis/cache*
+analysis/site_libs

@@ -1,17 +1,22 @@
-name: "OzSingleCells2019"
+name: "Oz Single Cells 2019"
 output_dir: ../docs
 navbar:
-  title: "OzSingleCells2019"
+  title: "Oz Single Cells 2019"
   left:
-  - text: Home
-    href: index.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
+    - text: Home
+      href: index.html
+    - text: About
+      href: about.html
+    - text: License
+      href: license.html
+  right:
+    - icon: fa-github
+      href: https://github.com/lazappi/OzSingleCells2019
 output:
   workflowr::wflow_html:
-    toc: yes
-    toc_float: yes
+    toc: true
+    toc_float: true
     theme: cosmo
     highlight: textmate
+    code_folding: hide
+    df_print: paged

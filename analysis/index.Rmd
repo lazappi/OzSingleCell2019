@@ -8,4 +8,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+Analysis of the Swarbrick dataset for the
+[Oz Single Cells Challenge 2019][challenge].
+
+[challenge]: https://sydneybiox.github.io/SingleCellsChallenge2019/
