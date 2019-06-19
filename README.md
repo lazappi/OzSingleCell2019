@@ -25,6 +25,9 @@ Input data files include:
 * **Swarbrick-CITE.csv.gz** - Swarbrick CITE data downloaded from the challenge 
   website, compressed and with the first column renames as "Antibody"
 
+Additional intermediate data files are produced by analysis files. These are
+numbered according to the file that produced them.
+
 ## Analysis
 
 Current analysis files include:
@@ -33,14 +36,21 @@ Current analysis files include:
 * **about.Rmd** - About page
 * **index.Rmd** - Index page
 * **license.Rmd** - License page
+* **01-pre-processing.Rmd** - Basic pre-processing of the dataset
 
 ## Code
 
 Current code files include:
 
+* **annotate.R** - Functions for annotating SingleCellExperiment objects
+* **output.R** - Functions for nicely formatting output
+* **set_paths.R** - Set file paths to data objects
+* **setup_knitr.R** - Set default `knitr` options.
+
 ## Output
 
-Output files:
+Output files are saved in directories according the file that produced them. See
+the summary at the end of each analysis file for descriptions.
 
 [challenge]: https://sydneybiox.github.io/SingleCellsChallenge2019/
 [workflowr]: https://github.com/jdblischak/workflowr

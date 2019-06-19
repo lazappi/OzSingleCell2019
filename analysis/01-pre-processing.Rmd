@@ -1,0 +1,343 @@
+---
+title: "Pre-processing"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r knitr, include = FALSE}
+source(here::here("R/setup_knitr.R"))
+```
+
+```{r setup, cache = FALSE}
+#### LIBRARIES ####
+# Package conflicts
+library("conflicted")
+
+# Single-cell
+library("SingleCellExperiment")
+
+# File paths
+library("fs")
+library("here")
+
+# Presentation
+library("knitr")
+library("jsonlite")
+
+# Pipes
+library("magrittr")
+
+# Tidyverse
+library("tidyverse")
+
+### CONFLICT PREFERENCES ####
+conflict_prefer("path", "fs")
+
+### SOURCE FUNCTIONS ####
+source(here("R/annotate.R"))
+source(here("R/output.R"))
+
+### OUTPUT DIRECTORY ####
+OUT_DIR <- here("output", DOCNAME)
+dir_create(OUT_DIR)
+
+#### SET PARALLEL ####
+bpparam <- BiocParallel::MulticoreParam(workers = 10)
+
+#### SET GGPLOT THEME ####
+theme_set(theme_minimal())
+
+#### SET PATHS ####
+source(here("R/set_paths.R"))
+```
+
+Introduction
+============
+
+In this document we are going to load the Swarbrick dataset and do some basic
+exploration to find out what it contains.
+
+```{r load, cache.extra = c(tools::md5sum(PATHS$sce_raw), tools::md5sum(PATHS$cite_raw))}
+sce_raw <- readRDS(PATHS$sce_raw)
+cite_raw <- read_csv(PATHS$cite_raw,
+                     col_types = cols(
+                         .default = col_double(),
+                         Antibody = col_character()
+                     ))
+```
+
+The raw dataset is provided as a `SingleCellExperiment` object with
+`r nrow(sce_raw)` rows and `r ncol(sce_raw)` columns.
+
+```{r print-sce}
+print(sce_raw)
+```
+
+The column names appear to be cell barcodes but the row names are more 
+complicated.
+
+The CITE-seq antibody data is provided as a CSV file with `r nrow(cite_raw)`
+row and `r ncol(cite_raw)` columns.
+
+```{r print-cite}
+print(cite_raw)
+```
+
+The number of columns matches up with the `SingleCellExperiment` object and the
+column names are similar so we should be able to match up the cells.
+
+Features
+========
+
+Let's have a look at the feature names of the `SingleCellExperiment` in more 
+detail. The first 10 rownames are:
+
+```{r head-rownames}
+head(rownames(sce_raw), n = 10)
+```
+
+And the last 10 are:
+
+```{r tail-rownames}
+tail(rownames(sce_raw), n = 10)
+```
+
+Some mouse cells were spiked into the dataset so the prefixes seem to indicate
+the genome for each feature, either human (GRCh38) or mouse (mm10). There are
+`r sum(str_starts(rownames(sce_raw), "GRCh38"))` features starting with "GRCh38"
+and `r sum(str_starts(rownames(sce_raw), "mm10"))` starting with "mm10".
+Together they add up to the total number of features in the dataset. Let's add
+this information to the object:
+
+```{r prefixes}
+row_data <- tibble(FeatureID = rownames(sce_raw)) %>%
+    mutate(
+        FeatureName = str_remove(FeatureID, "GRCh38-"),
+        FeatureName = str_remove(FeatureName,"mm10---")
+    ) %>%
+    mutate(
+        Genome = str_extract(FeatureID, "[A-Za-z0-9]+-"),
+        Genome = str_remove(Genome, "-")
+    )
+```
+
+Selection
+=========
+
+For this analysis we are only interested in the human cells so let's try and
+select just those. To do that we will calculate the total counts assigned to
+human or mouse genes and see if we can use that to separate the different types
+of cells.
+
+```{r total-counts}
+col_data <- tibble(Barcode = colnames(sce_raw)) %>%
+    mutate(
+        GRCh38Counts = counts(sce_raw) %>%
+            magrittr::extract(row_data$Genome == "GRCh38", ) %>%
+            colSums(),
+        mm10Counts = counts(sce_raw) %>%
+            magrittr::extract(row_data$Genome == "mm10", ) %>%
+            colSums()
+    ) %>%
+    mutate(PropGRCh38 = GRCh38Counts / (GRCh38Counts + mm10Counts))
+
+gg <- ggplot(col_data,
+             aes(x = GRCh38Counts, y = mm10Counts, colour = PropGRCh38)) +
+    geom_point() +
+    scale_colour_distiller(palette = "RdYlBu") +
+    labs(
+        title = "Counts assigned to different genomes",
+        x = "GRCh38",
+        y = "mm10",
+        colour = "Proportion\nGRCh38"
+    )
+gg
+```
+
+It looks like it should be easy to separation most of the cells but because the
+range is so big it's hard to see what is happening for low count cells. Let's
+zoom in a bit to look at those.
+
+```{r total-counts-zoomed}
+gg + coord_cartesian(xlim = c(0, 1000), ylim = c(0, 1000)) +
+    labs(title = "Counts assigned to different genomes (zoomed)")
+
+thresh_prop <- 0.95
+```
+
+Now we can see that there is a set of cells that have counts from both genomes.
+These are potentially doublets where two cells have been captured in the same
+droplet. There are
+`r sum(col_data$PropGRCh38 >= 0.05 & col_data$PropGRCh38 <= 0.95)` cells that
+have at least 5 percent of counts from each genome.
+
+To select human cells I am going to set a threshold of having at least
+`r thresh_prop * 100` percent of counts assigned to GRCh38.
+
+```{r total-count-thresh}
+col_data$Selected <- col_data$PropGRCh38 >= thresh_prop
+
+ggplot(col_data, aes(x = GRCh38Counts, y = mm10Counts, colour = Selected)) +
+    geom_point() +
+    coord_cartesian(xlim = c(0, 1000), ylim = c(0, 1000)) +
+    labs(
+        title = "Selected human cells (zoomed)",
+        x = "GRCh38",
+        y = "mm10"
+    )
+```
+
+Doing this will remove `r sum(!col_data$Selected)` cells, giving a dataset with
+`r sum(col_data$Selected)` cells remaining.
+
+```{r filter-cells}
+rowData(sce_raw) <- DataFrame(row_data)
+colData(sce_raw) <- DataFrame(col_data)
+colnames(sce_raw) <- col_data$Barcode
+
+sce <- sce_raw[, colData(sce_raw)$Selected]
+```
+
+Now that we have removed the mouse cells we can also get rid of the mm10 genes.
+
+```{r filter-features}
+sce <- sce[rowData(sce)$Genome == "GRCh38", ]
+rownames(sce) <- rowData(sce)$FeatureName
+```
+
+The human only RNA-seq dataset now has `r nrow(sce)` features and `r ncol(sce)`
+cells.
+
+Annotation
+==========
+
+Now that we have a dataset that contains information from a single genome we
+can add some annotation from `BioMart` using the `scater` package. We also
+assign cell cycle stages using the `cyclone` method in `scran`.
+
+```{r annotate, cache = TRUE}
+sce <- annotate_sce(
+    sce,
+    org        = "human",
+    id_type    = "symbol",
+    add_anno   = TRUE,
+    calc_qc    = TRUE,
+    cell_cycle = TRUE,
+    BPPARAM    = bpparam,
+    verbose    = TRUE
+)
+```
+
+**Cell annotations**
+
+`r colnames(colData(sce))`
+
+**Feature annotations**
+
+`r colnames(rowData(sce))`
+
+CITE data
+=========
+
+Since we have selected cells in the RNA-seq dataset we want to extract those
+same cells from the CITE data. We are also going to store this data in another
+`SingleCellExperiment`.
+
+```{r select-cite}
+cite_mat <- as.matrix(cite_raw[, colnames(sce)]) %>%
+    set_rownames(paste0("Anti-", cite_raw$Antibody))
+
+cite <- SingleCellExperiment(assays = list(counts = cite_mat)) %>%
+    annotate_sce(calc_qc = TRUE)
+
+cite
+```
+
+Summary
+=======
+
+Parameters
+----------
+
+This table describes parameters used and set in this document.
+
+```{r parameters}
+params <- list(
+    list(
+        Parameter = "n_cells_raw",
+        Value = ncol(sce_raw),
+        Description = "Number of cells in the raw dataset"
+    ),
+    list(
+        Parameter = "n_features_raw",
+        Value = nrow(sce_raw),
+        Description = "Number of cells in the raw dataset"
+    ),
+        list(
+        Parameter = "n_cells_cite_raw",
+        Value = ncol(cite_raw),
+        Description = "Number of cells in the raw CITE dataset"
+    ),
+    list(
+        Parameter = "n_features_cite_raw",
+        Value = nrow(cite_raw),
+        Description = "Number of cells in the raw CITE dataset"
+    ),
+    list(
+        Parameter = "thresh_prop",
+        Value = thresh_prop,
+        Description = "GRCh38 proportion for selecting human cells"
+    ),
+    list(
+        Parameter = "n_cells_sel",
+        Value = ncol(sce),
+        Description = "Number of cells in the selected dataset"
+    ),
+    list(
+        Parameter = "n_features_sel",
+        Value = nrow(sce),
+        Description = "Number of cells in the selected dataset"
+    ),
+        list(
+        Parameter = "n_cells_cite_sel",
+        Value = ncol(cite),
+        Description = "Number of cells in the selected CITE dataset"
+    ),
+    list(
+        Parameter = "n_features_cite_sel",
+        Value = nrow(cite),
+        Description = "Number of cells in the selected CITE dataset"
+    )
+)
+params <- toJSON(params, pretty = TRUE)
+kable(fromJSON(params))
+```
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r save}
+write_rds(sce, here("data/01-selected.Rds"), compress = "bz", compression = 9)
+write_rds(cite, here("data/01-CITE-selected.Rds"),
+          compress = "bz", compression = 9)
+```
+
+```{r output}
+write_lines(params, path(OUT_DIR, "parameters.json"))
+kable(data.frame(
+    File = c(
+        download_link("parameters.json", OUT_DIR)
+    ),
+    Description = c(
+        "Parameters set and used in this analysis"
+    )
+))
+```
+
+Session information
+-------------------

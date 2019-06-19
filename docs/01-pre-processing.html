@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<meta name="date" content="2019-06-20" />
+
+<title>Pre-processing</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Oz Single Cells 2019</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/lazappi/OzSingleCells2019">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Pre-processing</h1>
+<h4 class="date">2019-06-20</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-06-20
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>OzSingleCells2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190619code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190619)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190619code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190619)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treea140753eab1689a782c1b137231d22a97cbeb234targetblanka140753a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/a140753eab1689a782c1b137231d22a97cbeb234" target="_blank">a140753</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treea140753eab1689a782c1b137231d22a97cbeb234targetblanka140753a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/cache/
+    Ignored:    packrat/lib-R/
+    Ignored:    packrat/lib-ext/
+    Ignored:    packrat/lib/
+    Ignored:    packrat/src/
+
+Untracked files:
+    Untracked:  docs/figure/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/a140753eab1689a782c1b137231d22a97cbeb234/analysis/01-pre-processing.Rmd" target="_blank">a140753</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+<td>
+Add pre-processing
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>#### LIBRARIES ####
+# Package conflicts
+library(&quot;conflicted&quot;)
+
+# Single-cell
+library(&quot;SingleCellExperiment&quot;)
+
+# File paths
+library(&quot;fs&quot;)
+library(&quot;here&quot;)
+
+# Presentation
+library(&quot;knitr&quot;)
+library(&quot;jsonlite&quot;)
+
+# Pipes
+library(&quot;magrittr&quot;)
+
+# Tidyverse
+library(&quot;tidyverse&quot;)
+
+### CONFLICT PREFERENCES ####
+conflict_prefer(&quot;path&quot;, &quot;fs&quot;)
+
+### SOURCE FUNCTIONS ####
+source(here(&quot;R/annotate.R&quot;))
+source(here(&quot;R/output.R&quot;))
+
+### OUTPUT DIRECTORY ####
+OUT_DIR &lt;- here(&quot;output&quot;, DOCNAME)
+dir_create(OUT_DIR)
+
+#### SET PARALLEL ####
+bpparam &lt;- BiocParallel::MulticoreParam(workers = 10)
+
+#### SET GGPLOT THEME ####
+theme_set(theme_minimal())
+
+#### SET PATHS ####
+source(here(&quot;R/set_paths.R&quot;))</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In this document we are going to load the Swarbrick dataset and do some basic exploration to find out what it contains.</p>
+<pre class="r"><code>sce_raw &lt;- readRDS(PATHS$sce_raw)
+cite_raw &lt;- read_csv(PATHS$cite_raw,
+                     col_types = cols(
+                         .default = col_double(),
+                         Antibody = col_character()
+                     ))</code></pre>
+<p>The raw dataset is provided as a <code>SingleCellExperiment</code> object with 29621 rows and 3412 columns.</p>
+<pre class="r"><code>print(sce_raw)</code></pre>
+<pre><code>class: SingleCellExperiment 
+dim: 29621 3412 
+metadata(0):
+assays(1): counts
+rownames(29621): GRCh38-RP11-34P13.7 GRCh38-FO538757.2 ...
+  mm10---PISD mm10---DHRSX
+rowData names(0):
+colnames(3412): AAACCTGAGGTGCTTT AAACCTGAGTTGCAGG ...
+  TTTGTCAGTAGCGCAA TTTGTCAGTGAGGGAG
+colData names(0):
+reducedDimNames(0):
+spikeNames(0):</code></pre>
+<p>The column names appear to be cell barcodes but the row names are more complicated.</p>
+<p>The CITE-seq antibody data is provided as a CSV file with 96 row and 3413 columns.</p>
+<pre class="r"><code>print(cite_raw)</code></pre>
+<pre><code># A tibble: 96 x 3,413
+   Antibody GCCAAATTCCGAGCCA CGCCAAGAGGGAAACA AAACCTGTCTCCAGGG
+   &lt;chr&gt;               &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 CD3                     7               16                9
+ 2 CD4                     2                5               78
+ 3 CD8a                    3                5                1
+ 4 CD14                    1                1                1
+ 5 CD15                    7                7                8
+ 6 CD16                    0                1                1
+ 7 CD19                    4              142                2
+ 8 CD25                    2                0                0
+ 9 CD28                    0                0                0
+10 CD40                    2              113               10
+# … with 86 more rows, and 3,409 more variables: CCGTGGAAGCTGCAAG &lt;dbl&gt;,
+#   TTTGCGCAGCGATGAC &lt;dbl&gt;, GCTGCAGCATCACCCT &lt;dbl&gt;,
+#   GGAACTTGTCTGCCAG &lt;dbl&gt;, TTGGCAACAAGCGAGT &lt;dbl&gt;,
+#   CCCAGTTGTCCGAATT &lt;dbl&gt;, GGATTACCATGTCTCC &lt;dbl&gt;,
+#   GTTACAGTCGGTGTTA &lt;dbl&gt;, ACGCAGCGTTTGGGCC &lt;dbl&gt;,
+#   TGTATTCGTCTCATCC &lt;dbl&gt;, ACTTACTAGCTGAAAT &lt;dbl&gt;,
+#   GCGCAACGTAGCTAAA &lt;dbl&gt;, TTGACTTGTACTTCTT &lt;dbl&gt;,
+#   ATTACTCAGGCATGGT &lt;dbl&gt;, AGAATAGAGCCGATTT &lt;dbl&gt;,
+#   GAACGGAAGAAGGTTT &lt;dbl&gt;, TCTCTAAAGTGAATTG &lt;dbl&gt;,
+#   AGGCCACAGCAATCTC &lt;dbl&gt;, CTAGAGTAGTGTTAGA &lt;dbl&gt;,
+#   TCAGCAAGTAATCGTC &lt;dbl&gt;, AGCGGTCTCTGCCAGG &lt;dbl&gt;,
+#   CTACCCAAGTACATGA &lt;dbl&gt;, GTACGTAAGTCAAGCG &lt;dbl&gt;,
+#   CGGTTAACAGAAGCAC &lt;dbl&gt;, TCGCGAGTCGTCCGTT &lt;dbl&gt;,
+#   CGTCTACGTCATCGGC &lt;dbl&gt;, TTGCGTCAGTTACGGG &lt;dbl&gt;,
+#   TCGGTAACATCGTCGG &lt;dbl&gt;, CGGAGTCAGACAAGCC &lt;dbl&gt;,
+#   GTTTCTAGTCATCGGC &lt;dbl&gt;, CATTATCTCGACCAGC &lt;dbl&gt;,
+#   GGGCACTAGATCCCAT &lt;dbl&gt;, CCTAGCTGTTTGTTGG &lt;dbl&gt;,
+#   TCGGTAAAGCTCCCAG &lt;dbl&gt;, CCGTGGACACACTGCG &lt;dbl&gt;,
+#   CGGAGCTTCTTTCCTC &lt;dbl&gt;, CGATTGAGTCATCGGC &lt;dbl&gt;,
+#   GACAGAGAGACCCACC &lt;dbl&gt;, TATCTCACAATGACCT &lt;dbl&gt;,
+#   GGACAAGAGAGCAATT &lt;dbl&gt;, GTTCATTCACTTAACG &lt;dbl&gt;,
+#   TTGCCGTGTTGGAGGT &lt;dbl&gt;, ACAGCCGCAAGAGTCG &lt;dbl&gt;,
+#   GATGCTACACTCAGGC &lt;dbl&gt;, CACACAACAGCATACT &lt;dbl&gt;,
+#   CAGAATCTCGAATGCT &lt;dbl&gt;, TTCCCAGAGAGGTTAT &lt;dbl&gt;,
+#   TAAGCGTAGATGCCAG &lt;dbl&gt;, TGGCGCAAGACAAGCC &lt;dbl&gt;,
+#   GTCCTCATCAACACTG &lt;dbl&gt;, CGATCGGGTTGTACAC &lt;dbl&gt;,
+#   CGAGAAGGTCTTCTCG &lt;dbl&gt;, ATCCGAACACGACTCG &lt;dbl&gt;,
+#   CCTAGCTAGCAGGTCA &lt;dbl&gt;, AAGGAGCTCACAATGC &lt;dbl&gt;,
+#   GAAACTCCACATGGGA &lt;dbl&gt;, CTAAGACCATGAAGTA &lt;dbl&gt;,
+#   CAGATCATCGTAGGAG &lt;dbl&gt;, ACGCCAGCATTCTCAT &lt;dbl&gt;,
+#   GGTGCGTGTATCGCAT &lt;dbl&gt;, CACCAGGCATGCTGGC &lt;dbl&gt;,
+#   CTGTTTAGTCGGGTCT &lt;dbl&gt;, GCTGGGTTCACCACCT &lt;dbl&gt;,
+#   GGACAGATCCCATTTA &lt;dbl&gt;, TACTTACAGAGCTTCT &lt;dbl&gt;,
+#   AGCTCCTGTCTAGCGC &lt;dbl&gt;, TTAGGACCATTGGCGC &lt;dbl&gt;,
+#   TGTGTTTTCAAGCCTA &lt;dbl&gt;, ACATACGAGCCACGTC &lt;dbl&gt;,
+#   AGCTCTCGTTCCTCCA &lt;dbl&gt;, ACAGCTACACGCGAAA &lt;dbl&gt;,
+#   CCGTACTAGACGACGT &lt;dbl&gt;, CGCTATCTCAGTGTTG &lt;dbl&gt;,
+#   CGATTGACAGCTGTTA &lt;dbl&gt;, GTGCTTCAGTGGTAGC &lt;dbl&gt;,
+#   CCTTCCCTCTACTATC &lt;dbl&gt;, CTGCGGACACTTCTGC &lt;dbl&gt;,
+#   GCATGATCAGCAGTTT &lt;dbl&gt;, CGGTTAAGTCCCGACA &lt;dbl&gt;,
+#   ACATCAGGTCTTCTCG &lt;dbl&gt;, CACAGTAAGCCAGTAG &lt;dbl&gt;,
+#   TAAACCGAGCACACAG &lt;dbl&gt;, CGTCACTTCCGAACGC &lt;dbl&gt;,
+#   GCTGCAGCAGGCTCAC &lt;dbl&gt;, TCAGATGTCAGCATGT &lt;dbl&gt;,
+#   GCGACCAGTAATCGTC &lt;dbl&gt;, ACGTCAATCTGGTGTA &lt;dbl&gt;,
+#   TGGACGCCAATAGAGT &lt;dbl&gt;, ATAACGCCAGCTCCGA &lt;dbl&gt;,
+#   GCTGCAGCAAGAGGCT &lt;dbl&gt;, CCTCTGAAGGAGTTTA &lt;dbl&gt;,
+#   GGGAATGGTTACCAGT &lt;dbl&gt;, TACGGATCACCGTTGG &lt;dbl&gt;,
+#   AACCGCGTCAAGAAGT &lt;dbl&gt;, CACAGTATCGTCCAGG &lt;dbl&gt;,
+#   GCATACAAGTGCAAGC &lt;dbl&gt;, AGTGAGGGTTTAGGAA &lt;dbl&gt;,
+#   CTCGGAGAGGCTAGCA &lt;dbl&gt;, TTGCGTCTCTCCGGTT &lt;dbl&gt;,
+#   CTTTGCGCATATACCG &lt;dbl&gt;, …</code></pre>
+<p>The number of columns matches up with the <code>SingleCellExperiment</code> object and the column names are similar so we should be able to match up the cells.</p>
+</div>
+<div id="features" class="section level1">
+<h1>Features</h1>
+<p>Let’s have a look at the feature names of the <code>SingleCellExperiment</code> in more detail. The first 10 rownames are:</p>
+<pre class="r"><code>head(rownames(sce_raw), n = 10)</code></pre>
+<pre><code> [1] &quot;GRCh38-RP11-34P13.7&quot;  &quot;GRCh38-FO538757.2&quot;    &quot;GRCh38-AP006222.2&quot;   
+ [4] &quot;GRCh38-RP4-669L17.2&quot;  &quot;GRCh38-RP4-669L17.10&quot; &quot;GRCh38-RP11-206L10.9&quot;
+ [7] &quot;GRCh38-LINC00115&quot;     &quot;GRCh38-FAM41C&quot;        &quot;GRCh38-RP11-54O7.1&quot;  
+[10] &quot;GRCh38-NOC2L&quot;        </code></pre>
+<p>And the last 10 are:</p>
+<pre class="r"><code>tail(rownames(sce_raw), n = 10)</code></pre>
+<pre><code> [1] &quot;mm10---mt-Nd5&quot;     &quot;mm10---mt-Nd6&quot;     &quot;mm10---mt-Cytb&quot;   
+ [4] &quot;mm10---Vamp7&quot;      &quot;mm10---Spry3&quot;      &quot;mm10---Tmlhe&quot;     
+ [7] &quot;mm10---Csprs&quot;      &quot;mm10---AC168977.1&quot; &quot;mm10---PISD&quot;      
+[10] &quot;mm10---DHRSX&quot;     </code></pre>
+<p>Some mouse cells were spiked into the dataset so the prefixes seem to indicate the genome for each feature, either human (GRCh38) or mouse (mm10). There are 17222 features starting with “GRCh38” and 12399 starting with “mm10”. Together they add up to the total number of features in the dataset. Let’s add this information to the object:</p>
+<pre class="r"><code>row_data &lt;- tibble(FeatureID = rownames(sce_raw)) %&gt;%
+    mutate(
+        FeatureName = str_remove(FeatureID, &quot;GRCh38-&quot;),
+        FeatureName = str_remove(FeatureName,&quot;mm10---&quot;)
+    ) %&gt;%
+    mutate(
+        Genome = str_extract(FeatureID, &quot;[A-Za-z0-9]+-&quot;),
+        Genome = str_remove(Genome, &quot;-&quot;)
+    )</code></pre>
+</div>
+<div id="selection" class="section level1">
+<h1>Selection</h1>
+<p>For this analysis we are only interested in the human cells so let’s try and select just those. To do that we will calculate the total counts assigned to human or mouse genes and see if we can use that to separate the different types of cells.</p>
+<pre class="r"><code>col_data &lt;- tibble(Barcode = colnames(sce_raw)) %&gt;%
+    mutate(
+        GRCh38Counts = counts(sce_raw) %&gt;%
+            magrittr::extract(row_data$Genome == &quot;GRCh38&quot;, ) %&gt;%
+            colSums(),
+        mm10Counts = counts(sce_raw) %&gt;%
+            magrittr::extract(row_data$Genome == &quot;mm10&quot;, ) %&gt;%
+            colSums()
+    ) %&gt;%
+    mutate(PropGRCh38 = GRCh38Counts / (GRCh38Counts + mm10Counts))
+
+gg &lt;- ggplot(col_data,
+             aes(x = GRCh38Counts, y = mm10Counts, colour = PropGRCh38)) +
+    geom_point() +
+    scale_colour_distiller(palette = &quot;RdYlBu&quot;) +
+    labs(
+        title = &quot;Counts assigned to different genomes&quot;,
+        x = &quot;GRCh38&quot;,
+        y = &quot;mm10&quot;,
+        colour = &quot;Proportion\nGRCh38&quot;
+    )
+gg</code></pre>
+<p><img src="figure/01-pre-processing.Rmd/total-counts-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>It looks like it should be easy to separation most of the cells but because the range is so big it’s hard to see what is happening for low count cells. Let’s zoom in a bit to look at those.</p>
+<pre class="r"><code>gg + coord_cartesian(xlim = c(0, 1000), ylim = c(0, 1000)) +
+    labs(title = &quot;Counts assigned to different genomes (zoomed)&quot;)</code></pre>
+<p><img src="figure/01-pre-processing.Rmd/total-counts-zoomed-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>thresh_prop &lt;- 0.95</code></pre>
+<p>Now we can see that there is a set of cells that have counts from both genomes. These are potentially doublets where two cells have been captured in the same droplet. There are 302 cells that have at least 5 percent of counts from each genome.</p>
+<p>To select human cells I am going to set a threshold of having at least 95 percent of counts assigned to GRCh38.</p>
+<pre class="r"><code>col_data$Selected &lt;- col_data$PropGRCh38 &gt;= thresh_prop
+
+ggplot(col_data, aes(x = GRCh38Counts, y = mm10Counts, colour = Selected)) +
+    geom_point() +
+    coord_cartesian(xlim = c(0, 1000), ylim = c(0, 1000)) +
+    labs(
+        title = &quot;Selected human cells (zoomed)&quot;,
+        x = &quot;GRCh38&quot;,
+        y = &quot;mm10&quot;
+    )</code></pre>
+<p><img src="figure/01-pre-processing.Rmd/total-count-thresh-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Doing this will remove 1013 cells, giving a dataset with 2399 cells remaining.</p>
+<pre class="r"><code>rowData(sce_raw) &lt;- DataFrame(row_data)
+colData(sce_raw) &lt;- DataFrame(col_data)
+colnames(sce_raw) &lt;- col_data$Barcode
+
+sce &lt;- sce_raw[, colData(sce_raw)$Selected]</code></pre>
+<p>Now that we have removed the mouse cells we can also get rid of the mm10 genes.</p>
+<pre class="r"><code>sce &lt;- sce[rowData(sce)$Genome == &quot;GRCh38&quot;, ]
+rownames(sce) &lt;- rowData(sce)$FeatureName</code></pre>
+<p>The human only RNA-seq dataset now has 17222 features and 2399 cells.</p>
+</div>
+<div id="annotation" class="section level1">
+<h1>Annotation</h1>
+<p>Now that we have a dataset that contains information from a single genome we can add some annotation from <code>BioMart</code> using the <code>scater</code> package. We also assign cell cycle stages using the <code>cyclone</code> method in <code>scran</code>.</p>
+<pre class="r"><code>sce &lt;- annotate_sce(
+    sce,
+    org        = &quot;human&quot;,
+    id_type    = &quot;symbol&quot;,
+    add_anno   = TRUE,
+    calc_qc    = TRUE,
+    cell_cycle = TRUE,
+    BPPARAM    = bpparam,
+    verbose    = TRUE
+)</code></pre>
+<p><strong>Cell annotations</strong></p>
+<p>Barcode, GRCh38Counts, mm10Counts, PropGRCh38, Selected, G1Score, SScore, G2MScore, CellCycle, is_cell_control, total_features_by_counts, log10_total_features_by_counts, total_counts, log10_total_counts, pct_counts_in_top_50_features, pct_counts_in_top_100_features, pct_counts_in_top_200_features, pct_counts_in_top_500_features, total_features_by_counts_endogenous, log10_total_features_by_counts_endogenous, total_counts_endogenous, log10_total_counts_endogenous, pct_counts_endogenous, pct_counts_in_top_50_features_endogenous, pct_counts_in_top_100_features_endogenous, pct_counts_in_top_200_features_endogenous, pct_counts_in_top_500_features_endogenous, total_features_by_counts_feature_control, log10_total_features_by_counts_feature_control, total_counts_feature_control, log10_total_counts_feature_control, pct_counts_feature_control, pct_counts_in_top_50_features_feature_control, pct_counts_in_top_100_features_feature_control, pct_counts_in_top_200_features_feature_control, pct_counts_in_top_500_features_feature_control, total_features_by_counts_MT, log10_total_features_by_counts_MT, total_counts_MT, log10_total_counts_MT, pct_counts_MT, pct_counts_in_top_50_features_MT, pct_counts_in_top_100_features_MT, pct_counts_in_top_200_features_MT, pct_counts_in_top_500_features_MT</p>
+<p><strong>Feature annotations</strong></p>
+<p>FeatureID, FeatureName, Genome, ensembl_gene_id, entrezgene, external_gene_name, hgnc_symbol, chromosome_name, description, gene_biotype, percentage_gene_gc_content, is_feature_control, is_feature_control_MT, mean_counts, log10_mean_counts, n_cells_by_counts, pct_dropout_by_counts, total_counts, log10_total_counts</p>
+</div>
+<div id="cite-data" class="section level1">
+<h1>CITE data</h1>
+<p>Since we have selected cells in the RNA-seq dataset we want to extract those same cells from the CITE data. We are also going to store this data in another <code>SingleCellExperiment</code>.</p>
+<pre class="r"><code>cite_mat &lt;- as.matrix(cite_raw[, colnames(sce)]) %&gt;%
+    set_rownames(paste0(&quot;Anti-&quot;, cite_raw$Antibody))
+
+cite &lt;- SingleCellExperiment(assays = list(counts = cite_mat)) %&gt;%
+    annotate_sce(calc_qc = TRUE)
+
+cite</code></pre>
+<pre><code>class: SingleCellExperiment 
+dim: 96 2399 
+metadata(0):
+assays(1): counts
+rownames(96): Anti-CD3 Anti-CD4 ... Anti-IgG2a Anti-IgG2b
+rowData names(7): is_feature_control mean_counts ... total_counts
+  log10_total_counts
+colnames(2399): AAACCTGAGTTGCAGG AAACCTGGTCGTTGTA ...
+  TTTGTCACAGGTCGTC TTTGTCAGTAGCGCAA
+colData names(9): is_cell_control total_features_by_counts ...
+  pct_counts_in_top_200_features pct_counts_in_top_500_features
+reducedDimNames(0):
+spikeNames(0):</code></pre>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<div id="parameters" class="section level2">
+<h2>Parameters</h2>
+<p>This table describes parameters used and set in this document.</p>
+<pre class="r"><code>params &lt;- list(
+    list(
+        Parameter = &quot;n_cells_raw&quot;,
+        Value = ncol(sce_raw),
+        Description = &quot;Number of cells in the raw dataset&quot;
+    ),
+    list(
+        Parameter = &quot;n_features_raw&quot;,
+        Value = nrow(sce_raw),
+        Description = &quot;Number of cells in the raw dataset&quot;
+    ),
+        list(
+        Parameter = &quot;n_cells_cite_raw&quot;,
+        Value = ncol(cite_raw),
+        Description = &quot;Number of cells in the raw CITE dataset&quot;
+    ),
+    list(
+        Parameter = &quot;n_features_cite_raw&quot;,
+        Value = nrow(cite_raw),
+        Description = &quot;Number of cells in the raw CITE dataset&quot;
+    ),
+    list(
+        Parameter = &quot;thresh_prop&quot;,
+        Value = thresh_prop,
+        Description = &quot;GRCh38 proportion for selecting human cells&quot;
+    ),
+    list(
+        Parameter = &quot;n_cells_sel&quot;,
+        Value = ncol(sce),
+        Description = &quot;Number of cells in the selected dataset&quot;
+    ),
+    list(
+        Parameter = &quot;n_features_sel&quot;,
+        Value = nrow(sce),
+        Description = &quot;Number of cells in the selected dataset&quot;
+    ),
+        list(
+        Parameter = &quot;n_cells_cite_sel&quot;,
+        Value = ncol(cite),
+        Description = &quot;Number of cells in the selected CITE dataset&quot;
+    ),
+    list(
+        Parameter = &quot;n_features_cite_sel&quot;,
+        Value = nrow(cite),
+        Description = &quot;Number of cells in the selected CITE dataset&quot;
+    )
+)
+params &lt;- toJSON(params, pretty = TRUE)
+kable(fromJSON(params))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">n_cells_raw</td>
+<td align="left">3412</td>
+<td align="left">Number of cells in the raw dataset</td>
+</tr>
+<tr class="even">
+<td align="left">n_features_raw</td>
+<td align="left">29621</td>
+<td align="left">Number of cells in the raw dataset</td>
+</tr>
+<tr class="odd">
+<td align="left">n_cells_cite_raw</td>
+<td align="left">3413</td>
+<td align="left">Number of cells in the raw CITE dataset</td>
+</tr>
+<tr class="even">
+<td align="left">n_features_cite_raw</td>
+<td align="left">96</td>
+<td align="left">Number of cells in the raw CITE dataset</td>
+</tr>
+<tr class="odd">
+<td align="left">thresh_prop</td>
+<td align="left">0.95</td>
+<td align="left">GRCh38 proportion for selecting human cells</td>
+</tr>
+<tr class="even">
+<td align="left">n_cells_sel</td>
+<td align="left">2399</td>
+<td align="left">Number of cells in the selected dataset</td>
+</tr>
+<tr class="odd">
+<td align="left">n_features_sel</td>
+<td align="left">17222</td>
+<td align="left">Number of cells in the selected dataset</td>
+</tr>
+<tr class="even">
+<td align="left">n_cells_cite_sel</td>
+<td align="left">2399</td>
+<td align="left">Number of cells in the selected CITE dataset</td>
+</tr>
+<tr class="odd">
+<td align="left">n_features_cite_sel</td>
+<td align="left">96</td>
+<td align="left">Number of cells in the selected CITE dataset</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="output-files" class="section level2">
+<h2>Output files</h2>
+<p>This table describes the output files produced by this document. Right click and <em>Save Link As…</em> to download the results.</p>
+<pre class="r"><code>write_rds(sce, here(&quot;data/01-selected.Rds&quot;), compress = &quot;bz&quot;, compression = 9)
+write_rds(cite, here(&quot;data/01-CITE-selected.Rds&quot;),
+          compress = &quot;bz&quot;, compression = 9)</code></pre>
+<pre class="r"><code>write_lines(params, path(OUT_DIR, &quot;parameters.json&quot;))
+kable(data.frame(
+    File = c(
+        download_link(&quot;parameters.json&quot;, OUT_DIR)
+    ),
+    Description = c(
+        &quot;Parameters set and used in this analysis&quot;
+    )
+))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">File</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="http://github.com/lazappi/OzSingleCells2019/raw/master/output/01-pre-processing.Rmd/parameters.json">parameters.json</a></td>
+<td align="left">Parameters set and used in this analysis</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessioninfo::session_info()</code></pre>
+<pre><code>─ Session info ──────────────────────────────────────────────────────────
+ setting  value                       
+ version  R version 3.6.0 (2019-04-26)
+ os       CentOS release 6.7 (Final)  
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ ctype    en_US.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2019-06-20                  
+
+─ Packages ──────────────────────────────────────────────────────────────
+ ! package              * version   date       lib source        
+   assertthat             0.2.1     2019-03-21 [1] CRAN (R 3.6.0)
+   backports              1.1.4     2019-04-10 [1] CRAN (R 3.6.0)
+   beeswarm               0.2.3     2016-04-25 [1] CRAN (R 3.6.0)
+   Biobase              * 2.44.0    2019-05-02 [1] Bioconductor  
+   BiocGenerics         * 0.30.0    2019-05-02 [1] Bioconductor  
+   BiocNeighbors          1.2.0     2019-05-02 [1] Bioconductor  
+   BiocParallel         * 1.18.0    2019-05-03 [1] Bioconductor  
+   BiocSingular           1.0.0     2019-05-02 [1] Bioconductor  
+   bitops                 1.0-6     2013-08-17 [1] CRAN (R 3.6.0)
+   broom                  0.5.2     2019-04-07 [1] CRAN (R 3.6.0)
+   cellranger             1.1.0     2016-07-27 [1] CRAN (R 3.6.0)
+   cli                    1.1.0     2019-03-19 [1] CRAN (R 3.6.0)
+   colorspace             1.4-1     2019-03-18 [1] CRAN (R 3.6.0)
+   conflicted           * 1.0.3     2019-05-01 [1] CRAN (R 3.6.0)
+   crayon                 1.3.4     2017-09-16 [1] CRAN (R 3.6.0)
+   DelayedArray         * 0.10.0    2019-05-02 [1] Bioconductor  
+   DelayedMatrixStats     1.6.0     2019-05-02 [1] Bioconductor  
+   digest                 0.6.19    2019-05-20 [1] CRAN (R 3.6.0)
+   dplyr                * 0.8.1     2019-05-14 [1] CRAN (R 3.6.0)
+   evaluate               0.14      2019-05-28 [1] CRAN (R 3.6.0)
+   fansi                  0.4.0     2018-10-05 [1] CRAN (R 3.6.0)
+   forcats              * 0.4.0     2019-02-17 [1] CRAN (R 3.6.0)
+   fs                   * 1.3.1     2019-05-06 [1] CRAN (R 3.6.0)
+   generics               0.0.2     2018-11-29 [1] CRAN (R 3.6.0)
+   GenomeInfoDb         * 1.20.0    2019-05-02 [1] Bioconductor  
+   GenomeInfoDbData       1.2.1     2019-06-19 [1] Bioconductor  
+   GenomicRanges        * 1.36.0    2019-05-02 [1] Bioconductor  
+   ggbeeswarm             0.6.0     2017-08-07 [1] CRAN (R 3.6.0)
+   ggplot2              * 3.2.0     2019-06-16 [1] CRAN (R 3.6.0)
+   git2r                  0.25.2    2019-03-19 [1] CRAN (R 3.6.0)
+   glue                   1.3.1     2019-03-12 [1] CRAN (R 3.6.0)
+   gridExtra              2.3       2017-09-09 [1] CRAN (R 3.6.0)
+   gtable                 0.3.0     2019-03-25 [1] CRAN (R 3.6.0)
+   haven                  2.1.0     2019-02-19 [1] CRAN (R 3.6.0)
+   here                 * 0.1       2017-05-28 [1] CRAN (R 3.6.0)
+   highr                  0.8       2019-03-20 [1] CRAN (R 3.6.0)
+   hms                    0.4.2     2018-03-10 [1] CRAN (R 3.6.0)
+   htmltools              0.3.6     2017-04-28 [1] CRAN (R 3.6.0)
+   httr                   1.4.0     2018-12-11 [1] CRAN (R 3.6.0)
+   IRanges              * 2.18.1    2019-05-31 [1] Bioconductor  
+   irlba                  2.3.3     2019-02-05 [1] CRAN (R 3.6.0)
+   jsonlite             * 1.6       2018-12-07 [1] CRAN (R 3.6.0)
+   knitr                * 1.23      2019-05-18 [1] CRAN (R 3.6.0)
+   labeling               0.3       2014-08-23 [1] CRAN (R 3.6.0)
+ P lattice                0.20-38   2018-11-04 [5] CRAN (R 3.6.0)
+   lazyeval               0.2.2     2019-03-15 [1] CRAN (R 3.6.0)
+   lubridate              1.7.4     2018-04-11 [1] CRAN (R 3.6.0)
+   magrittr             * 1.5       2014-11-22 [1] CRAN (R 3.6.0)
+ P Matrix                 1.2-17    2019-03-22 [5] CRAN (R 3.6.0)
+   matrixStats          * 0.54.0    2018-07-23 [1] CRAN (R 3.6.0)
+   memoise                1.1.0     2017-04-21 [1] CRAN (R 3.6.0)
+   modelr                 0.1.4     2019-02-18 [1] CRAN (R 3.6.0)
+   munsell                0.5.0     2018-06-12 [1] CRAN (R 3.6.0)
+ P nlme                   3.1-139   2019-04-09 [5] CRAN (R 3.6.0)
+   pillar                 1.4.1     2019-05-28 [1] CRAN (R 3.6.0)
+   pkgconfig              2.0.2     2018-08-16 [1] CRAN (R 3.6.0)
+   purrr                * 0.3.2     2019-03-15 [1] CRAN (R 3.6.0)
+   R6                     2.4.0     2019-02-14 [1] CRAN (R 3.6.0)
+   RColorBrewer           1.1-2     2014-12-07 [1] CRAN (R 3.6.0)
+   Rcpp                   1.0.1     2019-03-17 [1] CRAN (R 3.6.0)
+   RCurl                  1.95-4.12 2019-03-04 [1] CRAN (R 3.6.0)
+   readr                * 1.3.1     2018-12-21 [1] CRAN (R 3.6.0)
+   readxl                 1.3.1     2019-03-13 [1] CRAN (R 3.6.0)
+   rlang                  0.3.4     2019-04-07 [1] CRAN (R 3.6.0)
+   rmarkdown              1.13      2019-05-22 [1] CRAN (R 3.6.0)
+   rprojroot              1.3-2     2018-01-03 [1] CRAN (R 3.6.0)
+   rstudioapi             0.10      2019-03-19 [1] CRAN (R 3.6.0)
+   rsvd                   1.0.1     2019-06-02 [1] CRAN (R 3.6.0)
+   rvest                  0.3.4     2019-05-15 [1] CRAN (R 3.6.0)
+   S4Vectors            * 0.22.0    2019-05-02 [1] Bioconductor  
+   scales                 1.0.0     2018-08-09 [1] CRAN (R 3.6.0)
+   scater                 1.12.2    2019-05-24 [1] Bioconductor  
+   sessioninfo            1.1.1     2018-11-05 [1] CRAN (R 3.6.0)
+   SingleCellExperiment * 1.6.0     2019-05-02 [1] Bioconductor  
+   stringi                1.4.3     2019-03-12 [1] CRAN (R 3.6.0)
+   stringr              * 1.4.0     2019-02-10 [1] CRAN (R 3.6.0)
+   SummarizedExperiment * 1.14.0    2019-05-02 [1] Bioconductor  
+   tibble               * 2.1.3     2019-06-06 [1] CRAN (R 3.6.0)
+   tidyr                * 0.8.3     2019-03-01 [1] CRAN (R 3.6.0)
+   tidyselect             0.2.5     2018-10-11 [1] CRAN (R 3.6.0)
+   tidyverse            * 1.2.1     2017-11-14 [1] CRAN (R 3.6.0)
+   utf8                   1.1.4     2018-05-24 [1] CRAN (R 3.6.0)
+   vctrs                  0.1.0     2018-11-29 [1] CRAN (R 3.6.0)
+   vipor                  0.4.5     2017-03-22 [1] CRAN (R 3.6.0)
+   viridis                0.5.1     2018-03-29 [1] CRAN (R 3.6.0)
+   viridisLite            0.3.0     2018-02-01 [1] CRAN (R 3.6.0)
+   whisker                0.3-2     2013-04-28 [1] CRAN (R 3.6.0)
+   withr                  2.1.2     2018-03-15 [1] CRAN (R 3.6.0)
+   workflowr              1.4.0     2019-06-08 [1] CRAN (R 3.6.0)
+   xfun                   0.7       2019-05-14 [1] CRAN (R 3.6.0)
+   xml2                   1.2.0     2018-01-24 [1] CRAN (R 3.6.0)
+   XVector                0.24.0    2019-05-02 [1] Bioconductor  
+   yaml                   2.2.0     2018-07-25 [1] CRAN (R 3.6.0)
+   zeallot                0.1.0     2018-01-28 [1] CRAN (R 3.6.0)
+   zlibbioc               1.30.0    2019-05-02 [1] Bioconductor  
+
+[1] /group/bioi1/luke/analysis/OzSingleCells2019/packrat/lib/x86_64-pc-linux-gnu/3.6.0
+[2] /group/bioi1/luke/analysis/OzSingleCells2019/packrat/lib-ext/x86_64-pc-linux-gnu/3.6.0
+[3] /group/bioi1/luke/analysis/OzSingleCells2019/packrat/lib-R/x86_64-pc-linux-gnu/3.6.0
+[4] /home/luke.zappia/R/x86_64-pc-linux-gnu-library/3.6
+[5] /usr/local/installed/R/3.6.0/lib64/R/library
+
+ P ── Loaded and on-disk path mismatch.</code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

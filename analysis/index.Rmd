@@ -11,4 +11,10 @@ editor_options:
 Analysis of the Swarbrick dataset for the
 [Oz Single Cells Challenge 2019][challenge].
 
+Analysis
+========
+
+* [Pre-processing](01-pre-processing.html) - Loading and basic pre-processing
+  of the dataset
+
 [challenge]: https://sydneybiox.github.io/SingleCellsChallenge2019/

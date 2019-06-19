@@ -1,0 +1,47 @@
+[
+  {
+    "Parameter": ["n_cells_raw"],
+    "Value": [3412],
+    "Description": ["Number of cells in the raw dataset"]
+  },
+  {
+    "Parameter": ["n_features_raw"],
+    "Value": [29621],
+    "Description": ["Number of cells in the raw dataset"]
+  },
+  {
+    "Parameter": ["n_cells_cite_raw"],
+    "Value": [3413],
+    "Description": ["Number of cells in the raw CITE dataset"]
+  },
+  {
+    "Parameter": ["n_features_cite_raw"],
+    "Value": [96],
+    "Description": ["Number of cells in the raw CITE dataset"]
+  },
+  {
+    "Parameter": ["thresh_prop"],
+    "Value": [0.95],
+    "Description": ["GRCh38 proportion for selecting human cells"]
+  },
+  {
+    "Parameter": ["n_cells_sel"],
+    "Value": [2399],
+    "Description": ["Number of cells in the selected dataset"]
+  },
+  {
+    "Parameter": ["n_features_sel"],
+    "Value": [17222],
+    "Description": ["Number of cells in the selected dataset"]
+  },
+  {
+    "Parameter": ["n_cells_cite_sel"],
+    "Value": [2399],
+    "Description": ["Number of cells in the selected CITE dataset"]
+  },
+  {
+    "Parameter": ["n_features_cite_sel"],
+    "Value": [96],
+    "Description": ["Number of cells in the selected CITE dataset"]
+  }
+]
