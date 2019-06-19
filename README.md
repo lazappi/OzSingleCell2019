@@ -20,6 +20,9 @@ A [workflowr][] project.
 
 Input data files include:
 
+* **Swarbrick-SCE.Rds** - Swarbrick data as a SingleCellExperiment object
+  downloaded from the challenge website and converted from `.Rdata.` to `.Rds`
+
 ## Analysis
 
 Current analysis files include:
