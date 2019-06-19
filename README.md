@@ -22,6 +22,8 @@ Input data files include:
 
 * **Swarbrick-SCE.Rds** - Swarbrick data as a SingleCellExperiment object
   downloaded from the challenge website and converted from `.Rdata.` to `.Rds`
+* **Swarbrick-CITE.csv.gz** - Swarbrick CITE data downloaded from the challenge 
+  website, compressed and with the first column renames as "Antibody"
 
 ## Analysis
 
