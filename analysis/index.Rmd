@@ -16,5 +16,6 @@ Analysis
 
 * [Pre-processing](01-pre-processing.html) - Loading and basic pre-processing
   of the dataset
+* [Quality control](02-quality-control.html) - Quality control of the dataset
 
 [challenge]: https://sydneybiox.github.io/SingleCellsChallenge2019/

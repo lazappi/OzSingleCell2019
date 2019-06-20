@@ -37,12 +37,14 @@ Current analysis files include:
 * **index.Rmd** - Index page
 * **license.Rmd** - License page
 * **01-pre-processing.Rmd** - Basic pre-processing of the dataset
+* **02-quality-control.Rmd** - Quality control of the dataset
 
 ## Code
 
 Current code files include:
 
 * **annotate.R** - Functions for annotating SingleCellExperiment objects
+* **plottin.R** - Plotting functions
 * **output.R** - Functions for nicely formatting output
 * **set_paths.R** - Set file paths to data objects
 * **setup_knitr.R** - Set default `knitr` options.

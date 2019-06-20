@@ -443,7 +443,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -452,7 +452,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -464,7 +464,7 @@ div.section {
 <strong>Last updated:</strong> 2019-06-20
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>OzSingleCells2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -480,12 +480,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -552,10 +552,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treea140753eab1689a782c1b137231d22a97cbeb234targetblanka140753a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/a140753eab1689a782c1b137231d22a97cbeb234" target="_blank">a140753</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treea3ebd26b35084c2d0ce81ed2e63bd6a945b42bcbtargetblanka3ebd26a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/a3ebd26b35084c2d0ce81ed2e63bd6a945b42bcb" target="_blank">a3ebd26</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treea140753eab1689a782c1b137231d22a97cbeb234targetblanka140753a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treea3ebd26b35084c2d0ce81ed2e63bd6a945b42bcbtargetblanka3ebd26a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -570,7 +570,11 @@ Ignored files:
     Ignored:    packrat/src/
 
 Untracked files:
-    Untracked:  docs/figure/
+    Untracked:  analysis/02-quality-control.Rmd
+
+Unstaged changes:
+    Modified:   R/set_paths.R
+    Modified:   analysis/01-pre-processing.Rmd
 
 </code></pre>
 <p>
@@ -611,10 +615,10 @@ Message
 <tbody>
 <tr>
 <td>
-Rmd
+html
 </td>
 <td>
-<a href="http://github.com/lazappi/OzSingleCells2019/blob/a140753eab1689a782c1b137231d22a97cbeb234/analysis/01-pre-processing.Rmd" target="_blank">a140753</a>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/a3ebd26b35084c2d0ce81ed2e63bd6a945b42bcb/docs/01-pre-processing.html" target="_blank">a3ebd26</a>
 </td>
 <td>
 Luke Zappia
@@ -816,10 +820,84 @@ gg &lt;- ggplot(col_data,
     )
 gg</code></pre>
 <p><img src="figure/01-pre-processing.Rmd/total-counts-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-total-counts-1">
+Past versions of total-counts-1.png
+</button>
+</p>
+<div id="fig-total-counts-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/a3ebd26b35084c2d0ce81ed2e63bd6a945b42bcb/docs/figure/01-pre-processing.Rmd/total-counts-1.png" target="_blank">a3ebd26</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>It looks like it should be easy to separation most of the cells but because the range is so big it’s hard to see what is happening for low count cells. Let’s zoom in a bit to look at those.</p>
 <pre class="r"><code>gg + coord_cartesian(xlim = c(0, 1000), ylim = c(0, 1000)) +
     labs(title = &quot;Counts assigned to different genomes (zoomed)&quot;)</code></pre>
 <p><img src="figure/01-pre-processing.Rmd/total-counts-zoomed-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-total-counts-zoomed-1">
+Past versions of total-counts-zoomed-1.png
+</button>
+</p>
+<div id="fig-total-counts-zoomed-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/a3ebd26b35084c2d0ce81ed2e63bd6a945b42bcb/docs/figure/01-pre-processing.Rmd/total-counts-zoomed-1.png" target="_blank">a3ebd26</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>thresh_prop &lt;- 0.95</code></pre>
 <p>Now we can see that there is a set of cells that have counts from both genomes. These are potentially doublets where two cells have been captured in the same droplet. There are 302 cells that have at least 5 percent of counts from each genome.</p>
 <p>To select human cells I am going to set a threshold of having at least 95 percent of counts assigned to GRCh38.</p>
@@ -834,6 +912,43 @@ ggplot(col_data, aes(x = GRCh38Counts, y = mm10Counts, colour = Selected)) +
         y = &quot;mm10&quot;
     )</code></pre>
 <p><img src="figure/01-pre-processing.Rmd/total-count-thresh-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-total-count-thresh-1">
+Past versions of total-count-thresh-1.png
+</button>
+</p>
+<div id="fig-total-count-thresh-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/a3ebd26b35084c2d0ce81ed2e63bd6a945b42bcb/docs/figure/01-pre-processing.Rmd/total-count-thresh-1.png" target="_blank">a3ebd26</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Doing this will remove 1013 cells, giving a dataset with 2399 cells remaining.</p>
 <pre class="r"><code>rowData(sce_raw) &lt;- DataFrame(row_data)
 colData(sce_raw) &lt;- DataFrame(col_data)
@@ -1001,10 +1116,10 @@ kable(fromJSON(params))</code></pre>
 <div id="output-files" class="section level2">
 <h2>Output files</h2>
 <p>This table describes the output files produced by this document. Right click and <em>Save Link As…</em> to download the results.</p>
-<pre class="r"><code>write_rds(sce, here(&quot;data/01-selected.Rds&quot;), compress = &quot;bz&quot;, compression = 9)
-write_rds(cite, here(&quot;data/01-CITE-selected.Rds&quot;),
-          compress = &quot;bz&quot;, compression = 9)</code></pre>
-<pre class="r"><code>write_lines(params, path(OUT_DIR, &quot;parameters.json&quot;))
+<pre class="r"><code>write_rds(sce, PATHS$sce_sel, compress = &quot;bz&quot;, compression = 9)
+write_rds(cite, PATHS$cite_sel, compress = &quot;bz&quot;, compression = 9)
+write_lines(params, path(OUT_DIR, &quot;parameters.json&quot;))
+
 kable(data.frame(
     File = c(
         download_link(&quot;parameters.json&quot;, OUT_DIR)

@@ -321,14 +321,11 @@ Output files
 This table describes the output files produced by this document. Right click
 and _Save Link As..._ to download the results.
 
-```{r save}
-write_rds(sce, here("data/01-selected.Rds"), compress = "bz", compression = 9)
-write_rds(cite, here("data/01-CITE-selected.Rds"),
-          compress = "bz", compression = 9)
-```
-
 ```{r output}
+write_rds(sce, PATHS$sce_sel, compress = "bz", compression = 9)
+write_rds(cite, PATHS$cite_sel, compress = "bz", compression = 9)
 write_lines(params, path(OUT_DIR, "parameters.json"))
+
 kable(data.frame(
     File = c(
         download_link("parameters.json", OUT_DIR)

@@ -1,0 +1,62 @@
+[
+  {
+    "Parameter": ["counts_thresh"],
+    "Value": [2.909],
+    "Description": ["Minimum threshold for (log10) total counts"]
+  },
+  {
+    "Parameter": ["features_thresh"],
+    "Value": [2.6136],
+    "Description": ["Minimum threshold for (log10) total features"]
+  },
+  {
+    "Parameter": ["mt_thresh"],
+    "Value": [18.7663],
+    "Description": ["Maximum threshold for percentage counts mitochondrial"]
+  },
+  {
+    "Parameter": ["counts_mads"],
+    "Value": [4],
+    "Description": ["MADs for (log10) total counts threshold"]
+  },
+  {
+    "Parameter": ["features_mads"],
+    "Value": [4],
+    "Description": ["MADs for (log10) total features threshold"]
+  },
+  {
+    "Parameter": ["mt_mads"],
+    "Value": [3],
+    "Description": ["MADs for percentage counts mitochondrial threshold"]
+  },
+  {
+    "Parameter": ["min_count"],
+    "Value": [1],
+    "Description": ["Minimum count per cell for gene filtering"]
+  },
+  {
+    "Parameter": ["min_cells"],
+    "Value": [2],
+    "Description": ["Minimum cells with min_count counts for gene filtering"]
+  },
+  {
+    "Parameter": ["n_cells"],
+    "Value": [2178],
+    "Description": ["Number of cells in the filtered dataset"]
+  },
+  {
+    "Parameter": ["n_genes"],
+    "Value": [16869],
+    "Description": ["Number of genes in the filtered dataset"]
+  },
+  {
+    "Parameter": ["median_genes"],
+    "Value": [1066],
+    "Description": ["Median number of expressed genes per cell in the filtered dataset"]
+  },
+  {
+    "Parameter": ["median_counts"],
+    "Value": [3224.5],
+    "Description": ["Median number of counts per cell in the filtered dataset"]
+  }
+]

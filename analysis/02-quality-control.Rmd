@@ -1,0 +1,554 @@
+---
+title: "Quality control"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r knitr, include = FALSE}
+source(here::here("R/setup_knitr.R"))
+```
+
+```{r setup, cache = FALSE}
+#### LIBRARIES ####
+# Package conflicts
+library("conflicted")
+
+# Single-cell
+library("SingleCellExperiment")
+library("scater")
+
+# RNA-seq
+library("edgeR")
+
+# File paths
+library("fs")
+library("here")
+
+# Presentation
+library("knitr")
+library("jsonlite")
+library("cowplot")
+
+# Tidyverse
+library("tidyverse")
+
+### CONFLICT PREFERENCES ####
+conflict_prefer("path", "fs")
+conflict_prefer("mutate", "dplyr")
+conflict_prefer("arrange", "dplyr") 
+
+### SOURCE FUNCTIONS ####
+source(here("R/output.R"))
+source(here("R/plotting.R"))
+
+### OUTPUT DIRECTORY ####
+OUT_DIR <- here("output", DOCNAME)
+dir_create(OUT_DIR)
+
+#### SET GGPLOT THEME ####
+theme_set(theme_minimal())
+
+#### SET PATHS ####
+source(here("R/set_paths.R"))
+```
+
+Introduction
+============
+
+In this document we are going to load perform quality control of the RNA-seq
+dataset.
+
+```{r load, cache.extra = c(tools::md5sum(PATHS$sce_sel), tools::md5sum(PATHS$cite_sel))}
+if (all(file_exists(c(PATHS$sce_sel, PATHS$cite_sel)))) {
+    sce <- read_rds(PATHS$sce_sel)
+    cite <- read_rds(PATHS$cite_sel)
+} else {
+    stop("Selected dataset is missing. ",
+         "Please run '01-pre-processing.Rmd' first.",
+         call. = FALSE)
+}
+
+set.seed(1)
+sizeFactors(sce) <- librarySizeFactors(sce)
+sce <- normalize(sce)
+sce <- runPCA(sce)
+sce <- runTSNE(sce)
+#sce <- runUMAP(sce)
+col_data <- as.data.frame(colData(sce))
+row_data <- as.data.frame(rowData(sce))
+```
+
+Exploration
+===========
+
+We will start off by making some plots to explore the dataset.
+
+Expression by cell {.tabset}
+------------------
+
+Distributions by cell. Blue line shows the median and red lines show median
+absolute deviations (MADs) from the median.
+
+### Total counts {.unnumbered}
+
+```{r counts}
+outlier_histogram(col_data, "log10_total_counts", mads = 1:6)
+```
+
+### Total features {.unnumbered}
+
+```{r features}
+outlier_histogram(col_data, "log10_total_features_by_counts", mads = 1:6)
+```
+
+### Percent mitochondrial {.unnumbered}
+
+```{r percent-MT}
+outlier_histogram(col_data, "pct_counts_MT", mads = c(1, 3, 5, 7))
+```
+
+Dimensionality reduction {.tabset}
+------------------------
+
+Dimensionality reduction plots coloured by technical factors can help identify
+which may be playing a bit role in the dataset.
+
+```{r dimred-factors}
+dimred_factors <- c(
+    "Total counts"        = "log10_total_counts",
+    "CellCycle"           = "CellCycle", 
+    "Total features"      = "log10_total_features_by_counts",
+    "Mitochondrial genes" = "pct_counts_MT"
+)
+```
+
+### PCA
+
+```{r pca}
+plot_list <- lapply(names(dimred_factors), function(fct_name) {
+    plotPCA(sce, colour_by = dimred_factors[fct_name]) +
+        ggtitle(fct_name) +
+        theme(legend.position = "bottom")
+})
+plot_grid(plotlist = plot_list, ncol = 2)
+```
+
+### t-SNE
+
+```{r t-sne}
+plot_list <- lapply(names(dimred_factors), function(fct_name) {
+    plotTSNE(sce, colour_by = dimred_factors[fct_name]) +
+        ggtitle(fct_name) +
+        theme(legend.position = "bottom")
+})
+plot_grid(plotlist = plot_list, ncol = 2)
+```
+
+Explanatory variables
+---------------------
+
+This plot shows the percentage of variance in the dataset that is explained by
+various technical factors. 
+
+```{r exp-vars}
+exp_vars <- c("CellCycle", "log10_total_counts",
+              "pct_counts_in_top_100_features", "total_features_by_counts",
+              "pct_counts_MT")
+all_zero <- Matrix::rowSums(counts(sce)) == 0
+plotExplanatoryVariables(sce[!all_zero, ], variables = exp_vars)
+```
+
+Cell cycle
+----------
+
+The dataset has already been scored for cell cycle activity. This plot shows
+the G2/M score against the G1 score for each cell and let's us see the balance
+of cell cycle phases in the dataset.
+
+```{r cell-cycle}
+ggplot(col_data, aes(x = G1Score, y = G2MScore, colour = CellCycle)) +
+    geom_point() +
+    xlab("G1 score") +
+    ylab("G2/M score") +
+    theme_minimal()
+kable(table(Phase = col_data$CellCycle, useNA = "ifany"))
+```
+
+Expression by gene {.tabset}
+------------------
+
+Distributions by cell. Blue line shows the median and red lines show median
+absolute deviations (MADs) from the median. We show distributions for all genes
+and those that have at least one count.
+
+### Mean
+
+```{r exprs-mean}
+outlier_histogram(row_data, "log10_mean_counts", mads = c(10, 20))
+```
+
+### Total
+
+```{r exprs-total}
+outlier_histogram(row_data, "log10_total_counts", mads = 1:5)
+```
+
+### Mean (expressed)
+
+```{r exprs-mean-expressed}
+outlier_histogram(row_data[row_data$total_counts > 0, ],
+                  "log10_mean_counts", mads = c(10, 20))
+```
+
+### Total (expressed)
+
+```{r exprs-total-expressed}
+outlier_histogram(row_data[row_data$total_counts > 0, ],
+                  "log10_total_counts", mads = 1:5)
+
+```
+
+High expression genes
+---------------------
+
+We can also look at the expression levels of just the top 50 most expressed
+genes.
+
+```{r high-exprs}
+plotHighestExprs(sce)
+```
+
+Expression frequency {.tabset}
+--------------------
+
+The relationshop between the number of cells that express a gene and the overall
+expression level can also be interesting. We expect to see that higher expressed
+genes are expressed in more cells but there will also be some that stand out
+from this.
+
+### Frequency by mean
+
+```{r freq-by-mean}
+plotExprsFreqVsMean(sce, controls = NULL)
+```
+
+### Zeros by total counts
+
+```{r ncells-by-mean}
+ggplot(row_data,
+       aes(x = log10_total_counts, y = 1 - n_cells_by_counts / nrow(sce),
+           colour = gene_biotype)) +
+    geom_point(alpha = 0.2, size = 1) +
+    scale_y_continuous(labels = scales::percent) +
+    ggtitle("Percentage zeros by expression") +
+    xlab("log(total counts)") +
+    ylab("Percentage zeros")
+```
+
+Cell filtering
+==============
+
+We will now perform filtering to select high quality cells. Before we start we
+have `r ncol(sce)` cells.
+
+The simplest filtering method is to set thresholds on some of the factors we
+have explored. Specifically these are the total number of counts per cell, the
+number of features expressed in each cell and the percentage of counts assigned
+to genes on the mitochondrial chromosome which is used as a proxy for cell
+damage. The selected thresholds and numbers of filtered cells using this method
+are:
+
+```{r filter}
+counts_mads   <- 4
+features_mads <- 4
+mt_mads       <- 3
+
+counts_out   <- isOutlier(col_data$log10_total_counts,
+                          nmads = counts_mads, type = "lower")
+features_out <- isOutlier(col_data$log10_total_features_by_counts,
+                          nmads = features_mads, type = "lower")
+mt_out       <- isOutlier(col_data$pct_counts_MT,
+                          nmads = mt_mads, type = "higher")
+
+counts_thresh   <- attr(counts_out, "thresholds")["lower"]
+features_thresh <- attr(features_out, "thresholds")["lower"]
+mt_thresh       <- attr(mt_out, "thresholds")["higher"]
+
+kept <- !(counts_out | features_out | mt_out)
+col_data$Kept <- kept
+
+kable(tibble(
+    Type = c(
+        "Total counts",
+        "Total features",
+        "Mitochondrial %",
+        "Kept cells"
+    ),
+    Threshold = c(
+        paste("< 10 ^", round(counts_thresh, 2),
+              paste0("(", round(10 ^ counts_thresh), ")")),
+        paste("< 10 ^", round(features_thresh, 2),
+              paste0("(", round(10 ^ features_thresh), ")")),
+        paste(">", round(mt_thresh, 2), "%"),
+        ""
+    ),
+    Count = c(
+        sum(counts_out),
+        sum(features_out),
+        sum(mt_out),
+        sum(kept)
+    )
+))
+
+colData(sce) <- DataFrame(col_data)
+sce_qc <- sce[, kept]
+col_data <- col_data[kept, ]
+```
+
+Our filtered dataset now has `r ncol(sce_qc)` cells.
+
+Gene filtering
+==============
+
+We also want to perform som filtering of features to remove lowly expressed
+genes that increase the computation required and may not meet the assumptions
+of some methods. Let's look as some distributions now that we have removed
+low-quality cells.
+
+Distributions {.tabset}
+-------------
+
+### Average counts
+
+```{r mean-histogram}
+avg_counts <- calcAverage(sce_qc, use_size_factors = FALSE)
+row_data$AvgCount <- avg_counts
+row_data$Log10AvgCount <- log10(avg_counts)
+outlier_histogram(row_data, "Log10AvgCount", mads = 1:3, bins = 100)
+```
+
+### Number of cells
+
+```{r cells-histogram}
+outlier_histogram(row_data, "n_cells_by_counts", mads = 1:3, bins = 100) +
+    scale_x_log10()
+```
+
+Filter
+------
+
+```{r genes-filter}
+min_count <- 1
+min_cells <- 2
+keep <- Matrix::rowSums(counts(sce_qc) >= min_count) >= min_cells
+
+rowData(sce_qc) <- DataFrame(row_data)
+sce_qc <- sce_qc[keep, ]
+row_data <- row_data[keep, ]
+
+set.seed(1)
+sizeFactors(sce_qc) <- librarySizeFactors(sce_qc)
+sce_qc <- normalize(sce_qc)
+sce_qc <- runPCA(sce_qc)
+sce_qc <- runTSNE(sce_qc)
+#sce_qc <- runUMAP(sce_qc)
+```
+
+We use a minimal filter that keeps genes with at least `r min_count` counts in
+at least `r min_cells` cells. After filtering we have reduced the number of
+features from `r nrow(sce)` to `r nrow(sce_qc)`.
+
+Validation
+==========
+
+The final quality control step is to inspect some validation plots that should
+help us see if we need to make any adjustments.
+
+Kept vs lost
+------------
+
+One thing we can look at is the difference in expression between the kept and
+removed cells. If we see known genes that are highly expressed in the removed
+cells that can indicate that we have removed an interesting population of cells
+from the dataset. The red line shows equal expression and the blue line is a
+linear fit.
+
+```{r kept-lost}
+pass_qc <- colnames(sce) %in% colnames(sce_qc)
+lost_counts <- counts(sce)[, !pass_qc]
+kept_counts <- counts(sce)[,  pass_qc]
+
+kept_lost <- tibble(
+    Gene     = rownames(sce),
+    Lost     = calcAverage(lost_counts),
+    LostProp = Matrix::rowSums(lost_counts > 0) / ncol(lost_counts),
+    Kept     = calcAverage(kept_counts),
+    KeptProp = Matrix::rowSums(kept_counts > 0) / ncol(kept_counts)
+) %>%
+    mutate(LogFC = predFC(cbind(Lost, Kept),
+                          design = cbind(1, c(1, 0)))[, 2]) %>%
+    mutate(LostCapped = pmax(Lost, min(Lost[Lost > 0]) * 0.5),
+           KeptCapped = pmax(Kept, min(Kept[Kept > 0]) * 0.5))
+
+ggplot(kept_lost,
+       aes(x = LostCapped, y = KeptCapped, colour = LostProp - KeptProp)) +
+    geom_point(size = 1, alpha = 0.2) +
+    geom_abline(intercept = 0, slope = 1, colour = "red") +
+    geom_smooth(method = "lm") +
+    scale_x_log10() +
+    scale_y_log10() +
+    scale_colour_viridis_c() +
+    ggtitle("Gene expression in kept and removed cells") +
+    xlab("Average count (removed)") +
+    ylab("Average count (kept)") +
+    theme_minimal()
+
+kept_lost %>%
+    select(Gene, LogFC, Lost, LostProp, Kept, KeptProp) %>%
+    arrange(-LogFC) %>%
+    as.data.frame() %>%
+    head(100)
+```
+
+Dimensionality reduction {.tabset}
+------------------------
+
+Dimsionality reduction plots coloured by technical factors again gives us
+a good overview of the dataset.
+
+### PCA
+
+```{r pca-valid}
+plot_list <- lapply(names(dimred_factors), function(fct_name) {
+    plotPCA(sce_qc, colour_by = dimred_factors[fct_name]) +
+        ggtitle(fct_name) +
+        theme(legend.position = "bottom")
+})
+plot_grid(plotlist = plot_list, ncol = 2)
+```
+
+### t-SNE
+
+```{r t-sne-valid}
+plot_list <- lapply(names(dimred_factors), function(fct_name) {
+    plotTSNE(sce_qc, colour_by = dimred_factors[fct_name]) +
+        ggtitle(fct_name) +
+        theme(legend.position = "bottom")
+})
+plot_grid(plotlist = plot_list, ncol = 2)
+```
+
+Filter CITE
+===========
+
+We want to select the same set of cells in the CITE data.
+
+```{r filter-cite}
+cite_qc <- cite[, colnames(sce_qc)]
+```
+
+Summary
+=======
+
+After quality control we have a dataset with `r ncol(sce_qc)` cells and
+`r nrow(sce_qc)` genes.
+
+Parameters
+----------
+
+This table describes parameters used and set in this document.
+
+```{r parameters}
+params <- list(
+    list(
+        Parameter = "counts_thresh",
+        Value = counts_thresh,
+        Description = "Minimum threshold for (log10) total counts"
+    ),
+    list(
+        Parameter = "features_thresh",
+        Value = features_thresh,
+        Description = "Minimum threshold for (log10) total features"
+    ),
+    list(
+        Parameter = "mt_thresh",
+        Value = mt_thresh,
+        Description = "Maximum threshold for percentage counts mitochondrial"
+    ),
+    list(
+        Parameter = "counts_mads",
+        Value = counts_mads,
+        Description = "MADs for (log10) total counts threshold"
+    ),
+    list(
+        Parameter = "features_mads",
+        Value = features_mads,
+        Description = "MADs for (log10) total features threshold"
+    ),
+    list(
+        Parameter = "mt_mads",
+        Value = mt_mads,
+        Description = "MADs for percentage counts mitochondrial threshold"
+    ),
+    list(
+        Parameter = "min_count",
+        Value = min_count,
+        Description = "Minimum count per cell for gene filtering"
+    ),
+    list(
+        Parameter = "min_cells",
+        Value = min_cells,
+        Description = "Minimum cells with min_count counts for gene filtering"
+    ),
+    list(
+        Parameter = "n_cells",
+        Value = ncol(sce_qc),
+        Description = "Number of cells in the filtered dataset"
+    ),
+    list(
+        Parameter = "n_genes",
+        Value = nrow(sce_qc),
+        Description = "Number of genes in the filtered dataset"
+    ),
+    list(
+        Parameter = "median_genes",
+        Value = median(Matrix::colSums(counts(sce_qc) != 0)),
+        Description = paste("Median number of expressed genes per cell in the",
+                            "filtered dataset")
+    ),
+    list(
+        Parameter = "median_counts",
+        Value = median(Matrix::colSums(counts(sce_qc))),
+        Description = paste("Median number of counts per cell in the filtered",
+                            "dataset")
+    )
+)
+params <- toJSON(params, pretty = TRUE)
+kable(fromJSON(params))
+```
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r output}
+write_rds(sce_qc, PATHS$sce_qc, compress = "bz", compression = 9)
+write_rds(cite_qc, PATHS$cite_qc, compress = "bz", compression = 9)
+write_lines(params, path(OUT_DIR, "parameters.json"))
+
+kable(data.frame(
+    File = c(
+        download_link("parameters.json", OUT_DIR)
+    ),
+    Description = c(
+        "Parameters set and used in this analysis"
+    )
+))
+```
+
+Session information
+-------------------

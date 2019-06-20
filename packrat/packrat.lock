@@ -147,6 +147,12 @@ Source: Bioconductor
 Version: 1.6.0
 Hash: 7c3d6f3d9b13d708f35a2390e1951aef
 
+Package: Rtsne
+Source: CRAN
+Version: 0.15
+Hash: 9dc47f253d7b087153e23d0525258341
+Requires: Rcpp
+
 Package: S4Vectors
 Source: Bioconductor
 Version: 0.22.0
@@ -277,6 +283,12 @@ Source: CRAN
 Version: 1.0.3
 Hash: d9cedb1c97f57b4379cfdf660642b4dc
 Requires: memoise, rlang
+
+Package: cowplot
+Source: CRAN
+Version: 0.9.4
+Hash: 61e0434ac47a761fdfa4614e5bd53fb8
+Requires: ggplot2, gtable, plyr, scales
 
 Package: crayon
 Source: CRAN
