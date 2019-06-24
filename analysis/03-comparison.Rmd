@@ -1,0 +1,332 @@
+---
+title: "Comparison"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r knitr, include = FALSE}
+source(here::here("R/setup_knitr.R"))
+```
+
+```{r setup, cache = FALSE}
+#### LIBRARIES ####
+# Package conflicts
+library("conflicted")
+
+# Single-cell
+library("SingleCellExperiment")
+library("scater")
+
+# File paths
+library("fs")
+library("here")
+
+# Presentation
+library("knitr")
+library("jsonlite")
+
+# Tidyverse
+library("tidyverse")
+
+### CONFLICT PREFERENCES ####
+conflict_prefer("path", "fs")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("mutate", "dplyr")
+
+### SOURCE FUNCTIONS ####
+source(here("R/output.R"))
+
+### OUTPUT DIRECTORY ####
+OUT_DIR <- here("output", DOCNAME)
+dir_create(OUT_DIR)
+
+#### SET GGPLOT THEME ####
+theme_set(theme_minimal())
+
+#### SET PATHS ####
+source(here("R/set_paths.R"))
+```
+
+Introduction
+============
+
+In this document we are going to compare the RNA-seq and CITE data to see how
+similar they are to each other.
+
+```{r load, cache.extra = c(tools::md5sum(PATHS$sce_qc), tools::md5sum(PATHS$cite_qc))}
+if (all(file_exists(c(PATHS$sce_qc, PATHS$cite_qc)))) {
+    sce <- read_rds(PATHS$sce_qc)
+    cite <- read_rds(PATHS$cite_qc)
+} else {
+    stop("Filtered dataset is missing. ",
+         "Please run '02-quality-control.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+Presence
+========
+
+First let's check that if all the CITE targets are present in the RNA-seq data
+(and if we can match them up).
+
+```{r presence}
+targets <- str_remove(rownames(cite), "Anti-")
+kable(table(targets %in% rownames(sce)), col.names = c("Present", "Count"))
+```
+
+That doesn't look great, not many of our antibody names match our gene names.
+After looking at the list it seems that many of the antibody names are obsolute
+gene symbols or other identifiers. I have manually matched these up with the
+(hopefully) appropriate genes, mainly using the [Gene cards][genecards] and
+[Novus biologicals][novus] websites. Let's read in this list and use it to match
+up our datasets.
+
+```{r load-anti-gene, cache.extra = tools::md5sum(PATHS$anti_gene)}
+anti_gene <- read_tsv(PATHS$anti_gene,
+                      col_types = cols(
+                          Antibody = col_character(),
+                          Gene = col_character()
+                      ))
+anti_gene
+```
+
+There are still a couple of genes that aren't present in the RNA-seq dataset
+(possible because they aren't expressed) but this is a much better match. There
+are also a few cases were the pairing is ambiguous, either because multiple
+antibodies target different isoforms of the same gene or an antibody matches
+multiple genes (for example if it targets a protein complex). We will ignore
+these for the rest of this document.
+
+```{r filter-anti-gene}
+anti_gene <- anti_gene %>%
+    filter(Gene %in% rownames(sce)) %>%
+    group_by(Gene) %>%
+    filter(n() == 1) %>%
+    group_by(Antibody) %>%
+    filter(n() == 1) %>%
+    ungroup()
+
+sce_match <- sce[anti_gene$Gene, ]
+cite_match <- cite[paste0("Anti-", anti_gene$Antibody), ]
+rownames(cite_match) <- anti_gene$Antibody
+cells_match <- colSums(counts(sce_match)) > 0 & colSums(counts(cite_match)) > 0
+sce_match <- sce_match[, cells_match]
+cite_match <- cite_match[, cells_match]
+
+sizeFactors(sce_match) <- librarySizeFactors(sce_match)
+sce_match <- normalize(sce_match)
+sizeFactors(cite_match) <- librarySizeFactors(cite_match)
+cite_match <- normalize(cite_match)
+```
+
+Removing these leaves us with `r nrow(anti_gene)` unambiguous antibody-gene
+pairs.
+
+Similarity
+==========
+
+Now that we have matched up the two datasets we want to look at how similar the
+RNA and protein expression is.
+
+```{r get-summ}
+anti_gene <- anti_gene %>%
+    mutate(
+        AntiMean = rowMeans(logcounts(cite_match)[Antibody, ]),
+        AntiVar = rowVars(logcounts(cite_match)[Antibody, ]),
+        AntiTotal = rowSums(counts(cite_match)[Antibody, ]),
+        AntiProp = rowMeans(counts(cite_match)[Antibody, ] > 0)
+    ) %>%
+    mutate(
+        GeneMean = rowMeans(logcounts(sce_match)[Gene, ]),
+        GeneVar = rowVars(as.matrix(logcounts(sce_match)[Gene, ])),
+        GeneTotal = rowSums(counts(sce_match)[Gene, ]),
+        GeneProp = rowMeans(counts(sce)[Gene, ] > 0)
+    ) %>%
+    mutate(
+        Corr = map2_dbl(
+            Antibody, Gene, function(x, y) {
+                cor(
+                    counts(cite)[paste0("Anti-", x), ],
+                    counts(sce)[y, ],
+                    method = "spearman"
+                )
+            }
+        )
+    )
+```
+
+Antibody/gene {.tabset}
+-------------
+
+### Mean {.unnumbered}
+
+```{r mean}
+ggplot(anti_gene, aes(x = GeneMean, y = AntiMean, colour = Corr)) +
+    geom_point(size = 6, alpha = 0.8) +
+    geom_smooth(method = "loess") +
+    geom_abline(intercept = 0, slope = 1, colour = "red") +
+    scale_colour_viridis_c() +
+    labs(
+        title = "Comparison of mean expression",
+        x = "Gene mean normalised logcounts",
+        y = "Antibody mean normalised logcounts",
+        colour = "Spearman\ncorrelation"
+    )
+```
+
+### Variance {.unnumbered}
+
+```{r variance}
+ggplot(anti_gene, aes(x = GeneVar, y = AntiVar, colour = Corr)) +
+    geom_point(size = 6, alpha = 0.8) +
+    geom_smooth(method = "loess") +
+    geom_abline(intercept = 0, slope = 1, colour = "red") +
+    scale_colour_viridis_c() +
+    labs(
+        title = "Comparison of variance",
+        x = "Gene variance (normalised logcounts)",
+        y = "Antibody variance (normalised logcounts)",
+        colour = "Spearman\ncorrelation"
+    )
+```
+
+### Mean-variance {.unnumbered}
+
+```{r mean-variance}
+feat_data <- anti_gene %>%
+    select(Feature = Antibody, Mean = AntiMean, Var = AntiVar, Corr) %>%
+    mutate(Type = "Antibody") %>%
+    bind_rows(
+        anti_gene %>%
+            select(Feature = Gene, Mean = GeneMean, Var = GeneVar, Corr) %>%
+            mutate(Type = "Gene")
+    )
+
+ggplot(feat_data, aes(x = Mean, y = Var, colour = Corr)) +
+    geom_point(size = 6, alpha = 0.8) +
+    geom_smooth(method = "loess") +
+    scale_colour_viridis_c() +
+    facet_wrap(~ Type) +
+    labs(
+        title = "Mean-variance relationship",
+        x = "Mean (normalised logcounts)",
+        y = "Variance (normalised logcounts)",
+        colour = "Spearman\ncorrelation"
+    )
+```
+
+### Total {.unnumbered}
+
+```{r total}
+ggplot(anti_gene, aes(x = GeneTotal, y = AntiTotal, colour = Corr)) +
+    geom_point(size = 6, alpha = 0.8) +
+    geom_smooth(method = "loess") +
+    scale_x_log10() +
+    scale_y_log10() +
+    scale_colour_viridis_c() +
+    labs(
+        title = "Comparison of total counts",
+        x = "Gene total",
+        y = "Antibody total",
+        colour = "Spearman\ncorrelation"
+    )
+```
+
+### Proportion {.unnumbered}
+
+```{r proportion}
+ggplot(anti_gene, aes(x = GeneProp, y = AntiProp, colour = Corr)) +
+    geom_point(size = 6, alpha = 0.8) +
+    geom_abline(intercept = 0, slope = 1, colour = "red") +
+    geom_smooth(method = "loess") +
+    xlim(0, 1) +
+    ylim(0, 1.2) +
+    scale_colour_viridis_c() +
+    labs(
+        title = "Comparison of proportion expressed",
+        x = "Gene proportion",
+        y = "Antibody proportion",
+        colour = "Spearman\ncorrelation"
+    )
+```
+
+Cell
+----
+
+```{r summ-cells}
+cell_data <- tibble(Barcode = colnames(cite_match)) %>%
+    mutate(
+        AntiTotal = colSums(counts(cite_match)[, Barcode])
+    ) %>% mutate(
+        GeneTotal = colSums(counts(sce_match)[, Barcode])
+    ) %>%
+    mutate(
+        Corr = map_dbl(
+            Barcode, function(x) {
+                cor(
+                    counts(cite_match)[, x],
+                    counts(sce_match)[, x],
+                    method = "spearman"
+                )
+            }
+        )
+    )
+```
+
+### Total {.unnumbered}
+
+```{r cell-total}
+ggplot(cell_data, aes(x = GeneTotal, y = AntiTotal, colour = Corr)) +
+    geom_point(size = 4, alpha = 0.8, shape = 18) +
+    geom_smooth(method = "loess") +
+    scale_x_log10() +
+    scale_y_log10() +
+    scale_colour_viridis_c() +
+    labs(
+        title = "Comparison of total counts",
+        x = "Gene total",
+        y = "Antibody total",
+        colour = "Spearman\ncorrelation"
+    )
+```
+
+Summary
+=======
+Parameters
+----------
+
+This table describes parameters used and set in this document.
+
+```{r parameters}
+params <- list(
+  
+)
+params <- toJSON(params, pretty = TRUE)
+kable(fromJSON(params))
+```
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r output}
+kable(data.frame(
+    File = c(
+        download_link("parameters.json", OUT_DIR)
+    ),
+    Description = c(
+        "Parameters set and used in this analysis"
+    )
+))
+```
+
+Session information
+-------------------
+
+[genecards]: https://www.genecards.org
+[novus]: https://www.novusbio.com

@@ -24,6 +24,7 @@ Input data files include:
   downloaded from the challenge website and converted from `.Rdata.` to `.Rds`
 * **Swarbrick-CITE.csv.gz** - Swarbrick CITE data downloaded from the challenge 
   website, compressed and with the first column renames as "Antibody"
+* **antibody_genes.tsv** - Mapping of antibodies to genes (manually complied)
 
 Additional intermediate data files are produced by analysis files. These are
 numbered according to the file that produced them.
@@ -38,6 +39,7 @@ Current analysis files include:
 * **license.Rmd** - License page
 * **01-pre-processing.Rmd** - Basic pre-processing of the dataset
 * **02-quality-control.Rmd** - Quality control of the dataset
+* **03-comparison.Rmd** - Comparison of antibody and gene expression
 
 ## Code
 
