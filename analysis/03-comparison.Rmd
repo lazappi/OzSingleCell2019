@@ -34,6 +34,7 @@ library("tidyverse")
 conflict_prefer("path", "fs")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("mutate", "dplyr")
+conflict_prefer("rename", "dplyr")
 
 ### SOURCE FUNCTIONS ####
 source(here("R/output.R"))
@@ -252,6 +253,87 @@ ggplot(anti_gene, aes(x = GeneProp, y = AntiProp, colour = Corr)) +
         colour = "Spearman\ncorrelation"
     )
 ```
+
+### Pairs {.tabset}
+
+Plots of expression for individual cells. Orange cross shows the mean and purple
+cross the nonzero mean.
+
+```{r pairs, results = "hide"}
+anti_expr <- reshape2::melt(
+    logcounts(cite_match),
+    varnames = c("Antibody", "Barcode"),
+    value.name = "AntiExpr"
+)
+
+gene_expr <- reshape2::melt(
+    as.matrix(logcounts(sce_match)),
+    varnames = c("Gene", "Barcode"),
+    value.name = "GeneExpr"
+)
+
+expr <- anti_expr %>%
+    rename() %>%
+    mutate(
+        Gene = gene_expr$Gene,
+        GeneExpr = gene_expr$GeneExpr
+    ) %>%
+    mutate(Anti_Gene = paste(Antibody, Gene, sep = "_")) %>%
+    select(Barcode, Anti_Gene, Antibody, Gene, AntiExpr, GeneExpr)
+
+nonzero_mean <- function(x) {
+    mean(x[x > 0])
+}
+
+plot_expr <- function(expr, pairs) {
+    expr_filt <- expr %>%
+        filter(Anti_Gene %in% pairs)
+    
+    expr_means <- expr_filt %>%
+        group_by(Anti_Gene) %>%
+        summarise(
+            AntiExpr = mean(AntiExpr),
+            GeneExpr = mean(GeneExpr)
+        )
+    
+    expr_nonzero <- expr_filt %>%
+        group_by(Anti_Gene) %>%
+        summarise(
+            AntiExpr = nonzero_mean(AntiExpr),
+            GeneExpr = nonzero_mean(GeneExpr)
+        )
+    
+    ggplot(expr_filt, aes(x = GeneExpr, y = AntiExpr)) +
+        geom_point(alpha = 0.4) +
+        geom_point(data = expr_nonzero, size = 10,
+                   colour = "purple", shape = 3, stroke = 1) +
+        geom_point(data = expr_means, size = 10,
+                   colour = "orange", shape = 3, stroke = 1) +
+        geom_abline(intercept = 0, slope = 1, colour = "red") +
+        labs(
+            x = "Gene expression (normalised logcounts)",
+            y = "Antibody expression (normalised logcounts)"
+        ) +
+        facet_wrap(~ Anti_Gene)
+}
+
+pairs <- unique(expr$Anti_Gene)
+pair_sets <- split(pairs, rep(1:7, each = 12)[1:length(pairs)])
+
+src_list <- lapply(seq_along(pair_sets), function(id) {
+    src <- c(
+        "#### Page {{id}} {.unnumbered}",
+        "```{r pairs-{{id}}}",
+        "plot_expr(expr, pair_sets[[{{id}}]])",
+        "```",
+        ""
+    )
+    knit_expand(text = src)
+})
+out <- knit_child(text = unlist(src_list), options = list(cache = FALSE))
+```
+
+`r out`
 
 Cell
 ----

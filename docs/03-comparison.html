@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-06-24" />
+<meta name="date" content="2019-06-25" />
 
 <title>Comparison</title>
 
@@ -436,7 +436,7 @@ div.section {
 
 
 <h1 class="title toc-ignore">Comparison</h1>
-<h4 class="date">2019-06-24</h4>
+<h4 class="date">2019-06-25</h4>
 
 </div>
 
@@ -461,7 +461,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-06-24
+<strong>Last updated:</strong> 2019-06-25
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -552,28 +552,29 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree465056911d567499ca7baf58005910a98921d24atargetblank4650569a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/465056911d567499ca7baf58005910a98921d24a" target="_blank">4650569</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treed3dced1bc280f7ddcde04461fcce4fb24327c748targetblankd3dced1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/d3dced1bc280f7ddcde04461fcce4fb24327c748" target="_blank">d3dced1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree465056911d567499ca7baf58005910a98921d24atargetblank4650569a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treed3dced1bc280f7ddcde04461fcce4fb24327c748targetblankd3dced1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rproj.user/
+    Ignored:    ._.DS_Store
     Ignored:    analysis/cache/
     Ignored:    data/._antibody_genes.tsv
     Ignored:    data/._antibody_genes.txt
+    Ignored:    docs/.DS_Store
+    Ignored:    docs/._.DS_Store
     Ignored:    output/03-comparison.Rmd/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
-
-Untracked files:
-    Untracked:  docs/figure/03-comparison.Rmd/
 
 </code></pre>
 <p>
@@ -617,7 +618,41 @@ Message
 Rmd
 </td>
 <td>
-<a href="http://github.com/lazappi/OzSingleCells2019/blob/465056911d567499ca7baf58005910a98921d24a/analysis/03-comparison.Rmd" target="_blank">4650569</a>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/d3dced1bc280f7ddcde04461fcce4fb24327c748/analysis/03-comparison.Rmd" target="_blank">d3dced1</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+<td>
+Add pairs plots to comparison
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/fdabdcc921b74e13fc3839d8b46c289e80c35980/analysis/03-comparison.Rmd" target="_blank">fdabdcc</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-24
+</td>
+<td>
+Add antibody/gene comparison
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/fdabdcc921b74e13fc3839d8b46c289e80c35980/docs/03-comparison.html" target="_blank">fdabdcc</a>
 </td>
 <td>
 Luke Zappia
@@ -659,6 +694,7 @@ library(&quot;tidyverse&quot;)
 conflict_prefer(&quot;path&quot;, &quot;fs&quot;)
 conflict_prefer(&quot;filter&quot;, &quot;dplyr&quot;)
 conflict_prefer(&quot;mutate&quot;, &quot;dplyr&quot;)
+conflict_prefer(&quot;rename&quot;, &quot;dplyr&quot;)
 
 ### SOURCE FUNCTIONS ####
 source(here(&quot;R/output.R&quot;))
@@ -784,6 +820,43 @@ cite_match &lt;- normalize(cite_match)</code></pre>
         colour = &quot;Spearman\ncorrelation&quot;
     )</code></pre>
 <p><img src="figure/03-comparison.Rmd/mean-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean-1">
+Past versions of mean-1.png
+</button>
+</p>
+<div id="fig-mean-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/fdabdcc921b74e13fc3839d8b46c289e80c35980/docs/figure/03-comparison.Rmd/mean-1.png" target="_blank">fdabdcc</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="variance" class="section level3 unnumbered">
 <h3>Variance</h3>
@@ -799,6 +872,43 @@ cite_match &lt;- normalize(cite_match)</code></pre>
         colour = &quot;Spearman\ncorrelation&quot;
     )</code></pre>
 <p><img src="figure/03-comparison.Rmd/variance-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-variance-1">
+Past versions of variance-1.png
+</button>
+</p>
+<div id="fig-variance-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/fdabdcc921b74e13fc3839d8b46c289e80c35980/docs/figure/03-comparison.Rmd/variance-1.png" target="_blank">fdabdcc</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="mean-variance" class="section level3 unnumbered">
 <h3>Mean-variance</h3>
@@ -823,6 +933,43 @@ ggplot(feat_data, aes(x = Mean, y = Var, colour = Corr)) +
         colour = &quot;Spearman\ncorrelation&quot;
     )</code></pre>
 <p><img src="figure/03-comparison.Rmd/mean-variance-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean-variance-1">
+Past versions of mean-variance-1.png
+</button>
+</p>
+<div id="fig-mean-variance-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/fdabdcc921b74e13fc3839d8b46c289e80c35980/docs/figure/03-comparison.Rmd/mean-variance-1.png" target="_blank">fdabdcc</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="total" class="section level3 unnumbered">
 <h3>Total</h3>
@@ -839,6 +986,43 @@ ggplot(feat_data, aes(x = Mean, y = Var, colour = Corr)) +
         colour = &quot;Spearman\ncorrelation&quot;
     )</code></pre>
 <p><img src="figure/03-comparison.Rmd/total-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-total-1">
+Past versions of total-1.png
+</button>
+</p>
+<div id="fig-total-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/fdabdcc921b74e13fc3839d8b46c289e80c35980/docs/figure/03-comparison.Rmd/total-1.png" target="_blank">fdabdcc</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="proportion" class="section level3 unnumbered">
 <h3>Proportion</h3>
@@ -856,6 +1040,153 @@ ggplot(feat_data, aes(x = Mean, y = Var, colour = Corr)) +
         colour = &quot;Spearman\ncorrelation&quot;
     )</code></pre>
 <p><img src="figure/03-comparison.Rmd/proportion-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-proportion-1">
+Past versions of proportion-1.png
+</button>
+</p>
+<div id="fig-proportion-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/fdabdcc921b74e13fc3839d8b46c289e80c35980/docs/figure/03-comparison.Rmd/proportion-1.png" target="_blank">fdabdcc</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="pairs" class="section level3 tabset">
+<h3>Pairs</h3>
+<p>Plots of expression for individual cells. Orange cross shows the mean and purple cross the nonzero mean.</p>
+<pre class="r"><code>anti_expr &lt;- reshape2::melt(
+    logcounts(cite_match),
+    varnames = c(&quot;Antibody&quot;, &quot;Barcode&quot;),
+    value.name = &quot;AntiExpr&quot;
+)
+
+gene_expr &lt;- reshape2::melt(
+    as.matrix(logcounts(sce_match)),
+    varnames = c(&quot;Gene&quot;, &quot;Barcode&quot;),
+    value.name = &quot;GeneExpr&quot;
+)
+
+expr &lt;- anti_expr %&gt;%
+    rename() %&gt;%
+    mutate(
+        Gene = gene_expr$Gene,
+        GeneExpr = gene_expr$GeneExpr
+    ) %&gt;%
+    mutate(Anti_Gene = paste(Antibody, Gene, sep = &quot;_&quot;)) %&gt;%
+    select(Barcode, Anti_Gene, Antibody, Gene, AntiExpr, GeneExpr)
+
+nonzero_mean &lt;- function(x) {
+    mean(x[x &gt; 0])
+}
+
+plot_expr &lt;- function(expr, pairs) {
+    expr_filt &lt;- expr %&gt;%
+        filter(Anti_Gene %in% pairs)
+    
+    expr_means &lt;- expr_filt %&gt;%
+        group_by(Anti_Gene) %&gt;%
+        summarise(
+            AntiExpr = mean(AntiExpr),
+            GeneExpr = mean(GeneExpr)
+        )
+    
+    expr_nonzero &lt;- expr_filt %&gt;%
+        group_by(Anti_Gene) %&gt;%
+        summarise(
+            AntiExpr = nonzero_mean(AntiExpr),
+            GeneExpr = nonzero_mean(GeneExpr)
+        )
+    
+    ggplot(expr_filt, aes(x = GeneExpr, y = AntiExpr)) +
+        geom_point(alpha = 0.4) +
+        geom_point(data = expr_nonzero, size = 10,
+                   colour = &quot;purple&quot;, shape = 3, stroke = 1) +
+        geom_point(data = expr_means, size = 10,
+                   colour = &quot;orange&quot;, shape = 3, stroke = 1) +
+        geom_abline(intercept = 0, slope = 1, colour = &quot;red&quot;) +
+        labs(
+            x = &quot;Gene expression (normalised logcounts)&quot;,
+            y = &quot;Antibody expression (normalised logcounts)&quot;
+        ) +
+        facet_wrap(~ Anti_Gene)
+}
+
+pairs &lt;- unique(expr$Anti_Gene)
+pair_sets &lt;- split(pairs, rep(1:7, each = 12)[1:length(pairs)])
+
+src_list &lt;- lapply(seq_along(pair_sets), function(id) {
+    src &lt;- c(
+        &quot;#### Page {{id}} {.unnumbered}&quot;,
+        &quot;```{r pairs-{{id}}}&quot;,
+        &quot;plot_expr(expr, pair_sets[[{{id}}]])&quot;,
+        &quot;```&quot;,
+        &quot;&quot;
+    )
+    knit_expand(text = src)
+})
+out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</code></pre>
+<div id="page-1" class="section level4 unnumbered">
+<h4>Page 1</h4>
+<pre class="r"><code>plot_expr(expr, pair_sets[[1]])</code></pre>
+<p><img src="figure/03-comparison.Rmd/pairs-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="page-2" class="section level4 unnumbered">
+<h4>Page 2</h4>
+<pre class="r"><code>plot_expr(expr, pair_sets[[2]])</code></pre>
+<p><img src="figure/03-comparison.Rmd/pairs-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="page-3" class="section level4 unnumbered">
+<h4>Page 3</h4>
+<pre class="r"><code>plot_expr(expr, pair_sets[[3]])</code></pre>
+<p><img src="figure/03-comparison.Rmd/pairs-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="page-4" class="section level4 unnumbered">
+<h4>Page 4</h4>
+<pre class="r"><code>plot_expr(expr, pair_sets[[4]])</code></pre>
+<p><img src="figure/03-comparison.Rmd/pairs-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="page-5" class="section level4 unnumbered">
+<h4>Page 5</h4>
+<pre class="r"><code>plot_expr(expr, pair_sets[[5]])</code></pre>
+<p><img src="figure/03-comparison.Rmd/pairs-5-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="page-6" class="section level4 unnumbered">
+<h4>Page 6</h4>
+<pre class="r"><code>plot_expr(expr, pair_sets[[6]])</code></pre>
+<p><img src="figure/03-comparison.Rmd/pairs-6-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="page-7" class="section level4 unnumbered">
+<h4>Page 7</h4>
+<pre class="r"><code>plot_expr(expr, pair_sets[[7]])</code></pre>
+<p><img src="figure/03-comparison.Rmd/pairs-7-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 </div>
 <div id="cell" class="section level2">
@@ -892,6 +1223,43 @@ ggplot(feat_data, aes(x = Mean, y = Var, colour = Corr)) +
         colour = &quot;Spearman\ncorrelation&quot;
     )</code></pre>
 <p><img src="figure/03-comparison.Rmd/cell-total-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cell-total-1">
+Past versions of cell-total-1.png
+</button>
+</p>
+<div id="fig-cell-total-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/fdabdcc921b74e13fc3839d8b46c289e80c35980/docs/figure/03-comparison.Rmd/cell-total-1.png" target="_blank">fdabdcc</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -960,7 +1328,7 @@ kable(fromJSON(params))</code></pre>
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2019-06-24                  
+ date     2019-06-25                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
  ! package              * version   date       lib source        
@@ -1019,12 +1387,14 @@ kable(fromJSON(params))</code></pre>
  P nlme                   3.1-139   2019-04-09 [5] CRAN (R 3.6.0)
    pillar                 1.4.1     2019-05-28 [1] CRAN (R 3.6.0)
    pkgconfig              2.0.2     2018-08-16 [1] CRAN (R 3.6.0)
+   plyr                   1.8.4     2016-06-08 [1] CRAN (R 3.6.0)
    purrr                * 0.3.2     2019-03-15 [1] CRAN (R 3.6.0)
    R6                     2.4.0     2019-02-14 [1] CRAN (R 3.6.0)
    Rcpp                   1.0.1     2019-03-17 [1] CRAN (R 3.6.0)
    RCurl                  1.95-4.12 2019-03-04 [1] CRAN (R 3.6.0)
    readr                * 1.3.1     2018-12-21 [1] CRAN (R 3.6.0)
    readxl                 1.3.1     2019-03-13 [1] CRAN (R 3.6.0)
+   reshape2               1.4.3     2017-12-11 [1] CRAN (R 3.6.0)
    rlang                  0.3.4     2019-04-07 [1] CRAN (R 3.6.0)
    rmarkdown              1.13      2019-05-22 [1] CRAN (R 3.6.0)
    rprojroot              1.3-2     2018-01-03 [1] CRAN (R 3.6.0)
