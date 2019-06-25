@@ -7,5 +7,6 @@ PATHS <- list(
     sce_sel = here::here("data/01-selected.Rds"),
     cite_sel = here::here("data/01-CITE-selected.Rds"),
     sce_qc = here::here("data/02-filtered.Rds"),
-    cite_qc = here::here("data/02-CITE-filtered.Rds")
+    cite_qc = here::here("data/02-CITE-filtered.Rds"),
+    sce_clust = here::here("data/04-clustered.Rds")
 )

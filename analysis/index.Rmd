@@ -18,5 +18,6 @@ Analysis
   of the dataset
 * [Quality control](02-quality-control.html) - Quality control of the dataset
 * [Comparison](03-comparison.html) - Comparison of antibody and gene expression
+* [Clustering](04-clustering.html) - Clustering of the RNA-seq dataset
 
 [challenge]: https://sydneybiox.github.io/SingleCellsChallenge2019/
