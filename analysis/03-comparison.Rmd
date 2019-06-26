@@ -335,6 +335,72 @@ out <- knit_child(text = unlist(src_list), options = list(cache = FALSE))
 
 `r out`
 
+### Correlation structure
+
+```{r corr-structure}
+cite_corr_mat <- logcounts(cite_match) %>%
+    t() %>%
+    cor(method = "spearman")
+
+cite_corr_order <- hclust(dist(cite_corr_mat))$order
+cite_corr_levels <- rownames(cite_corr_mat)[cite_corr_order]
+
+cite_corr <- reshape2::melt(
+        cite_corr_mat,
+        varnames = c("Antibody1", "Antibody2"),
+        value.name = "Corr"
+    ) %>%
+    mutate(
+        Antibody1 = factor(Antibody1, levels = cite_corr_levels),
+        Antibody2 = factor(Antibody2, levels = cite_corr_levels)
+    )
+
+cite_corr_plot <- ggplot(cite_corr) +
+    aes(x = Antibody1, y = Antibody2, fill = Corr) +
+    geom_tile() +
+    scale_fill_distiller(palette = "RdBu", limits = c(-1, 1)) +
+    coord_equal() +
+    labs(
+        title = "Antibody correlation"
+    ) +
+    theme(
+        axis.title = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
+    )
+
+gene_corr_mat <- logcounts(sce_match) %>%
+    as.matrix() %>%
+    t() %>%
+    cor(method = "spearman")
+
+gene_corr_levels <- rownames(gene_corr_mat)[cite_corr_order]
+
+gene_corr <- reshape2::melt(
+        gene_corr_mat,
+        varnames = c("Gene1", "Gene2"),
+        value.name = "Corr"
+    ) %>%
+    mutate(
+        Gene1 = factor(Gene1, levels = gene_corr_levels),
+        Gene2 = factor(Gene2, levels = gene_corr_levels)
+    )
+
+gene_corr_plot <- ggplot(gene_corr) +
+    aes(x = Gene1, y = Gene2, fill = Corr) +
+    geom_tile() +
+    scale_fill_distiller(palette = "RdBu", limits = c(-1, 1)) +
+    coord_equal() +
+    labs(
+        title = "Gene correlation"
+    ) +
+    theme(
+        axis.title = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
+    )
+
+multiplot(cite_corr_plot, gene_corr_plot, cols = 2)
+```
+
 Cell
 ----
 
