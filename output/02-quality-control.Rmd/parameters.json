@@ -41,12 +41,12 @@
   },
   {
     "Parameter": ["n_cells"],
-    "Value": [2178],
+    "Value": [2171],
     "Description": ["Number of cells in the filtered dataset"]
   },
   {
     "Parameter": ["n_genes"],
-    "Value": [16869],
+    "Value": [16859],
     "Description": ["Number of genes in the filtered dataset"]
   },
   {
@@ -56,7 +56,7 @@
   },
   {
     "Parameter": ["median_counts"],
-    "Value": [3224.5],
+    "Value": [3226],
     "Description": ["Median number of counts per cell in the filtered dataset"]
   }
 ]

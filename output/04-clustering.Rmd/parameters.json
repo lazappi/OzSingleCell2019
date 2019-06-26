@@ -1,7 +1,7 @@
 [
   {
     "Parameter": ["n_pcs"],
-    "Value": [24],
+    "Value": [25],
     "Description": ["Selected number of principal components for clustering"]
   },
   {

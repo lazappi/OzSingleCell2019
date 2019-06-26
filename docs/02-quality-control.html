@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-06-20" />
+<meta name="date" content="2019-06-26" />
 
 <title>Quality control</title>
 
@@ -436,7 +436,7 @@ div.section {
 
 
 <h1 class="title toc-ignore">Quality control</h1>
-<h4 class="date">2019-06-20</h4>
+<h4 class="date">2019-06-26</h4>
 
 </div>
 
@@ -461,7 +461,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-06-20
+<strong>Last updated:</strong> 2019-06-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -552,26 +552,39 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treef61b2e5d3a73c8ba9b496cd2521df0d67d40c896targetblankf61b2e5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/f61b2e5d3a73c8ba9b496cd2521df0d67d40c896" target="_blank">f61b2e5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree8627b5b34960657b07d11bed48a0e3a2ed712451targetblank8627b5ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/8627b5b34960657b07d11bed48a0e3a2ed712451" target="_blank">8627b5b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019treef61b2e5d3a73c8ba9b496cd2521df0d67d40c896targetblankf61b2e5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree8627b5b34960657b07d11bed48a0e3a2ed712451targetblank8627b5ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    ._.DS_Store
     Ignored:    analysis/cache/
+    Ignored:    data/._antibody_genes.tsv
+    Ignored:    data/._antibody_genes.txt
+    Ignored:    docs/.DS_Store
+    Ignored:    docs/._.DS_Store
+    Ignored:    output/03-comparison.Rmd/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
 Untracked files:
-    Untracked:  docs/figure/02-quality-control.Rmd/
-    Untracked:  output/02-quality-control.Rmd/
+    Untracked:  analysis/05-cite-clustering.Rmd
+
+Unstaged changes:
+    Modified:   R/set_paths.R
+    Modified:   data/02-CITE-filtered.Rds
+    Modified:   data/02-filtered.Rds
+    Modified:   output/02-quality-control.Rmd/parameters.json
 
 </code></pre>
 <p>
@@ -615,7 +628,24 @@ Message
 Rmd
 </td>
 <td>
-<a href="http://github.com/lazappi/OzSingleCells2019/blob/f61b2e5d3a73c8ba9b496cd2521df0d67d40c896/analysis/02-quality-control.Rmd" target="_blank">f61b2e5</a>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/8627b5b34960657b07d11bed48a0e3a2ed712451/analysis/02-quality-control.Rmd" target="_blank">8627b5b</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-26
+</td>
+<td>
+Remove all zero CITE cells
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/02-quality-control.html" target="_blank">c602800</a>
 </td>
 <td>
 Luke Zappia
@@ -706,16 +736,127 @@ row_data &lt;- as.data.frame(rowData(sce))</code></pre>
 <h3>Total counts</h3>
 <pre class="r"><code>outlier_histogram(col_data, &quot;log10_total_counts&quot;, mads = 1:6)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/counts-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-counts-1">
+Past versions of counts-1.png
+</button>
+</p>
+<div id="fig-counts-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/counts-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="total-features" class="section level3 unnumbered">
 <h3>Total features</h3>
 <pre class="r"><code>outlier_histogram(col_data, &quot;log10_total_features_by_counts&quot;, mads = 1:6)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/features-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-features-1">
+Past versions of features-1.png
+</button>
+</p>
+<div id="fig-features-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/features-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="percent-mitochondrial" class="section level3 unnumbered">
 <h3>Percent mitochondrial</h3>
 <pre class="r"><code>outlier_histogram(col_data, &quot;pct_counts_MT&quot;, mads = c(1, 3, 5, 7))</code></pre>
 <p><img src="figure/02-quality-control.Rmd/percent-MT-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-percent-MT-1">
+Past versions of percent-MT-1.png
+</button>
+</p>
+<div id="fig-percent-MT-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/percent-MT-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="dimensionality-reduction" class="section level2 tabset">
@@ -736,6 +877,43 @@ row_data &lt;- as.data.frame(rowData(sce))</code></pre>
 })
 plot_grid(plotlist = plot_list, ncol = 2)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/pca-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-1">
+Past versions of pca-1.png
+</button>
+</p>
+<div id="fig-pca-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/pca-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="t-sne" class="section level3">
 <h3>t-SNE</h3>
@@ -746,6 +924,43 @@ plot_grid(plotlist = plot_list, ncol = 2)</code></pre>
 })
 plot_grid(plotlist = plot_list, ncol = 2)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/t-sne-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-t-sne-1">
+Past versions of t-sne-1.png
+</button>
+</p>
+<div id="fig-t-sne-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/t-sne-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="explanatory-variables" class="section level2">
@@ -757,6 +972,43 @@ plot_grid(plotlist = plot_list, ncol = 2)</code></pre>
 all_zero &lt;- Matrix::rowSums(counts(sce)) == 0
 plotExplanatoryVariables(sce[!all_zero, ], variables = exp_vars)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/exp-vars-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-exp-vars-1">
+Past versions of exp-vars-1.png
+</button>
+</p>
+<div id="fig-exp-vars-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/exp-vars-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="cell-cycle" class="section level2">
 <h2>Cell cycle</h2>
@@ -767,6 +1019,43 @@ plotExplanatoryVariables(sce[!all_zero, ], variables = exp_vars)</code></pre>
     ylab(&quot;G2/M score&quot;) +
     theme_minimal()</code></pre>
 <p><img src="figure/02-quality-control.Rmd/cell-cycle-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cell-cycle-1">
+Past versions of cell-cycle-1.png
+</button>
+</p>
+<div id="fig-cell-cycle-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/cell-cycle-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>kable(table(Phase = col_data$CellCycle, useNA = &quot;ifany&quot;))</code></pre>
 <table>
 <thead>
@@ -802,23 +1091,171 @@ plotExplanatoryVariables(sce[!all_zero, ], variables = exp_vars)</code></pre>
 <h3>Mean</h3>
 <pre class="r"><code>outlier_histogram(row_data, &quot;log10_mean_counts&quot;, mads = c(10, 20))</code></pre>
 <p><img src="figure/02-quality-control.Rmd/exprs-mean-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-exprs-mean-1">
+Past versions of exprs-mean-1.png
+</button>
+</p>
+<div id="fig-exprs-mean-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/exprs-mean-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="total" class="section level3">
 <h3>Total</h3>
 <pre class="r"><code>outlier_histogram(row_data, &quot;log10_total_counts&quot;, mads = 1:5)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/exprs-total-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-exprs-total-1">
+Past versions of exprs-total-1.png
+</button>
+</p>
+<div id="fig-exprs-total-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/exprs-total-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="mean-expressed" class="section level3">
 <h3>Mean (expressed)</h3>
 <pre class="r"><code>outlier_histogram(row_data[row_data$total_counts &gt; 0, ],
                   &quot;log10_mean_counts&quot;, mads = c(10, 20))</code></pre>
 <p><img src="figure/02-quality-control.Rmd/exprs-mean-expressed-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-exprs-mean-expressed-1">
+Past versions of exprs-mean-expressed-1.png
+</button>
+</p>
+<div id="fig-exprs-mean-expressed-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/exprs-mean-expressed-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="total-expressed" class="section level3">
 <h3>Total (expressed)</h3>
 <pre class="r"><code>outlier_histogram(row_data[row_data$total_counts &gt; 0, ],
                   &quot;log10_total_counts&quot;, mads = 1:5)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/exprs-total-expressed-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-exprs-total-expressed-1">
+Past versions of exprs-total-expressed-1.png
+</button>
+</p>
+<div id="fig-exprs-total-expressed-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/exprs-total-expressed-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="high-expression-genes" class="section level2">
@@ -826,6 +1263,43 @@ plotExplanatoryVariables(sce[!all_zero, ], variables = exp_vars)</code></pre>
 <p>We can also look at the expression levels of just the top 50 most expressed genes.</p>
 <pre class="r"><code>plotHighestExprs(sce)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/high-exprs-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-high-exprs-1">
+Past versions of high-exprs-1.png
+</button>
+</p>
+<div id="fig-high-exprs-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/high-exprs-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="expression-frequency" class="section level2 tabset">
 <h2>Expression frequency</h2>
@@ -834,6 +1308,43 @@ plotExplanatoryVariables(sce[!all_zero, ], variables = exp_vars)</code></pre>
 <h3>Frequency by mean</h3>
 <pre class="r"><code>plotExprsFreqVsMean(sce, controls = NULL)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/freq-by-mean-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-by-mean-1">
+Past versions of freq-by-mean-1.png
+</button>
+</p>
+<div id="fig-freq-by-mean-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/freq-by-mean-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="zeros-by-total-counts" class="section level3">
 <h3>Zeros by total counts</h3>
@@ -846,6 +1357,43 @@ plotExplanatoryVariables(sce[!all_zero, ], variables = exp_vars)</code></pre>
     xlab(&quot;log(total counts)&quot;) +
     ylab(&quot;Percentage zeros&quot;)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/ncells-by-mean-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ncells-by-mean-1">
+Past versions of ncells-by-mean-1.png
+</button>
+</p>
+<div id="fig-ncells-by-mean-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/ncells-by-mean-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -863,12 +1411,13 @@ features_out &lt;- isOutlier(col_data$log10_total_features_by_counts,
                           nmads = features_mads, type = &quot;lower&quot;)
 mt_out       &lt;- isOutlier(col_data$pct_counts_MT,
                           nmads = mt_mads, type = &quot;higher&quot;)
+cite_zero    &lt;- colSums(counts(cite)) == 0
 
 counts_thresh   &lt;- attr(counts_out, &quot;thresholds&quot;)[&quot;lower&quot;]
 features_thresh &lt;- attr(features_out, &quot;thresholds&quot;)[&quot;lower&quot;]
 mt_thresh       &lt;- attr(mt_out, &quot;thresholds&quot;)[&quot;higher&quot;]
 
-kept &lt;- !(counts_out | features_out | mt_out)
+kept &lt;- !(counts_out | features_out | mt_out | cite_zero)
 col_data$Kept &lt;- kept
 
 kable(tibble(
@@ -876,6 +1425,7 @@ kable(tibble(
         &quot;Total counts&quot;,
         &quot;Total features&quot;,
         &quot;Mitochondrial %&quot;,
+        &quot;CITE counts&quot;,
         &quot;Kept cells&quot;
     ),
     Threshold = c(
@@ -884,12 +1434,14 @@ kable(tibble(
         paste(&quot;&lt; 10 ^&quot;, round(features_thresh, 2),
               paste0(&quot;(&quot;, round(10 ^ features_thresh), &quot;)&quot;)),
         paste(&quot;&gt;&quot;, round(mt_thresh, 2), &quot;%&quot;),
+        &quot;&gt; 0&quot;,
         &quot;&quot;
     ),
     Count = c(
         sum(counts_out),
         sum(features_out),
         sum(mt_out),
+        sum(cite_zero),
         sum(kept)
     )
 ))</code></pre>
@@ -918,16 +1470,21 @@ kable(tibble(
 <td align="right">154</td>
 </tr>
 <tr class="even">
+<td align="left">CITE counts</td>
+<td align="left">&gt; 0</td>
+<td align="right">17</td>
+</tr>
+<tr class="odd">
 <td align="left">Kept cells</td>
 <td align="left"></td>
-<td align="right">2178</td>
+<td align="right">2171</td>
 </tr>
 </tbody>
 </table>
 <pre class="r"><code>colData(sce) &lt;- DataFrame(col_data)
 sce_qc &lt;- sce[, kept]
 col_data &lt;- col_data[kept, ]</code></pre>
-<p>Our filtered dataset now has 2178 cells.</p>
+<p>We also remove cells that have no counts in the CITE data. Our filtered dataset now has 2171 cells.</p>
 </div>
 <div id="gene-filtering" class="section level1">
 <h1>Gene filtering</h1>
@@ -941,12 +1498,86 @@ row_data$AvgCount &lt;- avg_counts
 row_data$Log10AvgCount &lt;- log10(avg_counts)
 outlier_histogram(row_data, &quot;Log10AvgCount&quot;, mads = 1:3, bins = 100)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/mean-histogram-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean-histogram-1">
+Past versions of mean-histogram-1.png
+</button>
+</p>
+<div id="fig-mean-histogram-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/mean-histogram-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="number-of-cells" class="section level3">
 <h3>Number of cells</h3>
 <pre class="r"><code>outlier_histogram(row_data, &quot;n_cells_by_counts&quot;, mads = 1:3, bins = 100) +
     scale_x_log10()</code></pre>
 <p><img src="figure/02-quality-control.Rmd/cells-histogram-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cells-histogram-1">
+Past versions of cells-histogram-1.png
+</button>
+</p>
+<div id="fig-cells-histogram-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/cells-histogram-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="filter" class="section level2">
@@ -965,7 +1596,7 @@ sce_qc &lt;- normalize(sce_qc)
 sce_qc &lt;- runPCA(sce_qc)
 sce_qc &lt;- runTSNE(sce_qc)
 #sce_qc &lt;- runUMAP(sce_qc)</code></pre>
-<p>We use a minimal filter that keeps genes with at least 1 counts in at least 2 cells. After filtering we have reduced the number of features from 17222 to 16869.</p>
+<p>We use a minimal filter that keeps genes with at least 1 counts in at least 2 cells. After filtering we have reduced the number of features from 17222 to 16859.</p>
 </div>
 </div>
 <div id="validation" class="section level1">
@@ -1003,6 +1634,43 @@ ggplot(kept_lost,
     ylab(&quot;Average count (kept)&quot;) +
     theme_minimal()</code></pre>
 <p><img src="figure/02-quality-control.Rmd/kept-lost-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-kept-lost-1">
+Past versions of kept-lost-1.png
+</button>
+</p>
+<div id="fig-kept-lost-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/kept-lost-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>kept_lost %&gt;%
     select(Gene, LogFC, Lost, LostProp, Kept, KeptProp) %&gt;%
     arrange(-LogFC) %&gt;%
@@ -1010,7 +1678,7 @@ ggplot(kept_lost,
     head(100)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Gene"],"name":[1],"type":["chr"],"align":["left"]},{"label":["LogFC"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Lost"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["LostProp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Kept"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["KeptProp"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"KRT6B","2":"4.966129","3":"6.5189863","4":"0.036199095","5":"0.013085631","6":"0.0045913682","_rn_":"1"},{"1":"MGP","2":"4.617647","3":"38.1752476","4":"0.348416290","5":"0.533091007","6":"0.1184573003","_rn_":"2"},{"1":"KRT6A","2":"4.419753","3":"9.9450365","4":"0.054298643","5":"0.112900211","6":"0.0110192837","_rn_":"3"},{"1":"KRT16","2":"4.244920","3":"5.7276023","4":"0.076923077","5":"0.050606940","6":"0.0082644628","_rn_":"4"},{"1":"FABP5","2":"4.204319","3":"25.5493804","4":"0.285067873","5":"0.468826467","6":"0.1813590450","_rn_":"5"},{"1":"KRT6C","2":"4.064826","3":"3.0112948","4":"0.022624434","5":"0.003976776","6":"0.0009182736","_rn_":"6"},{"1":"IGHG2","2":"3.703838","3":"4.3085612","4":"0.013574661","5":"0.063296733","6":"0.0101010101","_rn_":"7"},{"1":"MDK","2":"3.682084","3":"4.0097874","4":"0.257918552","5":"0.056336508","6":"0.0284664830","_rn_":"8"},{"1":"FDCSP","2":"3.512354","3":"14.4842608","4":"0.271493213","5":"0.426152659","6":"0.0748393021","_rn_":"9"},{"1":"NTS","2":"3.365425","3":"1.7467019","4":"0.009049774","5":"0.002538359","6":"0.0018365473","_rn_":"10"},{"1":"CFD","2":"3.346382","3":"3.5431108","4":"0.022624434","5":"0.071629221","6":"0.0339761249","_rn_":"11"},{"1":"MGST1","2":"3.259984","3":"3.3274747","4":"0.248868778","5":"0.071661772","6":"0.0330578512","_rn_":"12"},{"1":"S100A8","2":"3.226705","3":"4.1515407","4":"0.217194570","5":"0.108915595","6":"0.0261707989","_rn_":"13"},{"1":"COL1A2","2":"3.153897","3":"4.5856099","4":"0.040723982","5":"0.136968247","6":"0.0096418733","_rn_":"14"},{"1":"VWF","2":"3.057155","3":"2.1445807","4":"0.045248869","5":"0.038161807","6":"0.0068870523","_rn_":"15"},{"1":"KRT5","2":"3.027572","3":"6.8158340","4":"0.135746606","5":"0.261374704","6":"0.0202020202","_rn_":"16"},{"1":"CLDN3","2":"2.996114","3":"1.9183667","4":"0.208144796","5":"0.031881491","6":"0.0119375574","_rn_":"17"},{"1":"KRT14","2":"2.936090","3":"12.0063019","4":"0.095022624","5":"0.544658065","6":"0.0133149679","_rn_":"18"},{"1":"KRT19","2":"2.930243","3":"2.8416793","4":"0.226244344","5":"0.083348997","6":"0.0192837466","_rn_":"19"},{"1":"PLS3","2":"2.921962","3":"1.4712616","4":"0.144796380","5":"0.014476076","6":"0.0137741047","_rn_":"20"},{"1":"TM4SF1","2":"2.921245","3":"2.4811773","4":"0.235294118","5":"0.065947471","6":"0.0293847567","_rn_":"21"},{"1":"CCL18","2":"2.877173","3":"1.5710608","4":"0.013574661","5":"0.022366821","6":"0.0055096419","_rn_":"22"},{"1":"IFI27","2":"2.871129","3":"8.5544269","4":"0.131221719","5":"0.390949289","6":"0.0257116621","_rn_":"23"},{"1":"CD9","2":"2.810504","3":"4.1033046","4":"0.285067873","5":"0.165958048","6":"0.0697887971","_rn_":"24"},{"1":"IGFBP7","2":"2.799727","3":"4.9771773","4":"0.122171946","5":"0.216136610","6":"0.0426997245","_rn_":"25"},{"1":"CRABP2","2":"2.795996","3":"2.0241965","4":"0.221719457","5":"0.052858235","6":"0.0229568411","_rn_":"26"},{"1":"RARRES1","2":"2.760845","3":"1.7272841","4":"0.194570136","5":"0.038980093","6":"0.0243342516","_rn_":"27"},{"1":"ACKR1","2":"2.750571","3":"1.4495538","4":"0.040723982","5":"0.023836545","6":"0.0022956841","_rn_":"28"},{"1":"CXCL14","2":"2.731239","3":"7.4108517","4":"0.049773756","5":"0.371408068","6":"0.0110192837","_rn_":"29"},{"1":"CLU","2":"2.707345","3":"1.5436645","4":"0.203619910","5":"0.032236732","6":"0.0174471993","_rn_":"30"},{"1":"KRT8","2":"2.678455","3":"1.3309098","4":"0.212669683","5":"0.021476221","6":"0.0142332415","_rn_":"31"},{"1":"PTRF","2":"2.678081","3":"1.4354887","4":"0.081447964","5":"0.027803234","6":"0.0128558310","_rn_":"32"},{"1":"CD14","2":"2.659134","3":"2.2225078","4":"0.099547511","5":"0.077154360","6":"0.0339761249","_rn_":"33"},{"1":"EPCAM","2":"2.658199","3":"1.4461768","4":"0.212669683","5":"0.029807887","6":"0.0160697888","_rn_":"34"},{"1":"CLDN4","2":"2.625568","3":"1.3361265","4":"0.185520362","5":"0.025202721","6":"0.0165289256","_rn_":"35"},{"1":"KRT17","2":"2.606274","3":"7.5572056","4":"0.090497738","5":"0.420581782","6":"0.0123966942","_rn_":"36"},{"1":"TFF3","2":"2.603303","3":"0.9158846","4":"0.013574661","5":"0.000000000","6":"0.0000000000","_rn_":"37"},{"1":"CD24","2":"2.602309","3":"6.3843840","4":"0.294117647","5":"0.347428711","6":"0.1386593205","_rn_":"38"},{"1":"SPP1","2":"2.554498","3":"4.8004539","4":"0.054298643","5":"0.257472393","6":"0.0179063361","_rn_":"39"},{"1":"COL1A1","2":"2.549468","3":"3.9468448","4":"0.040723982","5":"0.202367178","6":"0.0202020202","_rn_":"40"},{"1":"COL3A1","2":"2.540800","3":"3.4863864","4":"0.049773756","5":"0.173481934","6":"0.0179063361","_rn_":"41"},{"1":"APOE","2":"2.527651","3":"17.0751571","4":"0.294117647","5":"1.084766335","6":"0.0693296602","_rn_":"42"},{"1":"CRNDE","2":"2.514459","3":"1.0102383","4":"0.199095023","5":"0.010790414","6":"0.0096418733","_rn_":"43"},{"1":"IGHM","2":"2.502864","3":"17.9453207","4":"0.058823529","5":"1.163991288","6":"0.1308539945","_rn_":"44"},{"1":"SEPT10","2":"2.499110","3":"1.0167385","4":"0.176470588","5":"0.012093714","6":"0.0183654729","_rn_":"45"},{"1":"S100A9","2":"2.491046","3":"1.9016428","4":"0.190045249","5":"0.073270966","6":"0.0252525253","_rn_":"46"},{"1":"TAGLN","2":"2.487905","3":"1.6337313","4":"0.081447964","5":"0.055159015","6":"0.0169880624","_rn_":"47"},{"1":"S100A14","2":"2.478762","3":"1.2869582","4":"0.208144796","5":"0.031954203","6":"0.0137741047","_rn_":"48"},{"1":"KRT15","2":"2.472354","3":"1.1997209","4":"0.176470588","5":"0.026342178","6":"0.0114784206","_rn_":"49"},{"1":"EGLN3","2":"2.434657","3":"1.0198629","4":"0.022624434","5":"0.016048760","6":"0.0133149679","_rn_":"50"},{"1":"CSTA","2":"2.408598","3":"1.8001431","4":"0.149321267","5":"0.074299016","6":"0.0491276400","_rn_":"51"},{"1":"SFN","2":"2.406086","3":"1.1625771","4":"0.031674208","5":"0.028148345","6":"0.0087235996","_rn_":"52"},{"1":"TIMP3","2":"2.392841","3":"1.2480572","4":"0.081447964","5":"0.035328356","6":"0.0128558310","_rn_":"53"},{"1":"SPARC","2":"2.378873","3":"3.3345340","4":"0.176470588","5":"0.191092409","6":"0.0348943985","_rn_":"54"},{"1":"KRT7","2":"2.377101","3":"1.4133851","4":"0.190045249","5":"0.048755872","6":"0.0183654729","_rn_":"55"},{"1":"IGHG4","2":"2.371042","3":"5.2921097","4":"0.058823529","5":"0.338484805","6":"0.0298438935","_rn_":"56"},{"1":"JCHAIN","2":"2.362409","3":"7.5949768","4":"0.040723982","5":"0.513686164","6":"0.0725436180","_rn_":"57"},{"1":"CRYAB","2":"2.348792","3":"0.9214589","4":"0.199095023","5":"0.013848766","6":"0.0114784206","_rn_":"58"},{"1":"S100A11","2":"2.323847","3":"18.7319842","4":"0.511312217","5":"1.387573861","6":"0.4334251607","_rn_":"59"},{"1":"SEPP1","2":"2.321107","3":"3.7545549","4":"0.162895928","5":"0.234165467","6":"0.0348943985","_rn_":"60"},{"1":"PTMS","2":"2.314554","3":"2.9612769","4":"0.285067873","5":"0.174032674","6":"0.1088154270","_rn_":"61"},{"1":"TACSTD2","2":"2.310668","3":"1.4567464","4":"0.199095023","5":"0.057704622","6":"0.0307621671","_rn_":"62"},{"1":"SLPI","2":"2.290427","3":"0.8061784","4":"0.144796380","5":"0.008203315","6":"0.0064279155","_rn_":"63"},{"1":"IGKC","2":"2.283517","3":"52.3705901","4":"0.135746606","5":"4.094152995","6":"0.1965105601","_rn_":"64"},{"1":"IGLC3","2":"2.248206","3":"32.3950775","4":"0.063348416","5":"2.575396886","6":"0.1193755739","_rn_":"65"},{"1":"HSPG2","2":"2.227056","3":"1.1254486","4":"0.104072398","5":"0.038002923","6":"0.0082644628","_rn_":"66"},{"1":"TFPI","2":"2.222636","3":"0.7969971","4":"0.153846154","5":"0.011187359","6":"0.0133149679","_rn_":"67"},{"1":"SPARCL1","2":"2.219222","3":"1.3008797","4":"0.067873303","5":"0.053122124","6":"0.0064279155","_rn_":"68"},{"1":"NFIB","2":"2.214043","3":"0.9641562","4":"0.217194570","5":"0.025567722","6":"0.0142332415","_rn_":"69"},{"1":"FAM3B","2":"2.189213","3":"0.6899434","4":"0.036199095","5":"0.004025525","6":"0.0073461892","_rn_":"70"},{"1":"DCN","2":"2.176803","3":"1.8161558","4":"0.031674208","5":"0.100744762","6":"0.0101010101","_rn_":"71"},{"1":"RPS4Y1","2":"2.174240","3":"1.1594568","4":"0.031674208","5":"0.044921520","6":"0.0101010101","_rn_":"72"},{"1":"C3AR1","2":"2.168155","3":"1.4327837","4":"0.036199095","5":"0.068864703","6":"0.0514233242","_rn_":"73"},{"1":"TIMP1","2":"2.157937","3":"3.0844181","4":"0.212669683","5":"0.212613560","6":"0.1299357208","_rn_":"74"},{"1":"PERP","2":"2.148202","3":"2.7012957","4":"0.244343891","5":"0.181183509","6":"0.0532598714","_rn_":"75"},{"1":"VSNL1","2":"2.144725","3":"0.6711817","4":"0.072398190","5":"0.004694365","6":"0.0055096419","_rn_":"76"},{"1":"S100A2","2":"2.142399","3":"5.2624527","4":"0.063348416","5":"0.405973845","6":"0.0128558310","_rn_":"77"},{"1":"C1orf21","2":"2.128665","3":"1.0168300","4":"0.208144796","5":"0.036015634","6":"0.0312213039","_rn_":"78"},{"1":"ELF3","2":"2.119387","3":"0.8431506","4":"0.162895928","5":"0.021277861","6":"0.0119375574","_rn_":"79"},{"1":"LHFP","2":"2.118774","3":"0.7965037","4":"0.045248869","5":"0.017173454","6":"0.0151515152","_rn_":"80"},{"1":"IGHA1","2":"2.116521","3":"11.7476444","4":"0.122171946","5":"0.991476131","6":"0.0895316804","_rn_":"81"},{"1":"CYP1B1","2":"2.114743","3":"0.8720769","4":"0.167420814","5":"0.024147166","6":"0.0133149679","_rn_":"82"},{"1":"IFITM3","2":"2.100370","3":"1.7014367","4":"0.180995475","5":"0.099692700","6":"0.0495867769","_rn_":"83"},{"1":"EGFL7","2":"2.068111","3":"0.7055160","4":"0.049773756","5":"0.011904460","6":"0.0045913682","_rn_":"84"},{"1":"PFN2","2":"2.067657","3":"1.4089840","4":"0.199095023","5":"0.076663498","6":"0.0376492195","_rn_":"85"},{"1":"EPAS1","2":"2.063098","3":"0.8091341","4":"0.058823529","5":"0.021753303","6":"0.0146923783","_rn_":"86"},{"1":"GSN","2":"2.057962","3":"4.2891087","4":"0.294117647","5":"0.344466632","6":"0.1019283747","_rn_":"87"},{"1":"APOC1","2":"2.055243","3":"4.6558965","4":"0.131221719","5":"0.379291470","6":"0.0518824610","_rn_":"88"},{"1":"CD68","2":"2.050748","3":"1.4352941","4":"0.040723982","5":"0.080837332","6":"0.0550964187","_rn_":"89"},{"1":"GABRP","2":"2.035879","3":"0.7467335","4":"0.180995475","5":"0.017623073","6":"0.0123966942","_rn_":"90"},{"1":"PBX1","2":"2.035515","3":"0.6688861","4":"0.194570136","5":"0.010320138","6":"0.0128558310","_rn_":"91"},{"1":"RCN1","2":"2.034708","3":"1.0351187","4":"0.226244344","5":"0.044844201","6":"0.0468319559","_rn_":"92"},{"1":"CRABP1","2":"2.016033","3":"0.6608886","4":"0.171945701","5":"0.010643857","6":"0.0059687787","_rn_":"93"},{"1":"KRT18","2":"2.015210","3":"0.9770299","4":"0.171945701","5":"0.040858076","6":"0.0293847567","_rn_":"94"},{"1":"COL15A1","2":"2.012889","3":"0.7012063","4":"0.040723982","5":"0.014672507","6":"0.0050505051","_rn_":"95"},{"1":"RAMP2","2":"2.011526","3":"0.6126104","4":"0.045248869","5":"0.006276086","6":"0.0032139578","_rn_":"96"},{"1":"NDRG1","2":"2.010859","3":"2.3114648","4":"0.162895928","5":"0.168917656","6":"0.1078971534","_rn_":"97"},{"1":"DMKN","2":"2.010231","3":"0.6684747","4":"0.126696833","5":"0.011693583","6":"0.0101010101","_rn_":"98"},{"1":"RAB25","2":"2.005356","3":"0.6579221","4":"0.185520362","5":"0.010954823","6":"0.0105601469","_rn_":"99"},{"1":"MT-CO3","2":"2.004268","3":"724.4573071","4":"0.841628959","5":"69.606942842","6":"0.9972451791","_rn_":"100"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Gene"],"name":[1],"type":["chr"],"align":["left"]},{"label":["LogFC"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Lost"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["LostProp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Kept"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["KeptProp"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"KRT6B","2":"4.932666","3":"6.1976466","4":"0.03947368","5":"0.011766712","6":"0.0041455550","_rn_":"1"},{"1":"KRT6A","2":"4.701279","3":"10.0813690","4":"0.07894737","5":"0.085271088","6":"0.0082911101","_rn_":"2"},{"1":"MGP","2":"4.565983","3":"36.0990231","4":"0.33771930","5":"0.535621834","6":"0.1188392446","_rn_":"3"},{"1":"KRT16","2":"4.304682","3":"5.5725946","4":"0.09210526","5":"0.044338472","6":"0.0064486412","_rn_":"4"},{"1":"FABP5","2":"4.272296","3":"24.8552313","4":"0.30263158","5":"0.442130705","6":"0.1791801013","_rn_":"5"},{"1":"KRT6C","2":"3.999939","3":"2.8475205","4":"0.02192982","5":"0.003995655","6":"0.0009212345","_rn_":"6"},{"1":"KRT14","2":"3.688253","3":"15.0024583","4":"0.12280702","5":"0.395476357","6":"0.0101335790","_rn_":"7"},{"1":"IGHG2","2":"3.646367","3":"4.0742329","4":"0.01315789","5":"0.063597232","6":"0.0101335790","_rn_":"8"},{"1":"MDK","2":"3.634819","3":"3.8044029","4":"0.25438596","5":"0.056076001","6":"0.0280976509","_rn_":"9"},{"1":"KRT5","2":"3.607455","3":"8.0421569","4":"0.16228070","5":"0.196195893","6":"0.0170428374","_rn_":"10"},{"1":"IFI27","2":"3.563634","3":"10.5770523","4":"0.15789474","5":"0.289334873","6":"0.0225702441","_rn_":"11"},{"1":"KRT17","2":"3.519974","3":"10.3075213","4":"0.11403509","5":"0.291099106","6":"0.0096729618","_rn_":"12"},{"1":"FDCSP","2":"3.460724","3":"13.6965101","4":"0.26315789","5":"0.428175801","6":"0.0750806080","_rn_":"13"},{"1":"CXCL14","2":"3.359447","3":"9.0880545","4":"0.07017544","5":"0.286653675","6":"0.0087517273","_rn_":"14"},{"1":"S100A8","2":"3.341612","3":"4.1736784","4":"0.23245614","5":"0.099121438","6":"0.0239520958","_rn_":"15"},{"1":"CFD","2":"3.311373","3":"3.3760400","4":"0.03070175","5":"0.070903443","6":"0.0331644404","_rn_":"16"},{"1":"NTS","2":"3.302807","3":"1.6517046","4":"0.00877193","5":"0.002550409","6":"0.0018424689","_rn_":"17"},{"1":"MGST1","2":"3.203951","3":"3.1465044","4":"0.24122807","5":"0.072001983","6":"0.0331644404","_rn_":"18"},{"1":"COL1A2","2":"3.100074","3":"4.3362138","4":"0.03947368","5":"0.137618498","6":"0.0096729618","_rn_":"19"},{"1":"S100A2","2":"3.070435","3":"7.6334344","4":"0.09210526","5":"0.297388882","6":"0.0096729618","_rn_":"20"},{"1":"KRT19","2":"3.036686","3":"2.8690217","4":"0.23684211","5":"0.076179825","6":"0.0175034546","_rn_":"21"},{"1":"IGFBP7","2":"3.032883","3":"5.2809265","4":"0.14912281","5":"0.193271734","6":"0.0396130815","_rn_":"22"},{"1":"VWF","2":"2.999872","3":"2.0279441","4":"0.04385965","5":"0.038342979","6":"0.0069092584","_rn_":"23"},{"1":"TM4SF1","2":"2.986391","3":"2.4662248","4":"0.24122807","5":"0.061270160","6":"0.0280976509","_rn_":"24"},{"1":"PLS3","2":"2.960513","3":"1.4515097","4":"0.14912281","5":"0.012038377","6":"0.0128972824","_rn_":"25"},{"1":"CLDN3","2":"2.938615","3":"1.8140331","4":"0.20175439","5":"0.032032847","6":"0.0119760479","_rn_":"26"},{"1":"PTRF","2":"2.906306","3":"1.5447938","4":"0.10964912","5":"0.020142251","6":"0.0096729618","_rn_":"27"},{"1":"CRABP2","2":"2.876104","3":"2.0305027","4":"0.22807018","5":"0.048268295","6":"0.0216490097","_rn_":"28"},{"1":"CD9","2":"2.865471","3":"4.0582527","4":"0.29385965","5":"0.159338214","6":"0.0681713496","_rn_":"29"},{"1":"CCL18","2":"2.819449","3":"1.4856160","4":"0.01315789","5":"0.022473007","6":"0.0055274067","_rn_":"30"},{"1":"COL1A1","2":"2.755997","3":"4.1807559","4":"0.05701754","5":"0.184672043","6":"0.0184246891","_rn_":"31"},{"1":"SFN","2":"2.750761","3":"1.3381468","4":"0.05701754","5":"0.018350367","6":"0.0059880240","_rn_":"32"},{"1":"CD24","2":"2.708596","3":"6.4619721","4":"0.31140351","5":"0.331410150","6":"0.1363426992","_rn_":"33"},{"1":"RARRES1","2":"2.704874","3":"1.6333429","4":"0.18859649","5":"0.039165149","6":"0.0244127130","_rn_":"34"},{"1":"ACKR1","2":"2.693636","3":"1.3707174","4":"0.03947368","5":"0.023949708","6":"0.0023030861","_rn_":"35"},{"1":"S100A14","2":"2.685185","3":"1.3823904","4":"0.21491228","5":"0.025225864","6":"0.0124366651","_rn_":"36"},{"1":"EPCAM","2":"2.667043","3":"1.4101810","4":"0.21052632","5":"0.028175299","6":"0.0156609857","_rn_":"37"},{"1":"PERP","2":"2.653044","3":"3.3278159","4":"0.26315789","5":"0.149876578","6":"0.0506678950","_rn_":"38"},{"1":"CLU","2":"2.651229","3":"1.4597097","4":"0.19736842","5":"0.032389774","6":"0.0175034546","_rn_":"39"},{"1":"KRT8","2":"2.642690","3":"1.2712205","4":"0.21052632","5":"0.021050216","6":"0.0138185168","_rn_":"40"},{"1":"RPS4Y1","2":"2.612780","3":"1.4112260","4":"0.05701754","5":"0.032041101","6":"0.0073698756","_rn_":"41"},{"1":"CD14","2":"2.605169","3":"2.1016330","4":"0.09649123","5":"0.077520647","6":"0.0340856748","_rn_":"42"},{"1":"CLDN4","2":"2.569442","3":"1.2634590","4":"0.17982456","5":"0.025322370","6":"0.0165822202","_rn_":"43"},{"1":"TIMP3","2":"2.558428","3":"1.3183449","4":"0.10087719","5":"0.029749788","6":"0.0105941962","_rn_":"44"},{"1":"TFF3","2":"2.545031","3":"0.8660727","4":"0.01315789","5":"0.000000000","6":"0.0000000000","_rn_":"45"},{"1":"KRT7","2":"2.505068","3":"1.4638325","4":"0.19736842","5":"0.043692248","6":"0.0170428374","_rn_":"46"},{"1":"SPP1","2":"2.503098","3":"4.5393732","4":"0.05263158","5":"0.258694732","6":"0.0179640719","_rn_":"47"},{"1":"EGLN3","2":"2.500024","3":"1.0270736","4":"0.03508772","5":"0.013518192","6":"0.0119760479","_rn_":"48"},{"1":"COL3A1","2":"2.488824","3":"3.2967734","4":"0.04824561","5":"0.174305533","6":"0.0179640719","_rn_":"49"},{"1":"APOE","2":"2.477531","3":"16.1464962","4":"0.28508772","5":"1.089916217","6":"0.0695532013","_rn_":"50"},{"1":"TAGLN","2":"2.470067","3":"1.5724852","4":"0.08333333","5":"0.054272701","6":"0.0165822202","_rn_":"51"},{"1":"CRNDE","2":"2.457980","3":"0.9552948","4":"0.19298246","5":"0.010841641","6":"0.0096729618","_rn_":"52"},{"1":"IGHM","2":"2.456445","3":"16.9969416","4":"0.06140351","5":"1.168369108","6":"0.1308152925","_rn_":"53"},{"1":"S100A9","2":"2.452429","3":"1.8111515","4":"0.18859649","5":"0.073080944","6":"0.0248733303","_rn_":"54"},{"1":"SPARC","2":"2.451439","3":"3.3431293","4":"0.19298246","5":"0.184099626","6":"0.0327038231","_rn_":"55"},{"1":"TACSTD2","2":"2.443115","3":"1.5133696","4":"0.20614035","5":"0.052328546","6":"0.0294795025","_rn_":"56"},{"1":"SEPT10","2":"2.442853","3":"0.9614415","4":"0.17105263","5":"0.012151128","6":"0.0184246891","_rn_":"57"},{"1":"CSTA","2":"2.432711","3":"1.7681682","4":"0.15789474","5":"0.071909771","6":"0.0479041916","_rn_":"58"},{"1":"KRT15","2":"2.417245","3":"1.1344720","4":"0.17105263","5":"0.026467237","6":"0.0115154307","_rn_":"59"},{"1":"S100A11","2":"2.391253","3":"18.6906704","4":"0.52631579","5":"1.353508964","6":"0.4315983418","_rn_":"60"},{"1":"S100A16","2":"2.390409","3":"1.1720452","4":"0.19298246","5":"0.031133601","6":"0.0147397513","_rn_":"61"},{"1":"RHOD","2":"2.370850","3":"0.9621797","4":"0.12719298","5":"0.016458796","6":"0.0073698756","_rn_":"62"},{"1":"IGHG4","2":"2.320275","3":"5.0042895","4":"0.05701754","5":"0.340091748","6":"0.0299401198","_rn_":"63"},{"1":"JCHAIN","2":"2.315776","3":"7.1946058","4":"0.04385965","5":"0.515596905","6":"0.0723169047","_rn_":"64"},{"1":"PTMS","2":"2.311980","3":"2.8675905","4":"0.28947368","5":"0.172057073","6":"0.1077844311","_rn_":"65"},{"1":"HSPB1","2":"2.294097","3":"9.4746255","4":"0.39035088","5":"0.708579200","6":"0.3321050207","_rn_":"66"},{"1":"CRYAB","2":"2.293827","3":"0.8713438","4":"0.19298246","5":"0.013914512","6":"0.0115154307","_rn_":"67"},{"1":"DSP","2":"2.289049","3":"1.1599990","4":"0.21052632","5":"0.037585360","6":"0.0193459235","_rn_":"68"},{"1":"PFN2","2":"2.279254","3":"1.5324176","4":"0.21491228","5":"0.068706826","6":"0.0354675265","_rn_":"69"},{"1":"SEPP1","2":"2.270062","3":"3.5503572","4":"0.15789474","5":"0.235277158","6":"0.0350069093","_rn_":"70"},{"1":"SLPI","2":"2.264573","3":"0.7750275","4":"0.14473684","5":"0.007714297","6":"0.0059880240","_rn_":"71"},{"1":"IFITM3","2":"2.256458","3":"1.7928517","4":"0.19298246","5":"0.092515501","6":"0.0479041916","_rn_":"72"},{"1":"CALD1","2":"2.235956","3":"1.4011317","4":"0.22807018","5":"0.061924057","6":"0.0198065408","_rn_":"73"},{"1":"IGKC","2":"2.233789","3":"49.5223281","4":"0.13157895","5":"4.113589812","6":"0.1971441732","_rn_":"74"},{"1":"IGLC3","2":"2.198431","3":"30.6332171","4":"0.06140351","5":"2.587623473","6":"0.1197604790","_rn_":"75"},{"1":"NDRG1","2":"2.184917","3":"2.4552198","4":"0.17543860","5":"0.158512435","6":"0.1064025795","_rn_":"76"},{"1":"HSPG2","2":"2.174076","3":"1.0642392","4":"0.10087719","5":"0.038183341","6":"0.0082911101","_rn_":"77"},{"1":"TFPI","2":"2.168596","3":"0.7536511","4":"0.14912281","5":"0.011240471","6":"0.0133578996","_rn_":"78"},{"1":"SPARCL1","2":"2.166698","3":"1.2301292","4":"0.06578947","5":"0.053374319","6":"0.0064486412","_rn_":"79"},{"1":"NGFRAP1","2":"2.166579","3":"2.4271236","4":"0.26315789","5":"0.158969036","6":"0.1027176416","_rn_":"80"},{"1":"LGALS1","2":"2.163024","3":"7.6798595","4":"0.36842105","5":"0.624012511","6":"0.1805619530","_rn_":"81"},{"1":"NFIB","2":"2.160730","3":"0.9117190","4":"0.21052632","5":"0.025689103","6":"0.0142791340","_rn_":"82"},{"1":"TPM1","2":"2.151337","3":"1.9937592","4":"0.25000000","5":"0.122778425","6":"0.0644864118","_rn_":"83"},{"1":"MMP14","2":"2.143143","3":"0.8500599","4":"0.09210526","5":"0.021346151","6":"0.0267157992","_rn_":"84"},{"1":"TIMP1","2":"2.138312","3":"2.9628058","4":"0.21491228","5":"0.211704019","6":"0.1294334408","_rn_":"85"},{"1":"FAM3B","2":"2.135086","3":"0.6524197","4":"0.03508772","5":"0.004044637","6":"0.0073698756","_rn_":"86"},{"1":"LHFP","2":"2.126960","3":"0.7807917","4":"0.04824561","5":"0.016106806","6":"0.0147397513","_rn_":"87"},{"1":"DCN","2":"2.125271","3":"1.7173811","4":"0.03070175","5":"0.101223043","6":"0.0101335790","_rn_":"88"},{"1":"C3AR1","2":"2.116236","3":"1.3548594","4":"0.03508772","5":"0.069191635","6":"0.0515891294","_rn_":"89"},{"1":"TPM2","2":"2.107695","3":"1.3898302","4":"0.10526316","5":"0.073236781","6":"0.0276370336","_rn_":"90"},{"1":"EPAS1","2":"2.103111","3":"0.8080618","4":"0.06140351","5":"0.020070961","6":"0.0142791340","_rn_":"91"},{"1":"C1orf21","2":"2.099859","3":"0.9744607","4":"0.20614035","5":"0.035648744","6":"0.0308613542","_rn_":"92"},{"1":"DMKN","2":"2.094926","3":"0.6877469","4":"0.13157895","5":"0.009435521","6":"0.0092123445","_rn_":"93"},{"1":"VSNL1","2":"2.091096","3":"0.6346783","4":"0.07017544","5":"0.004716651","6":"0.0055274067","_rn_":"94"},{"1":"ELF3","2":"2.066699","3":"0.7972945","4":"0.15789474","5":"0.021378876","6":"0.0119760479","_rn_":"95"},{"1":"IGHA1","2":"2.066628","3":"11.1087292","4":"0.11842105","5":"0.996183121","6":"0.0898203593","_rn_":"96"},{"1":"CYP1B1","2":"2.062187","3":"0.8246476","4":"0.16228070","5":"0.024261804","6":"0.0133578996","_rn_":"97"},{"1":"GSTP1","2":"2.058370","3":"10.2488003","4":"0.42105263","5":"0.920547818","6":"0.3758636573","_rn_":"98"},{"1":"HSPA2","2":"2.050867","3":"0.7744116","4":"0.03070175","5":"0.020210290","6":"0.0188853063","_rn_":"99"},{"1":"EGFL7","2":"2.015580","3":"0.6671454","4":"0.04824561","5":"0.011960976","6":"0.0046061723","_rn_":"100"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -1026,6 +1694,43 @@ ggplot(kept_lost,
 })
 plot_grid(plotlist = plot_list, ncol = 2)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/pca-valid-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-valid-1">
+Past versions of pca-valid-1.png
+</button>
+</p>
+<div id="fig-pca-valid-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/pca-valid-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="t-sne-1" class="section level3">
 <h3>t-SNE</h3>
@@ -1036,6 +1741,43 @@ plot_grid(plotlist = plot_list, ncol = 2)</code></pre>
 })
 plot_grid(plotlist = plot_list, ncol = 2)</code></pre>
 <p><img src="figure/02-quality-control.Rmd/t-sne-valid-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-t-sne-valid-1">
+Past versions of t-sne-valid-1.png
+</button>
+</p>
+<div id="fig-t-sne-valid-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/c602800ff38d80f0a80a40aa0389d6453c7c826f/docs/figure/02-quality-control.Rmd/t-sne-valid-1.png" target="_blank">c602800</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1046,7 +1788,7 @@ plot_grid(plotlist = plot_list, ncol = 2)</code></pre>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<p>After quality control we have a dataset with 2178 cells and 16869 genes.</p>
+<p>After quality control we have a dataset with 2171 cells and 16859 genes.</p>
 <div id="parameters" class="section level2">
 <h2>Parameters</h2>
 <p>This table describes parameters used and set in this document.</p>
@@ -1167,12 +1909,12 @@ kable(fromJSON(params))</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">n_cells</td>
-<td align="left">2178</td>
+<td align="left">2171</td>
 <td align="left">Number of cells in the filtered dataset</td>
 </tr>
 <tr class="even">
 <td align="left">n_genes</td>
-<td align="left">16869</td>
+<td align="left">16859</td>
 <td align="left">Number of genes in the filtered dataset</td>
 </tr>
 <tr class="odd">
@@ -1182,7 +1924,7 @@ kable(fromJSON(params))</code></pre>
 </tr>
 <tr class="even">
 <td align="left">median_counts</td>
-<td align="left">3224.5</td>
+<td align="left">3226</td>
 <td align="left">Median number of counts per cell in the filtered dataset</td>
 </tr>
 </tbody>
@@ -1238,7 +1980,7 @@ kable(data.frame(
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2019-06-20                  
+ date     2019-06-26                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
  ! package              * version   date       lib source        

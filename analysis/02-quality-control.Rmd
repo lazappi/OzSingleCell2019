@@ -271,12 +271,13 @@ features_out <- isOutlier(col_data$log10_total_features_by_counts,
                           nmads = features_mads, type = "lower")
 mt_out       <- isOutlier(col_data$pct_counts_MT,
                           nmads = mt_mads, type = "higher")
+cite_zero    <- colSums(counts(cite)) == 0
 
 counts_thresh   <- attr(counts_out, "thresholds")["lower"]
 features_thresh <- attr(features_out, "thresholds")["lower"]
 mt_thresh       <- attr(mt_out, "thresholds")["higher"]
 
-kept <- !(counts_out | features_out | mt_out)
+kept <- !(counts_out | features_out | mt_out | cite_zero)
 col_data$Kept <- kept
 
 kable(tibble(
@@ -284,6 +285,7 @@ kable(tibble(
         "Total counts",
         "Total features",
         "Mitochondrial %",
+        "CITE counts",
         "Kept cells"
     ),
     Threshold = c(
@@ -292,12 +294,14 @@ kable(tibble(
         paste("< 10 ^", round(features_thresh, 2),
               paste0("(", round(10 ^ features_thresh), ")")),
         paste(">", round(mt_thresh, 2), "%"),
+        "> 0",
         ""
     ),
     Count = c(
         sum(counts_out),
         sum(features_out),
         sum(mt_out),
+        sum(cite_zero),
         sum(kept)
     )
 ))
@@ -307,7 +311,8 @@ sce_qc <- sce[, kept]
 col_data <- col_data[kept, ]
 ```
 
-Our filtered dataset now has `r ncol(sce_qc)` cells.
+We also remove cells that have no counts in the CITE data. Our filtered dataset
+now has `r ncol(sce_qc)` cells.
 
 Gene filtering
 ==============

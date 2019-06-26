@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-06-25" />
+<meta name="date" content="2019-06-26" />
 
 <title>Clustering</title>
 
@@ -436,7 +436,7 @@ div.section {
 
 
 <h1 class="title toc-ignore">Clustering</h1>
-<h4 class="date">2019-06-25</h4>
+<h4 class="date">2019-06-26</h4>
 
 </div>
 
@@ -461,7 +461,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-06-25
+<strong>Last updated:</strong> 2019-06-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -552,10 +552,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree25950571da44bb4ee287248061daa78c701cbf09targetblank2595057a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/25950571da44bb4ee287248061daa78c701cbf09" target="_blank">2595057</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree8627b5b34960657b07d11bed48a0e3a2ed712451targetblank8627b5ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/8627b5b34960657b07d11bed48a0e3a2ed712451" target="_blank">8627b5b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree25950571da44bb4ee287248061daa78c701cbf09targetblank2595057a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree8627b5b34960657b07d11bed48a0e3a2ed712451targetblank8627b5ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -578,9 +578,13 @@ Ignored files:
     Ignored:    packrat/src/
 
 Untracked files:
-    Untracked:  data/04-clustered.Rds
-    Untracked:  docs/figure/04-clustering.Rmd/
-    Untracked:  output/04-clustering.Rmd/
+    Untracked:  analysis/05-cite-clustering.Rmd
+
+Unstaged changes:
+    Modified:   R/set_paths.R
+    Modified:   data/02-CITE-filtered.Rds
+    Modified:   data/02-filtered.Rds
+    Modified:   output/02-quality-control.Rmd/parameters.json
 
 </code></pre>
 <p>
@@ -624,7 +628,24 @@ Message
 Rmd
 </td>
 <td>
-<a href="http://github.com/lazappi/OzSingleCells2019/blob/25950571da44bb4ee287248061daa78c701cbf09/analysis/04-clustering.Rmd" target="_blank">2595057</a>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/analysis/04-clustering.Rmd" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+<td>
+Add clustering of RNA data
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="http://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/04-clustering.html" target="_blank">2fff6a2</a>
 </td>
 <td>
 Luke Zappia
@@ -719,47 +740,47 @@ kable(table(clusters), col.names = c(&quot;Cluster&quot;, &quot;Size&quot;))</co
 <tbody>
 <tr class="odd">
 <td align="left">1</td>
-<td align="right">322</td>
+<td align="right">430</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
-<td align="right">224</td>
+<td align="right">104</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
-<td align="right">115</td>
+<td align="right">128</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
-<td align="right">202</td>
+<td align="right">112</td>
 </tr>
 <tr class="odd">
 <td align="left">5</td>
-<td align="right">225</td>
+<td align="right">262</td>
 </tr>
 <tr class="even">
 <td align="left">6</td>
-<td align="right">200</td>
+<td align="right">194</td>
 </tr>
 <tr class="odd">
 <td align="left">7</td>
-<td align="right">284</td>
+<td align="right">234</td>
 </tr>
 <tr class="even">
 <td align="left">8</td>
-<td align="right">180</td>
+<td align="right">274</td>
 </tr>
 <tr class="odd">
 <td align="left">9</td>
-<td align="right">169</td>
+<td align="right">162</td>
 </tr>
 <tr class="even">
 <td align="left">10</td>
-<td align="right">150</td>
+<td align="right">101</td>
 </tr>
 <tr class="odd">
 <td align="left">11</td>
-<td align="right">107</td>
+<td align="right">170</td>
 </tr>
 </tbody>
 </table>
@@ -783,6 +804,43 @@ ggplot(col_data,
         colour = &quot;Normalisation\ncluster&quot;
     )</code></pre>
 <p><img src="figure/04-clustering.Rmd/norm-size-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-norm-size-1">
+Past versions of norm-size-1.png
+</button>
+</p>
+<div id="fig-norm-size-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/norm-size-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>sce &lt;- normalize(sce)</code></pre>
 </div>
 </div>
@@ -813,6 +871,43 @@ ggplot(plot_data, aes(x = Mean)) +
         y = &quot;Variance of log-expression&quot;
     )</code></pre>
 <p><img src="figure/04-clustering.Rmd/fit-mean-var-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fit-mean-var-1">
+Past versions of fit-mean-var-1.png
+</button>
+</p>
+<div id="fig-fit-mean-var-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/fit-mean-var-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="decompose" class="section level2">
 <h2>Decompose</h2>
@@ -837,91 +932,91 @@ kable(head(rownames_to_column(as.data.frame(top_dec), &quot;Gene&quot;), n = 10)
 <tbody>
 <tr class="odd">
 <td align="left">CD74</td>
-<td align="right">2.641586</td>
-<td align="right">5.256015</td>
-<td align="right">4.685522</td>
-<td align="right">0.5704924</td>
+<td align="right">2.651929</td>
+<td align="right">5.234573</td>
+<td align="right">4.663844</td>
+<td align="right">0.5707292</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left">HLA-DRA</td>
-<td align="right">1.611305</td>
-<td align="right">4.648042</td>
-<td align="right">3.829236</td>
-<td align="right">0.8188056</td>
+<td align="right">1.615211</td>
+<td align="right">4.653876</td>
+<td align="right">3.832151</td>
+<td align="right">0.8217243</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left">JUNB</td>
-<td align="right">3.245805</td>
-<td align="right">2.820314</td>
-<td align="right">2.435900</td>
-<td align="right">0.3844141</td>
+<td align="right">3.257231</td>
+<td align="right">2.824802</td>
+<td align="right">2.440419</td>
+<td align="right">0.3843838</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left">FOS</td>
-<td align="right">2.111452</td>
-<td align="right">2.934361</td>
-<td align="right">2.203540</td>
-<td align="right">0.7308210</td>
+<td align="right">2.119546</td>
+<td align="right">2.955675</td>
+<td align="right">2.223345</td>
+<td align="right">0.7323296</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left">HLA-DPA1</td>
-<td align="right">1.405453</td>
-<td align="right">2.833084</td>
-<td align="right">2.010756</td>
-<td align="right">0.8223286</td>
+<td align="right">1.410277</td>
+<td align="right">2.837414</td>
+<td align="right">2.011976</td>
+<td align="right">0.8254388</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left">HLA-DPB1</td>
-<td align="right">1.379264</td>
-<td align="right">2.563782</td>
-<td align="right">1.742731</td>
-<td align="right">0.8210517</td>
+<td align="right">1.383950</td>
+<td align="right">2.566767</td>
+<td align="right">1.742578</td>
+<td align="right">0.8241897</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left">IL7R</td>
-<td align="right">1.721153</td>
-<td align="right">2.496847</td>
-<td align="right">1.688833</td>
-<td align="right">0.8080145</td>
+<td align="right">1.732798</td>
+<td align="right">2.513209</td>
+<td align="right">1.703328</td>
+<td align="right">0.8098809</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left">RGS1</td>
-<td align="right">1.590717</td>
-<td align="right">2.352885</td>
-<td align="right">1.532707</td>
-<td align="right">0.8201778</td>
+<td align="right">1.601309</td>
+<td align="right">2.369054</td>
+<td align="right">1.546370</td>
+<td align="right">0.8226843</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left">ZFP36L2</td>
-<td align="right">3.363269</td>
-<td align="right">1.857358</td>
-<td align="right">1.504431</td>
-<td align="right">0.3529270</td>
+<td align="left">HLA-DQB1</td>
+<td align="right">1.174976</td>
+<td align="right">2.286776</td>
+<td align="right">1.488068</td>
+<td align="right">0.7987084</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left">HLA-DQB1</td>
-<td align="right">1.171683</td>
-<td align="right">2.285178</td>
-<td align="right">1.489623</td>
-<td align="right">0.7955555</td>
+<td align="left">ZFP36L2</td>
+<td align="right">3.379996</td>
+<td align="right">1.835642</td>
+<td align="right">1.484051</td>
+<td align="right">0.3515910</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
@@ -931,6 +1026,43 @@ kable(head(rownames_to_column(as.data.frame(top_dec), &quot;Gene&quot;), n = 10)
     ggtitle(&quot;Expression of biologically variable genes&quot;) +
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/decompose-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-decompose-1">
+Past versions of decompose-1.png
+</button>
+</p>
+<div id="fig-decompose-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/decompose-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="dimensionality-reduction" class="section level1">
@@ -957,9 +1089,83 @@ ggplot(plot_data, aes(x = PC, y = PercentVar, colour = Selected)) +
         y = &quot;Proportion of variance explained&quot;
     )</code></pre>
 <p><img src="figure/04-clustering.Rmd/denoise-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-denoise-1">
+Past versions of denoise-1.png
+</button>
+</p>
+<div id="fig-denoise-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/denoise-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plotPCA(sce, ncomponents = 3, colour_by = &quot;log10_total_features_by_counts&quot;)</code></pre>
 <p><img src="figure/04-clustering.Rmd/denoise-2.png" width="960" style="display: block; margin: auto;" /></p>
-<p>Here we select the first 24 components.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-denoise-2">
+Past versions of denoise-2.png
+</button>
+</p>
+<div id="fig-denoise-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/denoise-2.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here we select the first 25 components.</p>
 </div>
 <div id="t-sne" class="section level2">
 <h2>t-SNE</h2>
@@ -967,6 +1173,43 @@ ggplot(plot_data, aes(x = PC, y = PercentVar, colour = Selected)) +
 sce &lt;- runTSNE(sce, use_dimred = &quot;PCA&quot;, perplexity = 40)
 plotTSNE(sce, colour_by = &quot;log10_total_features_by_counts&quot;)</code></pre>
 <p><img src="figure/04-clustering.Rmd/t-SNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-t-SNE-1">
+Past versions of t-SNE-1.png
+</button>
+</p>
+<div id="fig-t-SNE-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/t-SNE-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="clustering" class="section level1">
@@ -1001,56 +1244,463 @@ out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</co
 <h4>Res 0</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0-1">
+Past versions of res-pca-0-1.png
+</button>
+</p>
+<div id="fig-res-pca-0-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.1" class="section level4 unnumbered">
 <h4>Res 0.1</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.1&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.1-1">
+Past versions of res-pca-0.1-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.1-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.2" class="section level4 unnumbered">
 <h4>Res 0.2</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.2&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.2-1">
+Past versions of res-pca-0.2-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.2-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.3" class="section level4 unnumbered">
 <h4>Res 0.3</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.3&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.3-1">
+Past versions of res-pca-0.3-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.3-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.4" class="section level4 unnumbered">
 <h4>Res 0.4</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.4&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.4-1">
+Past versions of res-pca-0.4-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.4-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.5" class="section level4 unnumbered">
 <h4>Res 0.5</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.5&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.5-1">
+Past versions of res-pca-0.5-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.5-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.6" class="section level4 unnumbered">
 <h4>Res 0.6</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.6&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.6-1">
+Past versions of res-pca-0.6-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.6-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.7" class="section level4 unnumbered">
 <h4>Res 0.7</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.7&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.7-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.7-1">
+Past versions of res-pca-0.7-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.7-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.8" class="section level4 unnumbered">
 <h4>Res 0.8</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.8&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.8-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.8-1">
+Past versions of res-pca-0.8-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.8-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.9" class="section level4 unnumbered">
 <h4>Res 0.9</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes0.9&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-0.9-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-0.9-1">
+Past versions of res-pca-0.9-1.png
+</button>
+</p>
+<div id="fig-res-pca-0.9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-0.9-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-1" class="section level4 unnumbered">
 <h4>Res 1</h4>
 <pre class="r"><code>plotPCA(sce, colour_by = &#39;ClusterRes1&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-pca-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-pca-1-1">
+Past versions of res-pca-1-1.png
+</button>
+</p>
+<div id="fig-res-pca-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-pca-1-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="t-sne-1" class="section level3 tabset">
@@ -1070,56 +1720,463 @@ out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</co
 <h4>Res 0</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0-1">
+Past versions of res-tSNE-0-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.1-1" class="section level4 unnumbered">
 <h4>Res 0.1</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.1&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.1-1">
+Past versions of res-tSNE-0.1-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.1-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.2-1" class="section level4 unnumbered">
 <h4>Res 0.2</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.2&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.2-1">
+Past versions of res-tSNE-0.2-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.2-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.3-1" class="section level4 unnumbered">
 <h4>Res 0.3</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.3&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.3-1">
+Past versions of res-tSNE-0.3-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.3-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.4-1" class="section level4 unnumbered">
 <h4>Res 0.4</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.4&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.4-1">
+Past versions of res-tSNE-0.4-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.4-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.5-1" class="section level4 unnumbered">
 <h4>Res 0.5</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.5&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.5-1">
+Past versions of res-tSNE-0.5-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.5-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.6-1" class="section level4 unnumbered">
 <h4>Res 0.6</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.6&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.6-1">
+Past versions of res-tSNE-0.6-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.6-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.7-1" class="section level4 unnumbered">
 <h4>Res 0.7</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.7&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.7-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.7-1">
+Past versions of res-tSNE-0.7-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.7-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.8-1" class="section level4 unnumbered">
 <h4>Res 0.8</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.8&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.8-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.8-1">
+Past versions of res-tSNE-0.8-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.8-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-0.9-1" class="section level4 unnumbered">
 <h4>Res 0.9</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes0.9&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-0.9-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-0.9-1">
+Past versions of res-tSNE-0.9-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-0.9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-0.9-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="res-1-1" class="section level4 unnumbered">
 <h4>Res 1</h4>
 <pre class="r"><code>plotTSNE(sce, colour_by = &#39;ClusterRes1&#39;) + theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/res-tSNE-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-res-tSNE-1-1">
+Past versions of res-tSNE-1-1.png
+</button>
+</p>
+<div id="fig-res-tSNE-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/res-tSNE-1-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1131,12 +2188,86 @@ out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</co
 <p>Coloured by clustering resolution.</p>
 <pre class="r"><code>clustree(sce, prefix = &quot;ClusterRes&quot;)</code></pre>
 <p><img src="figure/04-clustering.Rmd/clustree-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-clustree-1">
+Past versions of clustree-1.png
+</button>
+</p>
+<div id="fig-clustree-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/clustree-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="stability" class="section level3">
 <h3>Stability</h3>
 <p>Coloured by the SC3 stability metric.</p>
 <pre class="r"><code>clustree(sce, prefix = &quot;ClusterRes&quot;, node_colour = &quot;sc3_stability&quot;)</code></pre>
 <p><img src="figure/04-clustering.Rmd/clustree-stability-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-clustree-stability-1">
+Past versions of clustree-stability-1.png
+</button>
+</p>
+<div id="fig-clustree-stability-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/clustree-stability-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="selection" class="section level2">
@@ -1159,6 +2290,43 @@ n_clusts &lt;- length(unique(col_data$Cluster))</code></pre>
 <pre class="r"><code>ggplot(col_data, aes(x = Cluster, fill = Cluster)) +
     geom_bar()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-cluster-count-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-cluster-count-1">
+Past versions of val-cluster-count-1.png
+</button>
+</p>
+<div id="fig-val-cluster-count-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-cluster-count-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="pca-2" class="section level3">
 <h3>PCA</h3>
@@ -1166,6 +2334,43 @@ n_clusts &lt;- length(unique(col_data$Cluster))</code></pre>
     scale_fill_discrete() +
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-cluster-pca-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-cluster-pca-1">
+Past versions of val-cluster-pca-1.png
+</button>
+</p>
+<div id="fig-val-cluster-pca-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-cluster-pca-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="t-sne-2" class="section level3">
 <h3>t-SNE</h3>
@@ -1173,6 +2378,43 @@ n_clusts &lt;- length(unique(col_data$Cluster))</code></pre>
     scale_fill_discrete() +
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-cluster-tSNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-cluster-tSNE-1">
+Past versions of val-cluster-tSNE-1.png
+</button>
+</p>
+<div id="fig-val-cluster-tSNE-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-cluster-tSNE-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="cell-cycle" class="section level2 tabset">
@@ -1183,6 +2425,43 @@ n_clusts &lt;- length(unique(col_data$Cluster))</code></pre>
 <pre class="r"><code>ggplot(col_data, aes(x = Cluster, fill = CellCycle)) +
     geom_bar()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-cycle-count-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-cycle-count-1">
+Past versions of val-cycle-count-1.png
+</button>
+</p>
+<div id="fig-val-cycle-count-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-cycle-count-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="proportion" class="section level3">
 <h3>Proportion</h3>
@@ -1195,6 +2474,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     geom_col() +
     ylab(&quot;Proportion of cluster&quot;)</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-cycle-prop-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-cycle-prop-1">
+Past versions of val-cycle-prop-1.png
+</button>
+</p>
+<div id="fig-val-cycle-prop-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-cycle-prop-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="pca-3" class="section level3">
 <h3>PCA</h3>
@@ -1202,6 +2518,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     scale_fill_discrete() +
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-cycle-pca-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-cycle-pca-1">
+Past versions of val-cycle-pca-1.png
+</button>
+</p>
+<div id="fig-val-cycle-pca-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-cycle-pca-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="t-sne-3" class="section level3">
 <h3>t-SNE</h3>
@@ -1209,6 +2562,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     scale_fill_discrete() +
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-cycle-tSNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-cycle-tSNE-1">
+Past versions of val-cycle-tSNE-1.png
+</button>
+</p>
+<div id="fig-val-cycle-tSNE-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-cycle-tSNE-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="total-counts" class="section level2 tabset">
@@ -1221,6 +2611,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     geom_sina(size = 0.5) +
     theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-counts-dist-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-counts-dist-1">
+Past versions of val-counts-dist-1.png
+</button>
+</p>
+<div id="fig-val-counts-dist-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-counts-dist-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="pca-4" class="section level3">
 <h3>PCA</h3>
@@ -1228,6 +2655,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     scale_fill_viridis_c() +
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-counts-pca-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-counts-pca-1">
+Past versions of val-counts-pca-1.png
+</button>
+</p>
+<div id="fig-val-counts-pca-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-counts-pca-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="t-sne-4" class="section level3">
 <h3>t-SNE</h3>
@@ -1235,6 +2699,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     scale_fill_viridis_c()+
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-counts-tSNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-counts-tSNE-1">
+Past versions of val-counts-tSNE-1.png
+</button>
+</p>
+<div id="fig-val-counts-tSNE-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-counts-tSNE-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="total-features" class="section level2 tabset">
@@ -1248,6 +2749,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     geom_sina(size = 0.5) +
     theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-features-dist-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-features-dist-1">
+Past versions of val-features-dist-1.png
+</button>
+</p>
+<div id="fig-val-features-dist-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-features-dist-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="pca-5" class="section level3">
 <h3>PCA</h3>
@@ -1255,6 +2793,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     scale_fill_viridis_c() +
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-features-pca-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-features-pca-1">
+Past versions of val-features-pca-1.png
+</button>
+</p>
+<div id="fig-val-features-pca-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-features-pca-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="t-sne-5" class="section level3">
 <h3>t-SNE</h3>
@@ -1262,6 +2837,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     scale_fill_viridis_c()+
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-features-tSNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-features-tSNE-1">
+Past versions of val-features-tSNE-1.png
+</button>
+</p>
+<div id="fig-val-features-tSNE-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-features-tSNE-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="mitochondrial-genes" class="section level2 tabset">
@@ -1274,6 +2886,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     geom_sina(size = 0.5) +
     theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-mt-dist-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-mt-dist-1">
+Past versions of val-mt-dist-1.png
+</button>
+</p>
+<div id="fig-val-mt-dist-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-mt-dist-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="pca-6" class="section level3">
 <h3>PCA</h3>
@@ -1281,6 +2930,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     scale_fill_viridis_c() +
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-mt-pca-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-mt-pca-1">
+Past versions of val-mt-pca-1.png
+</button>
+</p>
+<div id="fig-val-mt-pca-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-mt-pca-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="t-sne-6" class="section level3">
 <h3>t-SNE</h3>
@@ -1288,6 +2974,43 @@ ggplot(plot_data, aes(x = Cluster, y = Prop, fill = CellCycle)) +
     scale_fill_viridis_c()+
     theme_minimal()</code></pre>
 <p><img src="figure/04-clustering.Rmd/val-mt-tSNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-val-mt-tSNE-1">
+Past versions of val-mt-tSNE-1.png
+</button>
+</p>
+<div id="fig-val-mt-tSNE-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lazappi/OzSingleCells2019/blob/2fff6a27e17a78369e5ccf1fc861ab39b188b0f1/docs/figure/04-clustering.Rmd/val-mt-tSNE-1.png" target="_blank">2fff6a2</a>
+</td>
+<td>
+Luke Zappia
+</td>
+<td>
+2019-06-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1332,7 +3055,7 @@ kable(fromJSON(params))</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">n_pcs</td>
-<td align="left">24</td>
+<td align="left">25</td>
 <td align="left">Selected number of principal components for clustering</td>
 </tr>
 <tr class="even">
@@ -1402,7 +3125,7 @@ kable(data.frame(
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2019-06-25                  
+ date     2019-06-26                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
  ! package              * version   date       lib source        
