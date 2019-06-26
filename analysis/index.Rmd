@@ -20,5 +20,7 @@ Analysis
 * [Comparison](03-comparison.html) - Comparison of antibody and gene expression
 * [Clustering](04-clustering.html) - Clustering of the RNA-seq dataset
 * [CITE Clustering](05-cite-clustering.html) - Clustering of the CITE dataset
+* [Clustering comparison](06-cluster-comparison.html) - Comparison of the RNA
+  and CITE clusterings
 
 [challenge]: https://sydneybiox.github.io/SingleCellsChallenge2019/

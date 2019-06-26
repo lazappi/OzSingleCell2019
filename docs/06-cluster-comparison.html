@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<meta name="date" content="2019-06-26" />
+
+<title>Cluster comparison</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Oz Single Cells 2019</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/lazappi/OzSingleCells2019">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Cluster comparison</h1>
+<h4 class="date">2019-06-26</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-06-26
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>OzSingleCells2019/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has staged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190619code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190619)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190619code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190619)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree107a3440925d00acb0b3630bb04b7eef791c6ffatargetblank107a344a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="http://github.com/lazappi/OzSingleCells2019/tree/107a3440925d00acb0b3630bb04b7eef791c6ffa" target="_blank">107a344</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpgithubcomlazappiOzSingleCells2019tree107a3440925d00acb0b3630bb04b7eef791c6ffatargetblank107a344a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    ._.DS_Store
+    Ignored:    analysis/cache/
+    Ignored:    data/._antibody_genes.tsv
+    Ignored:    data/._antibody_genes.txt
+    Ignored:    docs/.DS_Store
+    Ignored:    docs/._.DS_Store
+    Ignored:    output/03-comparison.Rmd/
+    Ignored:    output/06-cluster-comparison.Rmd/
+    Ignored:    packrat/lib-R/
+    Ignored:    packrat/lib-ext/
+    Ignored:    packrat/lib/
+    Ignored:    packrat/src/
+
+Untracked files:
+    Untracked:  docs/figure/06-cluster-comparison.Rmd/
+
+Staged changes:
+    New:        R/crossover.R
+    Modified:   README.md
+    New:        analysis/06-cluster-comparison.Rmd
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>#### LIBRARIES ####
+# Package conflicts
+library(&quot;conflicted&quot;)
+
+# Single-cell
+library(&quot;SingleCellExperiment&quot;)
+
+# Plotting
+library(&quot;clustree&quot;)
+
+# File paths
+library(&quot;fs&quot;)
+library(&quot;here&quot;)
+
+# Presentation
+library(&quot;knitr&quot;)
+library(&quot;jsonlite&quot;)
+
+# Tidyverse
+library(&quot;tidyverse&quot;)
+
+### CONFLICT PREFERENCES ####
+conflict_prefer(&quot;path&quot;, &quot;fs&quot;)
+conflict_prefer(&quot;rename&quot;, &quot;dplyr&quot;)
+
+### SOURCE FUNCTIONS ####
+source(here(&quot;R/output.R&quot;))
+source(here(&quot;R/crossover.R&quot;))
+
+### OUTPUT DIRECTORY ####
+OUT_DIR &lt;- here(&quot;output&quot;, DOCNAME)
+dir_create(OUT_DIR)
+
+#### SET GGPLOT THEME ####
+theme_set(theme_minimal())
+
+#### SET PATHS ####
+source(here(&quot;R/set_paths.R&quot;))</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In this document we are going to compare the clustering results for the RNA-seq and CITE data to see how similar they are to each other.</p>
+<pre class="r"><code>if (all(file_exists(c(PATHS$sce_clust, PATHS$cite_clust)))) {
+    sce &lt;- read_rds(PATHS$sce_clust)
+    cite &lt;- read_rds(PATHS$cite_clust)
+} else {
+    stop(&quot;Clustered dataset is missing. &quot;,
+         &quot;Please run &#39;04-clustering.Rmd&#39; and &#39;05-cite-clustering.Rmd&#39; first.&quot;,
+         call. = FALSE)
+}
+
+clust_data &lt;- colData(sce) %&gt;%
+  as.data.frame() %&gt;%
+  select(Barcode, GeneCluster = Cluster) %&gt;%
+  mutate(AntiCluster = colData(cite)$Cluster)</code></pre>
+</div>
+<div id="clustering" class="section level1">
+<h1>Clustering</h1>
+<div id="clustering-tree" class="section level2">
+<h2>Clustering “tree”</h2>
+<pre class="r"><code>clust_data %&gt;%
+  rename(Cluster1 = GeneCluster, Cluster2 = AntiCluster) %&gt;%
+  clustree(prefix = &quot;Cluster&quot;, show_axis = TRUE) +
+  scale_y_continuous(
+      breaks = c(0, 1),
+      labels = c(&quot;CITE cluster&quot;, &quot;RNA cluster&quot;)
+  )</code></pre>
+<p><img src="figure/06-cluster-comparison.Rmd/clustering-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="jaccard-index" class="section level2">
+<h2>Jaccard index</h2>
+<pre class="r"><code>plot_data &lt;- summariseClusts(clust_data, GeneCluster, AntiCluster) %&gt;%
+    replace_na(list(Jaccard = 0))
+
+ggplot(plot_data, aes(x = GeneCluster, y = AntiCluster, fill = Jaccard)) +
+    geom_tile() +
+    scale_fill_viridis_c(limits = c(0, 1), name = &quot;Jaccard\nindex&quot;) +
+    coord_equal() +
+    labs(
+        x = &quot;Gene cluster&quot;,
+        y = &quot;CITE cluster&quot;
+    ) +
+    theme(axis.text = element_text(size = 10, colour = &quot;black&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          legend.key.height = unit(30, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())</code></pre>
+<p><img src="figure/06-cluster-comparison.Rmd/jaccard-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="bars" class="section level2 tabset">
+<h2>Bars</h2>
+<div id="gene-clusters" class="section level3 unnumbered">
+<h3>Gene clusters</h3>
+<pre class="r"><code>ggplot(clust_data, aes(x = GeneCluster, fill = AntiCluster)) +
+    geom_bar()</code></pre>
+<p><img src="figure/06-cluster-comparison.Rmd/bars-gene-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cite-clusters" class="section level3 unnumbered">
+<h3>CITE clusters</h3>
+<pre class="r"><code>ggplot(clust_data, aes(x = AntiCluster, fill = GeneCluster)) +
+    geom_bar()</code></pre>
+<p><img src="figure/06-cluster-comparison.Rmd/bars-cite-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="markers" class="section level1">
+<h1>Markers</h1>
+<pre class="r"><code>cite_corr_mat &lt;- logcounts(cite) %&gt;%
+    t() %&gt;%
+    cor(method = &quot;spearman&quot;)
+
+cite_corr_order &lt;- hclust(dist(cite_corr_mat))$order
+cite_corr_levels &lt;- rownames(cite_corr_mat)[cite_corr_order]
+
+cite_props &lt;- crossing(
+    Cluster = clust_data$AntiCluster,
+    Antibody = rownames(cite)
+) %&gt;%
+    mutate(
+        AntiClust = map2_dbl(Cluster, Antibody, function(c, a) {
+            sum(counts(cite)[a, clust_data$AntiCluster == c])
+        })
+    ) %&gt;%
+    group_by(Antibody) %&gt;%
+    mutate(AntiTotal = sum(AntiClust)) %&gt;%
+    group_by(Cluster) %&gt;%
+    mutate(ClustTotal = sum(AntiClust)) %&gt;%
+    ungroup() %&gt;%
+    mutate(
+        AntiClustProp = AntiClust / ClustTotal,
+        AntiDataProp = AntiTotal / sum(counts(cite)),
+        Ratio = AntiClustProp / AntiDataProp
+    )
+
+ggplot(cite_props,
+       aes(
+           x = factor(str_remove(Antibody, &quot;Anti-&quot;),
+                      levels = str_remove(cite_corr_levels, &quot;Anti-&quot;)),
+           y = Ratio, 
+           colour = log10(Ratio)
+       )) +
+    annotate(&quot;rect&quot;, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = 2,
+             fill = &quot;grey&quot;, colour = &quot;grey&quot;, alpha = 0.3) +
+    geom_hline(yintercept = 2, colour = &quot;red&quot;) +
+    geom_point() +
+    scale_colour_viridis_c() +
+    facet_wrap(~ Cluster, ncol = 1, strip.position = &quot;right&quot;, scales = &quot;free_y&quot;) +
+    labs(
+        title = &quot;Anitbody proportions&quot;,
+        y = &quot;(Cluster proportion) / (Dataset proportion)&quot;
+    ) +
+    theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+        legend.position = &quot;none&quot;,
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.border = element_rect(color = &quot;black&quot;, fill = NA, size = 1)
+    )</code></pre>
+<p><img src="figure/06-cluster-comparison.Rmd/anti-props-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<div id="parameters" class="section level2">
+<h2>Parameters</h2>
+<p>This table describes parameters used and set in this document.</p>
+<pre class="r"><code>params &lt;- list(
+  
+)
+params &lt;- toJSON(params, pretty = TRUE)
+kable(fromJSON(params))</code></pre>
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="output-files" class="section level2">
+<h2>Output files</h2>
+<p>This table describes the output files produced by this document. Right click and <em>Save Link As…</em> to download the results.</p>
+<pre class="r"><code>kable(data.frame(
+    File = c(
+        download_link(&quot;parameters.json&quot;, OUT_DIR)
+    ),
+    Description = c(
+        &quot;Parameters set and used in this analysis&quot;
+    )
+))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">File</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="http://github.com/lazappi/OzSingleCells2019/raw/master/output/06-cluster-comparison.Rmd/parameters.json">parameters.json</a></td>
+<td align="left">Parameters set and used in this analysis</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessioninfo::session_info()</code></pre>
+<pre><code>─ Session info ──────────────────────────────────────────────────────────
+ setting  value                       
+ version  R version 3.6.0 (2019-04-26)
+ os       CentOS release 6.7 (Final)  
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ ctype    en_US.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2019-06-26                  
+
+─ Packages ──────────────────────────────────────────────────────────────
+ ! package              * version   date       lib source        
+   assertthat             0.2.1     2019-03-21 [1] CRAN (R 3.6.0)
+   backports              1.1.4     2019-04-10 [1] CRAN (R 3.6.0)
+   Biobase              * 2.44.0    2019-05-02 [1] Bioconductor  
+   BiocGenerics         * 0.30.0    2019-05-02 [1] Bioconductor  
+   BiocParallel         * 1.18.0    2019-05-03 [1] Bioconductor  
+   bitops                 1.0-6     2013-08-17 [1] CRAN (R 3.6.0)
+   broom                  0.5.2     2019-04-07 [1] CRAN (R 3.6.0)
+   cellranger             1.1.0     2016-07-27 [1] CRAN (R 3.6.0)
+   checkmate              1.9.3     2019-05-03 [1] CRAN (R 3.6.0)
+   cli                    1.1.0     2019-03-19 [1] CRAN (R 3.6.0)
+   clustree             * 0.4.0     2019-04-18 [1] CRAN (R 3.6.0)
+   colorspace             1.4-1     2019-03-18 [1] CRAN (R 3.6.0)
+   conflicted           * 1.0.3     2019-05-01 [1] CRAN (R 3.6.0)
+   crayon                 1.3.4     2017-09-16 [1] CRAN (R 3.6.0)
+   DelayedArray         * 0.10.0    2019-05-02 [1] Bioconductor  
+   digest                 0.6.19    2019-05-20 [1] CRAN (R 3.6.0)
+   dplyr                * 0.8.1     2019-05-14 [1] CRAN (R 3.6.0)
+   evaluate               0.14      2019-05-28 [1] CRAN (R 3.6.0)
+   farver                 1.1.0     2018-11-20 [1] CRAN (R 3.6.0)
+   forcats              * 0.4.0     2019-02-17 [1] CRAN (R 3.6.0)
+   fs                   * 1.3.1     2019-05-06 [1] CRAN (R 3.6.0)
+   generics               0.0.2     2018-11-29 [1] CRAN (R 3.6.0)
+   GenomeInfoDb         * 1.20.0    2019-05-02 [1] Bioconductor  
+   GenomeInfoDbData       1.2.1     2019-06-19 [1] Bioconductor  
+   GenomicRanges        * 1.36.0    2019-05-02 [1] Bioconductor  
+   ggforce                0.2.2     2019-04-23 [1] CRAN (R 3.6.0)
+   ggplot2              * 3.2.0     2019-06-16 [1] CRAN (R 3.6.0)
+   ggraph               * 1.0.2     2018-07-07 [1] CRAN (R 3.6.0)
+   ggrepel                0.8.1     2019-05-07 [1] CRAN (R 3.6.0)
+   git2r                  0.25.2    2019-03-19 [1] CRAN (R 3.6.0)
+   glue                   1.3.1     2019-03-12 [1] CRAN (R 3.6.0)
+   gridExtra              2.3       2017-09-09 [1] CRAN (R 3.6.0)
+   gtable                 0.3.0     2019-03-25 [1] CRAN (R 3.6.0)
+   haven                  2.1.0     2019-02-19 [1] CRAN (R 3.6.0)
+   here                 * 0.1       2017-05-28 [1] CRAN (R 3.6.0)
+   highr                  0.8       2019-03-20 [1] CRAN (R 3.6.0)
+   hms                    0.4.2     2018-03-10 [1] CRAN (R 3.6.0)
+   htmltools              0.3.6     2017-04-28 [1] CRAN (R 3.6.0)
+   httr                   1.4.0     2018-12-11 [1] CRAN (R 3.6.0)
+   igraph                 1.2.4.1   2019-04-22 [1] CRAN (R 3.6.0)
+   IRanges              * 2.18.1    2019-05-31 [1] Bioconductor  
+   jsonlite             * 1.6       2018-12-07 [1] CRAN (R 3.6.0)
+   knitr                * 1.23      2019-05-18 [1] CRAN (R 3.6.0)
+   labeling               0.3       2014-08-23 [1] CRAN (R 3.6.0)
+ P lattice                0.20-38   2018-11-04 [5] CRAN (R 3.6.0)
+   lazyeval               0.2.2     2019-03-15 [1] CRAN (R 3.6.0)
+   lubridate              1.7.4     2018-04-11 [1] CRAN (R 3.6.0)
+   magrittr               1.5       2014-11-22 [1] CRAN (R 3.6.0)
+ P MASS                   7.3-51.4  2019-04-26 [5] CRAN (R 3.6.0)
+ P Matrix                 1.2-17    2019-03-22 [5] CRAN (R 3.6.0)
+   matrixStats          * 0.54.0    2018-07-23 [1] CRAN (R 3.6.0)
+   memoise                1.1.0     2017-04-21 [1] CRAN (R 3.6.0)
+   modelr                 0.1.4     2019-02-18 [1] CRAN (R 3.6.0)
+   munsell                0.5.0     2018-06-12 [1] CRAN (R 3.6.0)
+ P nlme                   3.1-139   2019-04-09 [5] CRAN (R 3.6.0)
+   pillar                 1.4.1     2019-05-28 [1] CRAN (R 3.6.0)
+   pkgconfig              2.0.2     2018-08-16 [1] CRAN (R 3.6.0)
+   plyr                   1.8.4     2016-06-08 [1] CRAN (R 3.6.0)
+   polyclip               1.10-0    2019-03-14 [1] CRAN (R 3.6.0)
+   purrr                * 0.3.2     2019-03-15 [1] CRAN (R 3.6.0)
+   R6                     2.4.0     2019-02-14 [1] CRAN (R 3.6.0)
+   Rcpp                   1.0.1     2019-03-17 [1] CRAN (R 3.6.0)
+   RCurl                  1.95-4.12 2019-03-04 [1] CRAN (R 3.6.0)
+   readr                * 1.3.1     2018-12-21 [1] CRAN (R 3.6.0)
+   readxl                 1.3.1     2019-03-13 [1] CRAN (R 3.6.0)
+   rlang                  0.3.4     2019-04-07 [1] CRAN (R 3.6.0)
+   rmarkdown              1.13      2019-05-22 [1] CRAN (R 3.6.0)
+   rprojroot              1.3-2     2018-01-03 [1] CRAN (R 3.6.0)
+   rstudioapi             0.10      2019-03-19 [1] CRAN (R 3.6.0)
+   rvest                  0.3.4     2019-05-15 [1] CRAN (R 3.6.0)
+   S4Vectors            * 0.22.0    2019-05-02 [1] Bioconductor  
+   scales                 1.0.0     2018-08-09 [1] CRAN (R 3.6.0)
+   sessioninfo            1.1.1     2018-11-05 [1] CRAN (R 3.6.0)
+   SingleCellExperiment * 1.6.0     2019-05-02 [1] Bioconductor  
+   stringi                1.4.3     2019-03-12 [1] CRAN (R 3.6.0)
+   stringr              * 1.4.0     2019-02-10 [1] CRAN (R 3.6.0)
+   SummarizedExperiment * 1.14.0    2019-05-02 [1] Bioconductor  
+   tibble               * 2.1.3     2019-06-06 [1] CRAN (R 3.6.0)
+   tidygraph              1.1.2     2019-02-18 [1] CRAN (R 3.6.0)
+   tidyr                * 0.8.3     2019-03-01 [1] CRAN (R 3.6.0)
+   tidyselect             0.2.5     2018-10-11 [1] CRAN (R 3.6.0)
+   tidyverse            * 1.2.1     2017-11-14 [1] CRAN (R 3.6.0)
+   tweenr                 1.0.1     2018-12-14 [1] CRAN (R 3.6.0)
+   viridis                0.5.1     2018-03-29 [1] CRAN (R 3.6.0)
+   viridisLite            0.3.0     2018-02-01 [1] CRAN (R 3.6.0)
+   withr                  2.1.2     2018-03-15 [1] CRAN (R 3.6.0)
+   workflowr              1.4.0     2019-06-08 [1] CRAN (R 3.6.0)
+   xfun                   0.7       2019-05-14 [1] CRAN (R 3.6.0)
+   xml2                   1.2.0     2018-01-24 [1] CRAN (R 3.6.0)
+   XVector                0.24.0    2019-05-02 [1] Bioconductor  
+   yaml                   2.2.0     2018-07-25 [1] CRAN (R 3.6.0)
+   zlibbioc               1.30.0    2019-05-02 [1] Bioconductor  
+
+[1] /group/bioi1/luke/analysis/OzSingleCells2019/packrat/lib/x86_64-pc-linux-gnu/3.6.0
+[2] /group/bioi1/luke/analysis/OzSingleCells2019/packrat/lib-ext/x86_64-pc-linux-gnu/3.6.0
+[3] /group/bioi1/luke/analysis/OzSingleCells2019/packrat/lib-R/x86_64-pc-linux-gnu/3.6.0
+[4] /home/luke.zappia/R/x86_64-pc-linux-gnu-library/3.6
+[5] /usr/local/installed/R/3.6.0/lib64/R/library
+
+ P ── Loaded and on-disk path mismatch.</code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

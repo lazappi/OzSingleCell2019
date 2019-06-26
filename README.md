@@ -42,6 +42,7 @@ Current analysis files include:
 * **03-comparison.Rmd** - Comparison of antibody and gene expression
 * **04-clustering.Rmd** - Clustering of the RNA-seq dataset
 * **05-cite-clustering.Rmd** - Clustering of the CITE dataset
+* **06-cluster-comparison.Rmd** - Comparison of RNA and CITE clustering results
 
 ## Code
 
@@ -49,6 +50,7 @@ Current code files include:
 
 * **annotate.R** - Functions for annotating SingleCellExperiment objects
 * **plotting.R** - Plotting functions
+* **crossover.R** - Functions for comparing results
 * **output.R** - Functions for nicely formatting output
 * **set_paths.R** - Set file paths to data objects
 * **setup_knitr.R** - Set default `knitr` options.
