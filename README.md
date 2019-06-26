@@ -40,13 +40,15 @@ Current analysis files include:
 * **01-pre-processing.Rmd** - Basic pre-processing of the dataset
 * **02-quality-control.Rmd** - Quality control of the dataset
 * **03-comparison.Rmd** - Comparison of antibody and gene expression
+* **04-clustering.Rmd** - Clustering of the RNA-seq dataset
+* **05-cite-clustering.Rmd** - Clustering of the CITE dataset
 
 ## Code
 
 Current code files include:
 
 * **annotate.R** - Functions for annotating SingleCellExperiment objects
-* **plottin.R** - Plotting functions
+* **plotting.R** - Plotting functions
 * **output.R** - Functions for nicely formatting output
 * **set_paths.R** - Set file paths to data objects
 * **setup_knitr.R** - Set default `knitr` options.

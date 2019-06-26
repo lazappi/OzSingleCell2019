@@ -1,0 +1,413 @@
+---
+title: "CITE clustering"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r knitr, include = FALSE}
+source(here::here("R/setup_knitr.R"))
+```
+
+```{r setup, cache = FALSE}
+#### LIBRARIES ####
+# Package conflicts
+library("conflicted")
+
+# Single-cell
+library("SingleCellExperiment")
+library("scran")
+library("scater")
+
+# Plotting
+library("clustree")
+library("ggforce")
+
+# Bioconductor
+library("BiocSingular")
+
+# File paths
+library("fs")
+library("here")
+
+# Presentation
+library("knitr")
+library("jsonlite")
+
+# Tidyverse
+library("tidyverse")
+
+### CONFLICT PREFERENCES ####
+conflict_prefer("path", "fs")
+conflict_prefer("mutate", "dplyr")
+
+### SOURCE FUNCTIONS ####
+source(here("R/output.R"))
+
+### OUTPUT DIRECTORY ####
+OUT_DIR <- here("output", DOCNAME)
+dir_create(OUT_DIR)
+
+#### SET GGPLOT THEME ####
+theme_set(theme_minimal())
+
+#### SET PATHS ####
+source(here("R/set_paths.R"))
+```
+
+Introduction
+============
+
+In document we are going to perform clustering using just the CITE data. This 
+analysis is based on the ["simpleSingleCell"][simple] workflow.
+
+```{r load, cache.extra = c(tools::md5sum(PATHS$cite_qc))}
+if (all(file_exists(c(PATHS$cite_qc)))) {
+    cite <- read_rds(PATHS$cite_qc)
+} else {
+    stop("Filtered dataset is missing. ",
+         "Please run '02-quality-control.Rmd' first.",
+         call. = FALSE)
+}
+
+col_data <- as.data.frame(colData(cite))
+```
+
+Normalisation
+=============
+
+Because the CITE dataset is so much smaller we will just use library size
+factors for normalisation instead of a more complex approach.
+
+```{r norm}
+sizeFactors(cite) <- librarySizeFactors(cite)
+cite <- normalize(cite)
+```
+
+Mean-variance
+=============
+
+Fit
+----
+
+Fit the mean-variance relationship
+
+```{r fit-mean-var}
+tech_trend <- makeTechTrend(x = cite)
+fit <- trendVar(cite, use.spikes = FALSE, loess.args = list(span = 0.5))
+
+plot_data <- tibble(
+    Mean = fit$means,
+    Var = fit$vars,
+    Trend = fit$trend(fit$means),
+    TechTrend = tech_trend(fit$means)
+)
+
+ggplot(plot_data, aes(x = Mean)) +
+    geom_point(aes(y = Var)) +
+    geom_line(aes(y = Trend), colour = "blue") +
+    geom_line(aes(y = TechTrend), colour = "red") +
+    annotate("text", x = 7, y = 2, label = "Fitted trend", colour = "blue") +
+    annotate("text", x = 7, y = 1.8, label = "Poisson noise", colour = "red") +
+    labs(
+        title = "Mean-variance relationship",
+        x = "Mean log-expression",
+        y = "Variance of log-expression"
+    )
+```
+
+Dimensionality reduction
+========================
+
+PCA
+---
+
+PCA is performed on the dataset and components selected based on the proportion
+of variance explained.
+
+```{r denoise}
+set.seed(1)
+cite <- runPCA(cite, ncomponents = 30, BSPARAM = IrlbaParam())
+n_pcs <- 10
+
+plot_data <- tibble(
+    PC = seq_along(attr(reducedDim(cite), "percentVar")),
+    PercentVar = attr(reducedDim(cite), "percentVar")
+) %>%
+    mutate(Selected = PC <= n_pcs)
+
+ggplot(plot_data, aes(x = PC, y = PercentVar, colour = Selected)) +
+    geom_point() +
+    scale_colour_manual(values = c("grey40", "red")) +
+    labs(
+        title = "PC variance",
+        x = "Principal component",
+        y = "Proportion of variance explained"
+    )
+
+plotPCA(cite, ncomponents = 3, colour_by = "total_features_by_counts")
+```
+
+Here we select the first `r n_pcs` components.
+
+t-SNE
+-----
+
+```{r t-SNE}
+set.seed(1)
+cite <- runTSNE(cite, use_dimred = "PCA", perplexity = 40)
+plotTSNE(cite, colour_by = "log10_total_counts")
+```
+
+Clustering
+==========
+
+Cluster cells using the implementation in `Seurat` because it has a resolution
+parameter.
+
+```{r clustering, results = "hide"}
+snn_mat <- Seurat::FindNeighbors(reducedDim(cite, "PCA"))$snn
+
+resolutions <- seq(0, 1, 0.1)
+for (res in resolutions) {
+    clusters <- Seurat:::RunModularityClustering(snn_mat, resolution = res)
+    col_data[[paste0("ClusterRes", res)]] <- factor(clusters)
+}
+
+colData(cite) <- DataFrame(col_data)
+```
+
+Dimensionality reduction {.tabset}
+------------------------
+
+Dimensionality reduction plots showing clusters at different resolutions.
+
+### PCA {.tabset}
+
+```{r pca-res, results = "hide"}
+src_list <- lapply(resolutions, function(res) {
+    src <- c(
+        "#### Res {{res}} {.unnumbered}",
+        "```{r res-pca-{{res}}}",
+        "plotPCA(cite, colour_by = 'ClusterRes{{res}}') + theme_minimal()",
+        "```",
+        ""
+    )
+    knit_expand(text = src)
+})
+out <- knit_child(text = unlist(src_list), options = list(cache = FALSE))
+```
+
+`r out`
+
+### t-SNE {.tabset}
+
+```{r tSNE-res, results = "hide"}
+src_list <- lapply(resolutions, function(res) {
+    src <- c(
+        "#### Res {{res}} {.unnumbered}",
+        "```{r res-tSNE-{{res}}}",
+        "plotTSNE(cite, colour_by = 'ClusterRes{{res}}') + theme_minimal()",  
+        "```",
+        ""
+    )
+    knit_expand(text = src)
+})
+out <- knit_child(text = unlist(src_list), options = list(cache = FALSE))
+```
+
+`r out`
+
+Clustering trees {.tabset}
+----------------
+
+Clustering trees show the relationship between clusterings at adjacent
+resolutions. Each cluster is represented as a node in a graph and the edges show
+the overlap between clusters.
+
+### Standard
+
+Coloured by clustering resolution.
+
+```{r clustree}
+clustree(cite, prefix = "ClusterRes")
+```
+
+### Stability
+
+Coloured by the SC3 stability metric.
+
+```{r clustree-stability}
+clustree(cite, prefix = "ClusterRes", node_colour = "sc3_stability")
+```
+
+Selection
+---------
+
+```{r select-res}
+res <- 0.8
+col_data$Cluster <- col_data[[paste0("ClusterRes", res)]]
+colData(cite) <- DataFrame(col_data)
+n_clusts <- length(unique(col_data$Cluster))
+```
+
+Based on these plots we will use a resolution of `r res` which gives us
+`r n_clusts` clusters.
+
+Validation {.tabset}
+==========
+
+To validate the clusters we will repeat some of our quality control plots
+separated by cluster. At this stage we just want to check that none of the
+clusters are obviously the result of technical factors.
+
+Cluster {.tabset}
+-------
+
+Clusters assigned by `Seurat`.
+
+### Count
+
+```{r val-cluster-count}
+ggplot(col_data, aes(x = Cluster, fill = Cluster)) +
+    geom_bar()
+```
+
+### PCA
+
+```{r val-cluster-pca}
+plotPCA(cite, colour_by = "Cluster", point_alpha = 1) +
+    scale_fill_discrete() +
+    theme_minimal()
+```
+
+### t-SNE
+
+```{r val-cluster-tSNE}
+plotTSNE(cite, colour_by = "Cluster", point_alpha = 1) +
+    scale_fill_discrete() +
+    theme_minimal()
+```
+
+Total counts {.tabset}
+------------
+
+Total counts per cell.
+
+### Distribution
+
+```{r val-counts-dist}
+ggplot(col_data, aes(x = Cluster, y = log10_total_counts, colour = Cluster)) +
+    geom_violin() +
+    geom_sina(size = 0.5) +
+    theme(legend.position = "none")
+```
+
+### PCA
+
+```{r val-counts-pca}
+plotPCA(cite, colour_by = "log10_total_counts", point_alpha = 1) +
+    scale_fill_viridis_c() +
+    theme_minimal()
+```
+
+### t-SNE
+
+```{r val-counts-tSNE}
+plotTSNE(cite, colour_by = "log10_total_counts", point_alpha = 1) +
+    scale_fill_viridis_c()+
+    theme_minimal()
+```
+
+Total features {.tabset}
+--------------
+
+Total number of expressed features per cell.
+
+### Distribution
+
+```{r val-features-dist}
+ggplot(col_data,
+       aes(x = Cluster, y = total_features_by_counts, colour = Cluster)) +
+    geom_violin() +
+    geom_sina(size = 0.5) +
+    theme(legend.position = "none")
+```
+
+### PCA
+
+```{r val-features-pca}
+plotPCA(cite, colour_by = "total_features_by_counts", point_alpha = 1) +
+    scale_fill_viridis_c() +
+    theme_minimal()
+```
+
+### t-SNE
+
+```{r val-features-tSNE}
+plotTSNE(cite, colour_by = "total_features_by_counts", point_alpha = 1) +
+    scale_fill_viridis_c()+
+    theme_minimal()
+```
+
+Summary
+=======
+
+Parameters
+----------
+
+This table describes parameters used and set in this document.
+
+```{r parameters}
+params <- list(
+    list(
+        Parameter = "n_pcs",
+        Value = n_pcs,
+        Description = "Selected number of principal components for clustering"
+    ),
+    list(
+        Parameter = "resolutions",
+        Value = resolutions,
+        Description = "Range of possible clustering resolutions"
+    ),
+    list(
+        Parameter = "res",
+        Value = res,
+        Description = "Selected resolution parameter for clustering"
+    ),
+    list(
+        Parameter = "n_clusts",
+        Value = n_clusts,
+        Description = "Number of clusters produced by selected resolution"
+    )
+)
+
+params <- toJSON(params, pretty = TRUE)
+kable(fromJSON(params))
+```
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r output}
+write_rds(cite, PATHS$cite_clust, compress = "bz", compression = 9)
+write_lines(params, path(OUT_DIR, "parameters.json"))
+
+kable(data.frame(
+    File = c(
+        download_link("parameters.json", OUT_DIR)
+    ),
+    Description = c(
+        "Parameters set and used in this analysis"
+    )
+))
+```
+
+Session information
+-------------------
+
+[simple]: https://bioconductor.org/packages/release/workflows/html/simpleSingleCell.html
