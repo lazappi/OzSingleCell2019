@@ -188,6 +188,61 @@ ggplot(cite_props,
     )
 ```
 
+```{r gene-props}
+sce_corr_mat <- logcounts(sce) %>%
+    t() %>%
+    cor(method = "spearman")
+
+cite_corr_order <- hclust(dist(cite_corr_mat))$order
+cite_corr_levels <- rownames(cite_corr_mat)[cite_corr_order]
+
+cite_props <- crossing(
+    Cluster = clust_data$AntiCluster,
+    Antibody = rownames(cite)
+) %>%
+    mutate(
+        AntiClust = map2_dbl(Cluster, Antibody, function(c, a) {
+            sum(counts(cite)[a, clust_data$AntiCluster == c])
+        })
+    ) %>%
+    group_by(Antibody) %>%
+    mutate(AntiTotal = sum(AntiClust)) %>%
+    group_by(Cluster) %>%
+    mutate(ClustTotal = sum(AntiClust)) %>%
+    ungroup() %>%
+    mutate(
+        AntiClustProp = AntiClust / ClustTotal,
+        AntiDataProp = AntiTotal / sum(counts(cite)),
+        Ratio = AntiClustProp / AntiDataProp
+    )
+
+ggplot(cite_props,
+       aes(
+           x = factor(str_remove(Antibody, "Anti-"),
+                      levels = str_remove(cite_corr_levels, "Anti-")),
+           y = Ratio, 
+           colour = log10(Ratio)
+       )) +
+    annotate("rect", xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = 2,
+             fill = "grey", colour = "grey", alpha = 0.3) +
+    geom_hline(yintercept = 2, colour = "red") +
+    geom_point() +
+    scale_colour_viridis_c() +
+    facet_wrap(~ Cluster, ncol = 1, strip.position = "right", scales = "free_y") +
+    labs(
+        title = "Anitbody proportions",
+        y = "(Cluster proportion) / (Dataset proportion)"
+    ) +
+    theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+        legend.position = "none",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.border = element_rect(color = "black", fill = NA, size = 1)
+    )
+```
+
 Summary
 =======
 Parameters
